@@ -11,18 +11,21 @@ const Login = () => {
     };
 
     return (
-        <div className="bg-darkblue min-h-screen">
-            <div className="py-6">
-                <p className="text-center">Logo</p>
-            </div>
+        <div className=" min-h-screen">
             <div className="flex min-h-[calc(100vh-77px)] items-center justify-center p-4">
                 <div className="mx-auto w-full max-w-[600px] space-y-[25px] rounded bg-white p-[25px]">
+                    <div className="flex flex-col items-center justify-center space-y-5 text-4xl font-extrabold text-darkprimary">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-darkprimary text-white">
+                            A
+                        </div>
+                        <div className="text-3xl">Assets</div>
+                    </div>
                     <h1 className="text-center text-[22px] font-semibold leading-7">Sign in</h1>
 
                     <Formik initialValues={params} onSubmit={formHandler}>
                         {({ isSubmitting }) => (
                             <Form className="space-y-4">
-                                <div>
+                                <div className="relative">
                                     <label className="form-label">Email address</label>
                                     <div>
                                         <Field
@@ -49,7 +52,7 @@ const Login = () => {
                                 <div>
                                     <Link
                                         href="/forgot-password"
-                                        className="text-darkblue hover:text-primary underline transition-all duration-300"
+                                        className="text-darkblue underline transition-all duration-300 hover:text-primary"
                                     >
                                         Forgot Password
                                     </Link>
@@ -63,11 +66,11 @@ const Login = () => {
                         )}
                     </Formik>
 
-                    <p className="text-lightblack text-center">
+                    <p className="text-center text-lightblack">
                         Not registered?{' '}
                         <Link
                             href="/register"
-                            className="text-darkblue hover:text-primary underline transition-all duration-300"
+                            className="text-darkblue underline transition-all duration-300 hover:text-primary"
                         >
                             Sign up
                         </Link>

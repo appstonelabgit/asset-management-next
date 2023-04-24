@@ -4,110 +4,117 @@ import toast from '@/libs/toast';
 const Home = () => {
     const { logout } = useAuth();
 
+    const DashBox = [
+        {
+            heading: 'Total Users',
+            count: 10,
+            color: 'bg-darkprimary',
+        },
+        {
+            heading: 'Total Components',
+            count: 30,
+            color: 'bg-[#f59e0b]',
+        },
+        {
+            heading: 'Total Accessories',
+            count: 20,
+            color: 'bg-[#8b5cf6]',
+        },
+        {
+            heading: 'Total Assets',
+            count: 50,
+            color: 'bg-[#ec4899]',
+        },
+    ];
+
     return (
-        <div className="mx-auto mt-20 max-w-sm space-y-4">
-            <button onClick={() => logout()}>Logout</button>
-            <button
-                type="button"
-                className="btn"
-                onClick={() => toast.success('Lorem ipsum dolor sit amet, debet altera malorum ex duo.')}
-            >
-                Success
-            </button>
-            <button
-                type="button"
-                className="btn"
-                onClick={() => toast.error('Lorem ipsum dolor sit amet, debet altera malorum ex duo.')}
-            >
-                Error
-            </button>
-
-            <div>
-                <label className="form-label">Text field</label>
-                <div>
-                    <input type="text" className="form-input" placeholder="Username" />
-                </div>
-            </div>
-            <div>
-                <label className="form-label">Password field</label>
-                <div>
-                    <input type="password" className="form-input" placeholder="Password" />
-                </div>
-            </div>
-            <div>
-                <label className="form-label">Select field</label>
-                <div>
-                    <select className="form-select">
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option>Option 3</option>
-                    </select>
-                </div>
-            </div>
-            <div>
-                <label className="form-label">Texrarea field</label>
-                <div>
-                    <textarea className="form-textarea" placeholder="Submit your message here..."></textarea>
-                </div>
-            </div>
-            <div>
-                <label className="form-label">Checkboxes</label>
-                <div>
-                    <label className="form-label flex items-center">
-                        <input type="checkbox" className="form-checkbox" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="checkbox" className="form-checkbox" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="checkbox" className="form-checkbox" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="checkbox" className="form-checkbox" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="checkbox" className="form-checkbox" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                </div>
-            </div>
-            <div>
-                <label className="form-label">Radios</label>
-                <div>
-                    <label className="form-label flex items-center">
-                        <div>
-                            <input type="radio" className="form-radio" />
+        <div>
+            <div className="mb-2 flex flex-wrap">
+                {DashBox.map((box, i) => {
+                    return (
+                        <div key={i} className="w-1/2 px-3 pt-3 md:w-1/3 md:pl-2 xl:w-1/4">
+                            <div className={`rounded border p-5 shadow ${box.color} text-white`}>
+                                <div className="flex flex-row items-center">
+                                    <div className="flex-1 text-right">
+                                        <h5 className="">{box.heading}</h5>
+                                        <h3 className="text-5xl">
+                                            {box.count}
+                                            <span className="text-blue-400">
+                                                <i className="fas fa-caret-up"></i>
+                                            </span>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="radio" className="form-radio" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="radio" className="form-radio" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="radio" className="form-radio" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                    <label className="form-label flex items-center">
-                        <input type="radio" className="form-radio" />
-                        <span className="ml-2">Option 1</span>
-                    </label>
-                </div>
+                    );
+                })}
             </div>
 
-            <div>
-                <label className="form-label">Buttons</label>
-                <button type="submit" className="btn">
-                    Home
-                </button>
+            <div className="mx-5">
+                <h3 className="my-5">Recent Activity</h3>
+                <div className="main-table w-full overflow-x-auto">
+                    <table className="w-full table-auto">
+                        <thead className="bg-lightblue1">
+                            <tr>
+                                <th>date</th>
+                                <th>Admin</th>
+                                <th>Item</th>
+                                <th>Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                            <tr className="bg-white">
+                                <td>2023-04-20 11:50 AM</td>
+                                <td>Admin Admin</td>
+                                <td>Dell Mouse</td>
+                                <td>Admin Admin</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
@@ -115,7 +122,7 @@ const Home = () => {
 
 export default Home;
 
-Home.middleware = {
-    auth: true,
-    verify: true,
-};
+// Home.middleware = {
+//     auth: true,
+//     verify: true,
+// };

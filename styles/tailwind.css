@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
+/* @layer components {
     .btn {
         @apply inline-block rounded border border-transparent px-4 py-2 text-center text-sm font-medium leading-5 text-white outline-none transition-colors duration-150 hover:bg-gray-700 active:bg-gray-600;
         background-color: #3490dc;
@@ -37,4 +37,164 @@
 }
 .toast-notification.toast-error {
     @apply bg-red-600;
+} */
+
+@layer components {
+    .form-label {
+        @apply block font-semibold;
+    }
+    .form-input,
+    .form-textarea,
+    .form-select,
+    .form-multiselect {
+        @apply mt-[9px] w-full rounded border border-lightblue  bg-white py-[9px] px-2 text-base leading-5 text-black shadow-[0px_4px_4px_rgba(41,41,41,0.05)] placeholder:text-lightblack/50 focus:border-black focus:bg-lightblue1 focus:outline-0 focus:outline-offset-0 focus:ring-0;
+    }
+    .form-select {
+        @apply bg-[center_right_0.02rem] focus:!bg-white;
+    }
+    .form-checkbox {
+        @apply h-4 w-4 rounded-sm border-2 border-lightblue text-primary checked:border-primary focus:shadow-none focus:outline-0 focus:outline-offset-0 focus:ring-0 focus:ring-offset-0;
+    }
+
+    /* Buttons */
+    .btn {
+        @apply mb-1.5 inline-block rounded  bg-primary py-[9px] px-3 text-center font-semibold text-darkblue shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:bg-darkblue hover:text-white;
+    }
+    .btn-secondary {
+        @apply mb-1.5 rounded border border-lightblue bg-white py-[9px] px-[11px] font-semibold text-black shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:border-primary/10 hover:bg-primary/10;
+    }
+    .tab-menu {
+        @apply inline-block bg-white py-[10px] px-3 transition-all duration-300 before:invisible before:block before:h-0 before:overflow-hidden before:font-semibold before:content-[attr(data-text)] hover:bg-primary/10 hover:font-semibold;
+    }
+    .btn:disabled {
+        @apply pointer-events-none opacity-50;
+    }
+
+    .main-table table thead tr th {
+        @apply whitespace-nowrap py-[10px] px-5 text-left;
+    }
+    .main-table table tbody tr {
+        @apply border-t border-lightblue hover:bg-[#F5F7FA];
+    }
+    .main-table table tbody tr td {
+        @apply whitespace-nowrap py-2  px-5;
+    }
+    .main-table table thead tr th:first-child {
+        @apply rounded-tl-[3px];
+    }
+    .main-table table thead tr th:last-child {
+        @apply rounded-tr-[3px];
+    }
+    .main-table table tbody tr td:first-child {
+        @apply rounded-bl-[3px];
+    }
+    .main-table table tbody tr td:last-child {
+        @apply rounded-br-[3px];
+    }
+
+    .main-sidebar {
+        @apply sticky top-0 z-10 flex h-screen w-[215px] shrink-0 flex-col bg-white pt-5 pb-4 text-black transition-[width] dark:bg-darkblue dark:text-white;
+    }
+    .main-sidebar.collapsed {
+        @apply w-[60px];
+    }
+
+    .main-nav {
+        @apply space-y-1;
+    }
+    .main-nav .nav-item {
+        @apply flex items-center space-x-2 whitespace-nowrap py-2 px-4;
+    }
+    .main-nav .nav-item:hover,
+    .main-nav .nav-item.active {
+        @apply font-semibold;
+    }
+    .main-nav span.icon {
+        @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/30 text-darkblue dark:bg-white/20 dark:text-white;
+    }
+    .main-nav .nav-item:hover ,
+    .main-nav .nav-item.active  {
+        @apply bg-primary text-darkblue;
+    }
+    .main-nav ul {
+        @apply mt-2 bg-[#f7f7f7] dark:bg-white/[0.05];
+    }
+    .main-nav ul .nav-item:hover,
+    .main-nav ul .nav-item.active {
+        @apply bg-primary/10 font-semibold dark:bg-[#ffffff33];
+    }
+    .collapsed .main-nav .nav-item span:last-child {
+        @apply hidden;
+    }
+    .collapsed .main-nav ul {
+        @apply hidden;
+    }
+}
+
+.toast-notification {
+    @apply flex max-w-sm items-center rounded bg-white py-2 px-4 text-white will-change-transform;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 10%), 0 3px 3px rgb(0 0 0 / 5%);
+}
+.toast-notification.toast-success {
+    @apply bg-green;
+}
+.toast-notification.toast-error {
+    @apply bg-red;
+}
+
+/* Custom */
+
+.installation-tabs .active {
+    background: linear-gradient(90deg, #f5f7fa 0%, #ffffff 100%);
+    border-right: transparent;
+}
+.label-radio input:checked {
+    background: linear-gradient(90deg, #f5f7fa 0%, #ffffff 100%);
+    border-right: transparent;
+}
+.label-radio input:checked ~ label {
+    border-color: #59b667;
+}
+.label-radio input:checked ~ label .hidden {
+    display: block;
+}
+.react-colorful {
+    @apply z-20;
+}
+input:checked + .on-off-btn::before {
+    background-color: #0c0122;
+}
+input:checked + .on-off-btn.on-off-btn-green::before {
+    background-color: #59b667;
+}
+input:checked + .on-off-btn:before {
+    -webkit-transform: translateX(12px);
+    -ms-transform: translateX(12px);
+    transform: translateX(12px);
+}
+input:checked + .radio-btn::before {
+    background-color: #0c0122;
+}
+input:checked + .on-off-btn {
+    border-color: #0c0122;
+}
+.radio-dropdown {
+    @apply !m-0 block w-full cursor-pointer truncate py-2 px-2 text-left hover:bg-lightblue1;
+}
+.radio-dropdown input[type='radio'] {
+    @apply !invisible;
+}
+
+.radio-dropdown span {
+    @apply !-m-3;
+}
+
+label:not(.on-off-label) input[type='checkbox'] {
+    @apply h-4 w-4 font-normal text-[#E8FE79]  p-1 rounded-sm border border-black;
+}
+
+.form-checkbox:checked {
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M3.27273 6.32836L0.818182 3.8209L0 4.65672L3.27273 8L10.2857 0.835821L9.46753 0L3.27273 6.32836Z' fill='%230C0122'/%3E%3C/svg%3E%0A");
+    background-size: 10px 8px;
+    border-color: #99f6e4;
 }

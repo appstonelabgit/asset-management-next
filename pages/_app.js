@@ -10,7 +10,7 @@ const MyApp = ({ Component, pageProps }) => {
     return (
         <Provider store={store}>
             <Head>
-                <title>Site title</title>
+                <title>Assets</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Site layout={Component?.layout || 'default'} middleware={Component?.middleware}>

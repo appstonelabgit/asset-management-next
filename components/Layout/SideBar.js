@@ -11,13 +11,17 @@ import IconSun from '../Icon/IconSun';
 import NavBar from '../Nav/NavBar';
 import IconRefreshWhite from '../Icon/IconRefreshWhite';
 import { setHasMenuExpanded } from '@/store/appSlice';
+import { useAuth } from '@/hooks/useAuth';
+import CompanyDropdown from '../Company/CompanyDropdown';
 
 const SideBar = () => {
+    const { logout } = useAuth();
+    const { status, user ,company } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     const profileDropdownRef = useRef();
 
-    const [expanded, setExpanded] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? false : true);
+    const [expanded, setExpanded] = useState(typeof window !== 'undefined' && window.innerWidth < 1023 ? false : true);
 
     const toggleSidebar = (value) => {
         setExpanded(value);
@@ -25,7 +29,7 @@ const SideBar = () => {
     };
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        if (typeof window !== 'undefined' && window.innerWidth >= 1023) {
             if (localStorage.getItem('sidebar.__expanded') !== null) {
                 setExpanded(localStorage.getItem('sidebar.__expanded') === 'true');
             } else {
@@ -56,7 +60,6 @@ const SideBar = () => {
 
     return (
         <div className={`main-sidebar ${(!expanded && 'collapsed') || ''}`}>
-
             <div className="flex shrink-0 items-center justify-between px-4">
                 {expanded && (
                     <Link href="/">
@@ -70,12 +73,10 @@ const SideBar = () => {
                 )}
 
                 <button type="button" onClick={() => toggleSidebar(!expanded)}>
-                    <IconArrowBarLeft
-                        className={classNames([expanded ? 'rotate-0' : 'rotate-180'])}
-                    />
+                    <IconArrowBarLeft className={classNames([expanded ? 'rotate-0' : 'rotate-180'])} />
                 </button>
             </div>
-            <div className="flex  items-center justify-center mt-7">
+            <div className="mt-7  flex items-center justify-center">
                 {!expanded && (
                     <Link href="/">
                         <h1 className="flex h-10 w-10 items-center justify-center rounded-full bg-darkprimary text-2xl font-extrabold text-white">
@@ -87,39 +88,7 @@ const SideBar = () => {
 
             {expanded && (
                 <div className="mt-4 flex shrink-0 items-center justify-between px-4">
-                    <Dropdown
-                        offset={[0, 5]}
-                        placement="bottom-start"
-                        btnClassName="flex items-center"
-                        button={
-                            <>
-                                <span className="max-w-[135px] truncate text-sm">Add website</span>
-                                <IconDownArrow className="ml-2 text-darkblue dark:text-white" />
-                            </>
-                        }
-                    >
-                        <div className="text-sm">
-                            <Link
-                                href="/add-website?gb=1"
-                                className="block w-full max-w-xs cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
-                            >
-                                Add Website
-                            </Link>
-                            <Link
-                                href="/add-website?gb=1"
-                                className="block w-full max-w-xs cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
-                            >
-                                Add Website
-                            </Link>
-
-                            <Link
-                                href="/add-website?gb=1"
-                                className="block w-full max-w-xs cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
-                            >
-                                Add Website
-                            </Link>
-                        </div>
-                    </Dropdown>
+                    <CompanyDropdown/>
                 </div>
             )}
 
@@ -157,6 +126,7 @@ const SideBar = () => {
                         <button
                             type="button"
                             className="block w-full cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
+                            onClick={logout}
                         >
                             Logout
                         </button>

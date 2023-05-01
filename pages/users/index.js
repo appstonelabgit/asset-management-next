@@ -156,3 +156,9 @@ const Users = () => {
 };
 
 export default Users;
+
+
+Users.middleware = {
+    auth: true,
+    verify: true,
+};

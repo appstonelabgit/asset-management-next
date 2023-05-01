@@ -122,7 +122,7 @@ const Home = () => {
 
 export default Home;
 
-// Home.middleware = {
-//     auth: true,
-//     verify: true,
-// };
+Home.middleware = {
+    auth: true,
+    verify: true,
+};

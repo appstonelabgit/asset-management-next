@@ -16,7 +16,8 @@ const authSlice = createSlice({
         },
 
         setUser(state, { payload }) {
-            state.user = payload;
+            state.user = payload.user;
+            state.company = payload.company;
             state.status = 'authenticated';
         },
 
@@ -32,7 +33,7 @@ export const fetchUser = () => {
     return async (dispatch) => {
         try {
             const { data } = await axios.get('/auth/user');
-            dispatch(setUser(data.user));
+            dispatch(setUser(data));
         } catch {
             dispatch(setLogout());
         }

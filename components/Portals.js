@@ -3,6 +3,7 @@ const Portals = () => {
         <>
             <div id="popper-portal"></div>
             <div id="modal-portal"></div>
+            <div id="offsetright-portal"></div>
         </>
     );
 };

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-const add = () => {
+const Users = () => {
     return (
         <div className="m-10 flex justify-center">
             <form method='post'>
@@ -167,4 +167,4 @@ const add = () => {
     );
 };
 
-export default add;
+export default Users;

@@ -5,9 +5,10 @@ import Link from 'next/link';
 const Register = () => {
     const { register } = useAuth();
     const params = {
-        name: 'Shailesh Savaliya',
-        email: 'sbthemes@gmail.com',
-        password: 'sb123admin',
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
     };
 
     const formHandler = async (values) => {
@@ -60,6 +61,17 @@ const Register = () => {
                                             type="password"
                                             className="form-input"
                                             placeholder="Password..."
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="form-label">Confirm Password</label>
+                                    <div>
+                                        <Field
+                                            name="password_confirmation"
+                                            type="password"
+                                            className="form-input"
+                                            placeholder="Confirm Password..."
                                         />
                                     </div>
                                 </div>

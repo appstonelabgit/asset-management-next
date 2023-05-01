@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Login = () => {
     const { login } = useAuth();
-    const params = { email: 'sbthemes@gmail.com', password: 'sb123admin' };
+    const params = { email: '', password: '' };
 
     const formHandler = async (values) => {
         await login(values);

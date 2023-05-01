@@ -71,13 +71,13 @@
     }
 
     .main-table table thead tr th {
-        @apply whitespace-nowrap py-[10px] px-5 text-left;
+        @apply py-[10px] px-5 text-left;
     }
     .main-table table tbody tr {
         @apply border-t border-lightblue hover:bg-[#F5F7FA];
     }
     .main-table table tbody tr td {
-        @apply whitespace-nowrap py-2  px-5;
+        @apply py-2  px-5;
     }
     .main-table table thead tr th:first-child {
         @apply rounded-tl-[3px];
@@ -93,7 +93,7 @@
     }
 
     .main-sidebar {
-        @apply sticky top-0 z-10 flex h-screen w-[215px] shrink-0 flex-col bg-white pt-5 pb-4 text-black transition-[width] dark:bg-darkblue dark:text-white;
+        @apply fixed top-0 left-0 z-10 flex h-screen flex-none w-[215px] flex-col bg-white pt-5 pb-4 text-black transition-[width] dark:bg-darkblue dark:text-white;
     }
     .main-sidebar.collapsed {
         @apply w-[60px];

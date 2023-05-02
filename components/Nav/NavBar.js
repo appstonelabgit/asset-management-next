@@ -16,9 +16,9 @@ const NavBar = () => {
             <li>
                 <NavLink href="/" icon={<IconHome />} label="Dashboard" />
             </li>
-            <li>
+            {/* <li>
                 <NavLink href="/users" icon={<IconUser />} label="Users" />
-            </li>
+            </li> */}
             <li>
                 <NavLink href="/seller" icon={<IconChain />} label="Seller" />
             </li>

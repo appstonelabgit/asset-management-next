@@ -14,6 +14,7 @@ import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
+import MultipleSelect from '@/components/MultipleSelect';
 
 const Accessory = (props) => {
     const Modal = useRef();
@@ -25,27 +26,37 @@ const Accessory = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(10);
-    const [totalRecords, setTotalRecords] = useState(50);
-    const [totalPages, setTotalPages] = useState(5);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [searchWord, setSearchWord] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState([]);
+    const [selectedModel, setSelectedModel] = useState([]);
+    const [selectedSeller, setSelectedSeller] = useState([]);
 
-    const getAccessorys = useCallback((page = 1, limit = 10) => {
-        setIsLoading(true);
-        axios.get(`/seller`).then(({ data }) => {
-            setSellers(data.data);
-        });
-        axios.get(`/model`).then(({ data }) => {
-            setModels(data.data);
-        });
-        axios.get(`/brand`).then(({ data }) => {
-            setBrands(data.data);
-        });
-        axios.get(`/accessory?page=${page}&limit=${limit}`).then(({ data }) => {
-            setAccessorys(data.data);
-            setTotalRecords(data.meta.total);
-            setTotalPages(data.meta.last_page);
-            setIsLoading(false);
-        });
-    }, []);
+    const getAccessorys = useCallback(
+        (page = 1, limit = 10, searchWord = '') => {
+            setIsLoading(true);
+
+            axios
+                .get(`/accessory`, {
+                    params: {
+                        filter: searchWord,
+                        page: page,
+                        limit: limit,
+                        brand_id: selectedBrand.length === 0 ? '' : selectedBrand,
+                        model_id: selectedModel.length === 0 ? '' : selectedModel,
+                        seller_id: selectedSeller.length === 0 ? '' : selectedSeller,
+                    },
+                })
+                .then(({ data }) => {
+                    setAccessorys(data.data);
+                    setTotalRecords(data.meta.total);
+                    setTotalPages(data.meta.last_page);
+                    setIsLoading(false);
+                });
+        },
+        [selectedBrand, selectedModel, selectedSeller]
+    );
 
     const defaultParams = {
         id: '',
@@ -63,7 +74,7 @@ const Accessory = (props) => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getAccessorys(currentPage, pageLimit);
+        getAccessorys(currentPage, pageLimit, searchWord);
     };
 
     const formHandler = async (values) => {
@@ -96,9 +107,26 @@ const Accessory = (props) => {
     };
 
     const handleDelete = async (id) => {
-        await axios.post(`/accessory/${id}/delete`);
-        refresh();
+        let confirmation = confirm('are you sure want to delete');
+        if (confirmation) {
+            await axios.post(`/accessory/${id}/delete`);
+            refresh();
+        }
     };
+
+    useEffect(() => {
+        axios.get(`/seller`).then(({ data }) => {
+            setSellers(data.data);
+        });
+
+        axios.get(`/model`).then(({ data }) => {
+            setModels(data.data);
+        });
+
+        axios.get(`/brand`).then(({ data }) => {
+            setBrands(data.data);
+        });
+    }, []);
 
     useEffect(() => {
         getAccessorys(currentPage, pageLimit);
@@ -110,23 +138,54 @@ const Accessory = (props) => {
                 <h1 className="mt-5 text-xl">accessory</h1>
                 <div className="mb-5 text-right">
                     <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
-                        <select className="form-select md:max-w-[150px]">
-                            <option value="">Status...</option>
-                            <option value={1}>pending</option>
-                            <option value={2}>proccessing</option>
-                            <option value={3}>shipped</option>
-                            <option value={4}>delivered</option>
-                            <option value={5}>cancelled</option>
-                            <option value={6}>returned</option>
-                            <option value={7}>completed</option>
-                        </select>
+                        <div className="mb-0 mt-2">
+                            <MultipleSelect
+                                list={brands}
+                                name="brand"
+                                keyName="brand_name"
+                                selectedoptions={selectedBrand}
+                                setSelectedoptions={setSelectedBrand}
+                            />
+                        </div>
+                        <div className="mb-0 mt-2">
+                            <MultipleSelect
+                                list={models}
+                                name="model"
+                                keyName="model_name"
+                                selectedoptions={selectedModel}
+                                setSelectedoptions={setSelectedModel}
+                            />
+                        </div>
+                        <div className="mb-0 mt-2">
+                            <MultipleSelect
+                                list={sellers}
+                                name="seller"
+                                keyName="name"
+                                selectedoptions={selectedSeller}
+                                setSelectedoptions={setSelectedSeller}
+                            />
+                        </div>
 
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
-                                <input type="text" className="form-input pr-10" placeholder="Search..." />
+                                <input
+                                    type="text"
+                                    className="form-input pr-10"
+                                    placeholder="Search..."
+                                    onChange={(event) => setSearchWord(event.target.value)}
+                                    onKeyUp={(e) => {
+                                        if (e.key === 'Enter') {
+                                            refresh();
+                                        }
+                                        if (searchWord.length === 0) {
+                                            refresh();
+                                        }
+                                    }}
+                                />
                                 <button
                                     type="button"
                                     className="text-black-dark absolute top-2 right-0 my-auto inline-flex h-10 w-10 items-center justify-center hover:opacity-70"
+                                    onClick={refresh}
                                 >
                                     <IconSearch />
                                 </button>
@@ -147,9 +206,6 @@ const Accessory = (props) => {
                     <table className="w-full table-auto">
                         <thead className="bg-lightblue1">
                             <tr>
-                                <th>
-                                    <input type="checkbox" className="form-checkbox" />
-                                </th>
                                 <th>
                                     <div className="flex cursor-pointer justify-between">
                                         <span>Serial number</span>
@@ -216,15 +272,11 @@ const Accessory = (props) => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={12} totalTd={12} tdWidth={60} />
+                                <TableLoadnig totalTr={11} totalTd={11} tdWidth={60} />
                             ) : accessorys?.length !== 0 ? (
                                 accessorys?.map((accessory) => {
                                     return (
                                         <tr key={accessory.id} className="bg-white">
-                                            <td>
-                                                <input type="checkbox" className="form-checkbox" />
-                                            </td>
-
                                             <td>{accessory?.serial_number}</td>
                                             <td>{accessory?.accessories_name}</td>
                                             <td>{helper.trancateString(accessory?.description)}</td>
@@ -232,18 +284,16 @@ const Accessory = (props) => {
                                             <td>{accessory?.quantity}</td>
                                             <td>{accessory?.purchase_cost}</td>
                                             <td>{helper?.getFormattedDate(accessory?.warranty_expiry_date)}</td>
-                                            <td>{sellers.find(item => item.id === accessory?.seller_id).name}</td>
-                                            <td>{models.find(item => item.id === accessory?.model_id).model_name}</td>
-                                            <td>{brands.find(item => item.id === accessory?.brand_id).brand_name}</td>
+                                            <td>{sellers?.find((item) => item.id === accessory?.seller_id)?.name}</td>
+                                            <td>
+                                                {models?.find((item) => item.id === accessory?.model_id)?.model_name}
+                                            </td>
+                                            <td>
+                                                {brands?.find((item) => item.id === accessory?.brand_id)?.brand_name}
+                                            </td>
 
                                             <td>
                                                 <div className="flex">
-                                                    {/* <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#eab308] bg-[#eab308] p-2 hover:bg-transparent"
-                                                    >
-                                                        <IconView />
-                                                    </button> */}
                                                     <button
                                                         type="button"
                                                         className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -267,7 +317,7 @@ const Accessory = (props) => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={12}>No data is available.</td>
+                                    <td colSpan={11}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -335,7 +385,15 @@ const Accessory = (props) => {
                                                     type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
-                                                    onChange={(date) => setFieldValue('purchase_date', helper.getFormattedDate2(date[0]))}
+                                                    options={{
+                                                        defaultDate: [helper.getFormattedDate2(params.purchase_date)],
+                                                    }}
+                                                    onChange={(date) =>
+                                                        setFieldValue(
+                                                            'purchase_date',
+                                                            helper.getFormattedDate2(date[0])
+                                                        )
+                                                    }
                                                 />
                                             </div>
                                             <div>
@@ -366,8 +424,16 @@ const Accessory = (props) => {
                                                     type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
+                                                    options={{
+                                                        defaultDate: [
+                                                            helper.getFormattedDate2(params.warranty_expiry_date),
+                                                        ],
+                                                    }}
                                                     onChange={(date) => {
-                                                        setFieldValue('warranty_expiry_date', helper.getFormattedDate2(date[0]));
+                                                        setFieldValue(
+                                                            'warranty_expiry_date',
+                                                            helper.getFormattedDate2(date[0])
+                                                        );
                                                     }}
                                                 />
                                             </div>

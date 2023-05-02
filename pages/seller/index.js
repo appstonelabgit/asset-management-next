@@ -63,10 +63,12 @@ const Seller = (props) => {
         Modal?.current?.open();
     };
     const handleDelete = async (id) => {
-        await axios.post(`/seller/${id}/delete`);
-        refresh();
+        let confirmation = confirm('are you sure want to delete');
+        if (confirmation) {
+            await axios.post(`/seller/${id}/delete`);
+            refresh();
+        }
     };
-
 
     useEffect(() => {
         getSellers(currentPage, pageLimit);
@@ -78,17 +80,6 @@ const Seller = (props) => {
                 <h1 className="mt-5 text-xl">Seller</h1>
                 <div className="mb-5 text-right">
                     <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
-                        <select className="form-select md:max-w-[150px]">
-                            <option value="">Status...</option>
-                            <option value={1}>pending</option>
-                            <option value={2}>proccessing</option>
-                            <option value={3}>shipped</option>
-                            <option value={4}>delivered</option>
-                            <option value={5}>cancelled</option>
-                            <option value={6}>returned</option>
-                            <option value={7}>completed</option>
-                        </select>
-
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
                                 <input type="text" className="form-input pr-10" placeholder="Search..." />
@@ -115,9 +106,6 @@ const Seller = (props) => {
                     <table className="w-full table-auto">
                         <thead className="bg-lightblue1">
                             <tr>
-                                <th>
-                                    <input type="checkbox" className="form-checkbox" />
-                                </th>
                                 <th>
                                     <div className="flex cursor-pointer justify-between">
                                         <span>Name</span>
@@ -155,14 +143,11 @@ const Seller = (props) => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={7} totalTd={7} tdWidth={60} />
+                                <TableLoadnig totalTr={6} totalTd={6} tdWidth={60} />
                             ) : sellers?.length !== 0 ? (
                                 sellers?.map((seller) => {
                                     return (
                                         <tr key={seller.id} className="bg-white">
-                                            <td>
-                                                <input type="checkbox" className="form-checkbox" />
-                                            </td>
                                             <td>{seller?.name}</td>
                                             <td>{seller?.email}</td>
                                             <td>{seller?.phone_number}</td>
@@ -170,12 +155,6 @@ const Seller = (props) => {
                                             <td>{helper?.getFormattedDate(seller?.created_at)}</td>
                                             <td>
                                                 <div className="flex">
-                                                    {/* <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#eab308] bg-[#eab308] p-2 hover:bg-transparent"
-                                                    >
-                                                        <IconView />
-                                                    </button> */}
                                                     <button
                                                         type="button"
                                                         className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -199,7 +178,7 @@ const Seller = (props) => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={7}>No data is available.</td>
+                                    <td colSpan={6}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>

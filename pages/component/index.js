@@ -14,6 +14,7 @@ import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/flatpickr.css';
+import MultipleSelect from '@/components/MultipleSelect';
 
 const Component = () => {
     const Modal = useRef();
@@ -25,27 +26,37 @@ const Component = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(10);
-    const [totalRecords, setTotalRecords] = useState(50);
-    const [totalPages, setTotalPages] = useState(5);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [searchWord, setSearchWord] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState([]);
+    const [selectedModel, setSelectedModel] = useState([]);
+    const [selectedAsset, setSelectedAsset] = useState([]);
 
-    const getComponents = useCallback((page = 1, limit = 10) => {
-        setIsLoading(true);
-        axios.get(`/asset`).then(({ data }) => {
-            setAssets(data.data);
-        });
-        axios.get(`/model`).then(({ data }) => {
-            setModels(data.data);
-        });
-        axios.get(`/brand`).then(({ data }) => {
-            setBrands(data.data);
-        });
-        axios.get(`/component?page=${page}&limit=${limit}`).then(({ data }) => {
-            setComponents(data.data);
-            setTotalRecords(data.meta.total);
-            setTotalPages(data.meta.last_page);
-            setIsLoading(false);
-        });
-    }, []);
+    const getComponents = useCallback(
+        (page = 1, limit = 10, searchWord = '') => {
+            setIsLoading(true);
+
+            axios
+                .get(`/component`, {
+                    params: {
+                        filter: searchWord,
+                        page: page,
+                        limit: limit,
+                        brand_id: selectedBrand.length === 0 ? '' : selectedBrand,
+                        model_id: selectedModel.length === 0 ? '' : selectedModel,
+                        asset_id: selectedAsset.length === 0 ? '' : selectedAsset,
+                    },
+                })
+                .then(({ data }) => {
+                    setComponents(data.data);
+                    setTotalRecords(data.meta.total);
+                    setTotalPages(data.meta.last_page);
+                    setIsLoading(false);
+                });
+        },
+        [selectedBrand, selectedModel, selectedAsset]
+    );
 
     const defaultParams = {
         id: '',
@@ -63,11 +74,10 @@ const Component = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getComponents(currentPage, pageLimit);
+        getComponents(currentPage, pageLimit, searchWord);
     };
 
     const formHandler = async (values) => {
-        console.log(values);
         try {
             if (params?.id) {
                 await axios.post(`/component/${params?.id}`, values);
@@ -97,9 +107,24 @@ const Component = () => {
     };
 
     const handleDelete = async (id) => {
-        await axios.post(`/component/${id}/delete`);
-        refresh();
+        let confirmation = confirm('are you sure want to delete');
+        if (confirmation) {
+            await axios.post(`/component/${id}/delete`);
+            refresh();
+        }
     };
+
+    useEffect(() => {
+        axios.get(`/asset`).then(({ data }) => {
+            setAssets(data.data);
+        });
+        axios.get(`/model`).then(({ data }) => {
+            setModels(data.data);
+        });
+        axios.get(`/brand`).then(({ data }) => {
+            setBrands(data.data);
+        });
+    }, []);
 
     useEffect(() => {
         getComponents(currentPage, pageLimit);
@@ -110,23 +135,54 @@ const Component = () => {
             <h2 className="text-xl">component</h2>
             <div className="mb-5 text-right">
                 <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
-                    <select className="form-select md:max-w-[150px]">
-                        <option value="">Status...</option>
-                        <option value={1}>pending</option>
-                        <option value={2}>proccessing</option>
-                        <option value={3}>shipped</option>
-                        <option value={4}>delivered</option>
-                        <option value={5}>cancelled</option>
-                        <option value={6}>returned</option>
-                        <option value={7}>completed</option>
-                    </select>
+                    <div className="mb-0 mt-2">
+                        <MultipleSelect
+                            list={brands}
+                            name="brand"
+                            keyName="brand_name"
+                            selectedoptions={selectedBrand}
+                            setSelectedoptions={setSelectedBrand}
+                        />
+                    </div>
+                    <div className="mb-0 mt-2">
+                        <MultipleSelect
+                            list={models}
+                            name="model"
+                            keyName="model_name"
+                            selectedoptions={selectedModel}
+                            setSelectedoptions={setSelectedModel}
+                        />
+                    </div>
+                    <div className="mb-0 mt-2">
+                        <MultipleSelect
+                            list={assets}
+                            name="asset"
+                            keyName="asset_name"
+                            selectedoptions={selectedAsset}
+                            setSelectedoptions={setSelectedAsset}
+                        />
+                    </div>
 
                     <div className="w-full flex-none md:max-w-[240px]">
                         <div className="relative">
-                            <input type="text" className="form-input pr-10" placeholder="Search..." />
+                            <input
+                                type="text"
+                                className="form-input pr-10"
+                                placeholder="Search..."
+                                onChange={(event) => setSearchWord(event.target.value)}
+                                onKeyUp={(e) => {
+                                    if (e.key === 'Enter') {
+                                        refresh();
+                                    }
+                                    if (searchWord.length === 0) {
+                                        refresh();
+                                    }
+                                }}
+                            />
                             <button
                                 type="button"
                                 className="text-black-dark absolute top-2 right-0 my-auto inline-flex h-10 w-10 items-center justify-center hover:opacity-70"
+                                onClick={refresh}
                             >
                                 <IconSearch />
                             </button>
@@ -147,9 +203,6 @@ const Component = () => {
                 <table className="w-full table-auto">
                     <thead className="bg-lightblue1">
                         <tr>
-                            <th>
-                                <input type="checkbox" className="form-checkbox" />
-                            </th>
                             <th>
                                 <div className="flex cursor-pointer justify-between">
                                     <span>Serial number</span>
@@ -216,15 +269,11 @@ const Component = () => {
                     </thead>
                     <tbody>
                         {isLoading ? (
-                            <TableLoadnig totalTr={12} totalTd={12} tdWidth={60} />
+                            <TableLoadnig totalTr={11} totalTd={11} tdWidth={60} />
                         ) : Components?.length !== 0 ? (
                             Components?.map((component) => {
                                 return (
                                     <tr key={component.id} className="bg-white">
-                                        <td>
-                                            <input type="checkbox" className="form-checkbox" />
-                                        </td>
-
                                         <td>{component?.serial_number}</td>
                                         <td>{component?.component_name}</td>
                                         <td>{helper.trancateString(component?.description)}</td>
@@ -238,12 +287,6 @@ const Component = () => {
 
                                         <td>
                                             <div className="flex">
-                                                {/* <button
-                                                    type="button"
-                                                    className="mx-0.5 rounded-md border border-[#eab308] bg-[#eab308] p-2 hover:bg-transparent"
-                                                >
-                                                    <IconView />
-                                                </button> */}
                                                 <button
                                                     type="button"
                                                     className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -267,7 +310,7 @@ const Component = () => {
                             })
                         ) : (
                             <tr className="text-center">
-                                <td colSpan={12}>No data is available.</td>
+                                <td colSpan={11}>No data is available.</td>
                             </tr>
                         )}
                     </tbody>
@@ -338,7 +381,6 @@ const Component = () => {
                                                 }}
                                                 onChange={(date) => {
                                                     setFieldValue('purchase_date', helper.getFormattedDate2(date[0]));
-                                                    console.log(helper.getFormattedDate2(date[0]));
                                                 }}
                                             />
                                         </div>

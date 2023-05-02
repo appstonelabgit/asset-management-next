@@ -13,7 +13,7 @@ import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
 
-const Brand = (props) => {
+const Brand = () => {
     const Modal = useRef();
 
     const [brands, setBrands] = useState([]);
@@ -65,8 +65,11 @@ const Brand = (props) => {
     };
 
     const handleDelete = async (id) => {
-        await axios.post(`/brand/${id}/delete`);
-        refresh();
+        let confirmation = confirm('are you sure want to delete');
+        if (confirmation) {
+            await axios.post(`/brand/${id}/delete`);
+            refresh();
+        }
     };
 
     useEffect(() => {
@@ -79,19 +82,9 @@ const Brand = (props) => {
                 <h1 className="mt-5 text-xl">brand</h1>
                 <div className="mb-5 text-right">
                     <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
-                        <select className="form-select md:max-w-[150px]">
-                            <option value="">Status...</option>
-                            <option value={1}>pending</option>
-                            <option value={2}>proccessing</option>
-                            <option value={3}>shipped</option>
-                            <option value={4}>delivered</option>
-                            <option value={5}>cancelled</option>
-                            <option value={6}>returned</option>
-                            <option value={7}>completed</option>
-                        </select>
 
-                        <div className="w-full flex-none md:max-w-[240px]">
-                            <div className="relative">
+                        {/* <div className="w-full flex-none md:max-w-[240px]">
+                           <div className="relative">
                                 <input type="text" className="form-input pr-10" placeholder="Search..." />
                                 <button
                                     type="button"
@@ -100,7 +93,7 @@ const Brand = (props) => {
                                     <IconSearch />
                                 </button>
                             </div>
-                        </div>
+                        </div>  */}
                         <button
                             type="button"
                             onClick={() => {
@@ -116,9 +109,6 @@ const Brand = (props) => {
                     <table className="w-full table-auto">
                         <thead className="bg-lightblue1">
                             <tr>
-                                <th>
-                                    <input type="checkbox" className="form-checkbox" />
-                                </th>
                                 <th>
                                     <div className="flex cursor-pointer justify-between">
                                         <span>Logo</span>
@@ -143,26 +133,19 @@ const Brand = (props) => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={5} totalTd={5} tdWidth={60} />
+                                <TableLoadnig totalTr={4} totalTd={4} tdWidth={60} />
                             ) : brands?.length !== 0 ? (
                                 brands?.map((brand) => {
                                     return (
                                         <tr key={brand.id} className="bg-white">
                                             <td>
-                                                <input type="checkbox" className="form-checkbox" />
+                                                <img src={brand?.brand_name} alt="image" />
                                             </td>
-                                            <td><img src={brand?.brand_name} alt="image" /></td>
                                             <td>{brand?.brand_name}</td>
 
                                             <td>{helper?.getFormattedDate(brand?.created_at)}</td>
                                             <td>
                                                 <div className="flex">
-                                                    {/* <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#eab308] bg-[#eab308] p-2 hover:bg-transparent"
-                                                    >
-                                                        <IconView />
-                                                    </button> */}
                                                     <button
                                                         type="button"
                                                         className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -186,7 +169,7 @@ const Brand = (props) => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={5}>No data is available.</td>
+                                    <td colSpan={4}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>

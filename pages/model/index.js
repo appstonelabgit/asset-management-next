@@ -20,24 +20,29 @@ const Model = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(10);
-    const [totalRecords, setTotalRecords] = useState(50);
-    const [totalPages, setTotalPages] = useState(5);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [searchWord, setSearchWord] = useState('');
 
-    const getModels = useCallback((page = 1, limit = 10) => {
+    const getModels = useCallback((page = 1, limit = 10, searchWord = '') => {
         setIsLoading(true);
-        axios.get(`/model?page=${page}&limit=${limit}`).then(({ data }) => {
-            setModels(data.data);
-            setTotalRecords(data.meta.total);
-            setTotalPages(data.meta.last_page);
-            setIsLoading(false);
-        });
+        axios
+            .get(`/model`, {
+                params: { filter: searchWord, page: page, limit: limit },
+            })
+            .then(({ data }) => {
+                setModels(data.data);
+                setTotalRecords(data.meta.total);
+                setTotalPages(data.meta.last_page);
+                setIsLoading(false);
+            });
     }, []);
 
     const defaultParams = { id: '', model_name: '', serial_number: '', description: '' };
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getModels(currentPage, pageLimit);
+        getModels(currentPage, pageLimit, searchWord);
     };
 
     const formHandler = async (values) => {
@@ -63,8 +68,11 @@ const Model = (props) => {
     };
 
     const handleDelete = async (id) => {
-        await axios.post(`/model/${id}/delete`);
-        refresh();
+        let confirmation = confirm('are you sure want to delete');
+        if (confirmation) {
+            await axios.post(`/model/${id}/delete`);
+            refresh();
+        }
     };
 
     useEffect(() => {
@@ -77,23 +85,27 @@ const Model = (props) => {
                 <h1 className="mt-5 text-xl">Model</h1>
                 <div className="mb-5 text-right">
                     <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
-                        <select className="form-select md:max-w-[150px]">
-                            <option value="">Status...</option>
-                            <option value={1}>pending</option>
-                            <option value={2}>proccessing</option>
-                            <option value={3}>shipped</option>
-                            <option value={4}>delivered</option>
-                            <option value={5}>cancelled</option>
-                            <option value={6}>returned</option>
-                            <option value={7}>completed</option>
-                        </select>
-
                         <div className="w-full flex-none md:max-w-[240px]">
+
                             <div className="relative">
-                                <input type="text" className="form-input pr-10" placeholder="Search..." />
+                                <input
+                                    type="text"
+                                    className="form-input pr-10"
+                                    placeholder="Search..."
+                                    onChange={(event) => setSearchWord(event.target.value)}
+                                    onKeyUp={(e) => {
+                                        if (e.key === 'Enter') {
+                                            refresh();
+                                        }
+                                        if (searchWord.length === 0) {
+                                            refresh();
+                                        }
+                                    }}
+                                />
                                 <button
                                     type="button"
                                     className="text-black-dark absolute top-2 right-0 my-auto inline-flex h-10 w-10 items-center justify-center hover:opacity-70"
+                                    onClick={refresh}
                                 >
                                     <IconSearch />
                                 </button>
@@ -114,9 +126,6 @@ const Model = (props) => {
                     <table className="w-full table-auto">
                         <thead className="bg-lightblue1">
                             <tr>
-                                <th>
-                                    <input type="checkbox" className="form-checkbox" />
-                                </th>
                                 <th>
                                     <div className="flex cursor-pointer justify-between">
                                         <span>Name</span>
@@ -148,14 +157,12 @@ const Model = (props) => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={6} totalTd={6} tdWidth={60} />
+                                <TableLoadnig totalTr={5} totalTd={5} tdWidth={60} />
                             ) : models?.length !== 0 ? (
                                 models?.map((model) => {
                                     return (
                                         <tr key={model.id} className="bg-white">
-                                            <td>
-                                                <input type="checkbox" className="form-checkbox" />
-                                            </td>
+
                                             <td>{model?.model_name}</td>
 
                                             <td>{model?.serial_number}</td>
@@ -164,12 +171,6 @@ const Model = (props) => {
                                             <td>{helper?.getFormattedDate(model?.created_at)}</td>
                                             <td>
                                                 <div className="flex">
-                                                    {/* <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#eab308] bg-[#eab308] p-2 hover:bg-transparent"
-                                                    >
-                                                        <IconView />
-                                                    </button> */}
                                                     <button
                                                         type="button"
                                                         className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -193,7 +194,7 @@ const Model = (props) => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={6}>No data is available.</td>
+                                    <td colSpan={5}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>

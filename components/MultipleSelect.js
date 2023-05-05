@@ -2,9 +2,8 @@ import React, { useRef, useState } from 'react';
 import Dropdown from '@/components/Dropdown';
 import IconDownArrow from '@/components/Icon/IconDownArrow';
 
-const MultipleSelect = ({ list, name, keyName,selectedoptions, setSelectedoptions }) => {
+const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptions }) => {
     const box = useRef();
-
 
     const handleChange = (event) => {
         const selectedValue = event.target.value;
@@ -29,7 +28,7 @@ const MultipleSelect = ({ list, name, keyName,selectedoptions, setSelectedoption
                         </>
                     }
                 >
-                    <div className=" text-sm h-full max-h-[150px] overflow-y-auto">
+                    <div className=" h-full max-h-[150px] overflow-y-auto text-sm">
                         {list.map((option) => {
                             return (
                                 <label key={option.id} className="my-3 flex px-5">

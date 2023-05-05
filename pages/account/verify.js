@@ -55,4 +55,6 @@ export default AccountVerify;
 AccountVerify.middleware = {
     auth: true,
     verify: false,
+    companyRequired: false,
+
 };

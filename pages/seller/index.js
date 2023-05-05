@@ -23,29 +23,53 @@ const Seller = (props) => {
     const [totalRecords, setTotalRecords] = useState(50);
     const [totalPages, setTotalPages] = useState(5);
 
-    const getSellers = useCallback((page = 1, limit = 10) => {
-        setIsLoading(true);
-        axios.get(`/seller?page=${page}&limit=${limit}`).then(({ data }) => {
-            setSellers(data.data);
-            setTotalRecords(data.meta.total);
-            setTotalPages(data.meta.last_page);
-            setIsLoading(false);
-        });
-    }, []);
+    const [searchWord, setSearchWord] = useState('');
+    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'name' });
+
+    const getSellers = useCallback(
+        (page = 1, limit = 10, searchWord = '') => {
+            setIsLoading(true);
+            axios
+                .get(`/sellers`, {
+                    params: {
+                        filter: searchWord,
+                        page: page,
+                        limit: limit,
+                        sort_column: order.order_field,
+                        sort_order: order.sort_order,
+                    },
+                })
+                .then(({ data }) => {
+                    setSellers(data.data);
+                    setTotalRecords(data.meta.total);
+                    setTotalPages(data.meta.last_page);
+                    setIsLoading(false);
+                });
+        },
+        [order]
+    );
 
     const defaultParams = { id: '', name: '', email: '', phone_number: '', address: '' };
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getSellers(currentPage, pageLimit);
+        getSellers(currentPage, pageLimit, searchWord);
+    };
+
+    const sortByField = (field) => {
+        order.order_field === field
+            ? order.sort_order === 'asc'
+                ? setOrder({ ...order, sort_order: 'desc' })
+                : setOrder({ ...order, sort_order: 'asc' })
+            : setOrder({ ...order, sort_order: 'desc', order_field: field });
     };
 
     const formHandler = async (values) => {
         try {
             if (params?.id) {
-                await axios.post(`/seller/${params?.id}`, values);
+                await axios.post(`/sellers/${params?.id}`, values);
             } else {
-                await axios.post('/seller', values);
+                await axios.post('/sellers', values);
             }
             Modal?.current.close();
             refresh();
@@ -65,7 +89,7 @@ const Seller = (props) => {
     const handleDelete = async (id) => {
         let confirmation = confirm('are you sure want to delete');
         if (confirmation) {
-            await axios.post(`/seller/${id}/delete`);
+            await axios.delete(`/sellers/${id}`);
             refresh();
         }
     };
@@ -77,15 +101,29 @@ const Seller = (props) => {
     return (
         <div>
             <div className="mx-5">
-                <h1 className="mt-5 text-xl">Seller</h1>
+                <h1 className="mt-5 text-xl">Sellers</h1>
                 <div className="mb-5 text-right">
                     <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
-                                <input type="text" className="form-input pr-10" placeholder="Search..." />
+                                <input
+                                    type="text"
+                                    className="form-input pr-10"
+                                    placeholder="Search..."
+                                    onChange={(event) => setSearchWord(event.target.value)}
+                                    onKeyUp={(e) => {
+                                        if (e.key === 'Enter') {
+                                            refresh();
+                                        }
+                                        if (searchWord.length === 0) {
+                                            refresh();
+                                        }
+                                    }}
+                                />
                                 <button
                                     type="button"
                                     className="text-black-dark absolute top-2 right-0 my-auto inline-flex h-10 w-10 items-center justify-center hover:opacity-70"
+                                    onClick={refresh}
                                 >
                                     <IconSearch />
                                 </button>
@@ -98,7 +136,7 @@ const Seller = (props) => {
                             }}
                             className="btn mb-0 mt-2"
                         >
-                            add seller
+                            Add Seller
                         </button>
                     </div>
                 </div>
@@ -107,32 +145,51 @@ const Seller = (props) => {
                         <thead className="bg-lightblue1">
                             <tr>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div
+                                        className={`flex cursor-pointer justify-between ${
+                                            order.order_field === 'name' ? 'text-primary' : ''
+                                        }`}
+                                        onClick={() => sortByField('name')}
+                                    >
                                         <span>Name</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
 
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div
+                                        className={`flex cursor-pointer justify-between ${
+                                            order.order_field === 'email' ? 'text-primary' : ''
+                                        }`}
+                                        onClick={() => sortByField('email')}
+                                    >
                                         <span>Email</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div
+                                        className={`flex cursor-pointer justify-between ${
+                                            order.order_field === 'phone_number' ? 'text-primary' : ''
+                                        }`}
+                                        onClick={() => sortByField('phone_number')}
+                                    >
                                         <span>Phone</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div className="flex cursor-pointer justify-between ">
                                         <span>Address</span>
-                                        <IconUpDownArrow />
                                     </div>
                                 </th>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div
+                                        className={`flex cursor-pointer justify-between ${
+                                            order.order_field === 'created_at' ? 'text-primary' : ''
+                                        }`}
+                                        onClick={() => sortByField('created_at')}
+                                    >
                                         <span>Date</span>
                                         <IconUpDownArrow />
                                     </div>
@@ -199,7 +256,7 @@ const Seller = (props) => {
                 <CommonSideModal ref={Modal}>
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
-                            <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} seller</h2>
+                            <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} Seller</h2>
 
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting }) => (
@@ -212,7 +269,7 @@ const Seller = (props) => {
                                                     name="name"
                                                     type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="name"
+                                                    placeholder="Name"
                                                 />
                                             </div>
                                             <div className="flex space-x-5">
@@ -233,7 +290,7 @@ const Seller = (props) => {
                                                         name="phone_number"
                                                         type="text"
                                                         className="form-input rounded-l-none"
-                                                        placeholder="phone"
+                                                        placeholder="Phone"
                                                     />
                                                 </div>
                                             </div>
@@ -245,7 +302,7 @@ const Seller = (props) => {
                                                     name="address"
                                                     type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="address"
+                                                    placeholder="Address"
                                                 />
                                             </div>
                                         </div>

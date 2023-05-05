@@ -17,7 +17,7 @@ const CompanyDropdownCard = ({ company }) => {
                 className="block w-full max-w-xs cursor-pointer truncate  py-2.5 px-5 text-left "
                 onClick={() => toggle(company.id)}
             >
-                {company.company_name}
+                {company.name}
             </button>
         </div>
     );

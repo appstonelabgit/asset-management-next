@@ -16,26 +16,26 @@ const NavBar = () => {
             <li>
                 <NavLink href="/" icon={<IconHome />} label="Dashboard" />
             </li>
-            {/* <li>
-                <NavLink href="/users" icon={<IconUser />} label="Users" />
-            </li> */}
             <li>
-                <NavLink href="/seller" icon={<IconChain />} label="Seller" />
+                <NavLink href="/user" icon={<IconUser />} label="Users" />
             </li>
             <li>
-                <NavLink href="/model" icon={<IconChain />} label="Model" />
+                <NavLink href="/seller" icon={<IconChain />} label="Sellers" />
             </li>
             <li>
-                <NavLink href="/brand" icon={<IconChain />} label="Brand" />
+                <NavLink href="/model" icon={<IconChain />} label="Models" />
             </li>
             <li>
-                <NavLink href="/accessory" icon={<IconChain />} label="Accessory" />
+                <NavLink href="/brand" icon={<IconChain />} label="Brands" />
             </li>
             <li>
-                <NavLink href="/asset" icon={<IconCrawl />} label="Asset" />
+                <NavLink href="/accessory" icon={<IconChain />} label="Accessories" />
             </li>
             <li>
-                <NavLink href="/component" icon={<IconChain />} label="Component" />
+                <NavLink href="/asset" icon={<IconCrawl />} label="Assets" />
+            </li>
+            <li>
+                <NavLink href="/component" icon={<IconChain />} label="Components" />
             </li>
             <li>
                 <NavLink

@@ -23,34 +23,52 @@ const Model = (props) => {
     const [totalRecords, setTotalRecords] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [searchWord, setSearchWord] = useState('');
+    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'serial_number' });
 
-    const getModels = useCallback((page = 1, limit = 10, searchWord = '') => {
-        setIsLoading(true);
-        axios
-            .get(`/model`, {
-                params: { filter: searchWord, page: page, limit: limit },
-            })
-            .then(({ data }) => {
-                setModels(data.data);
-                setTotalRecords(data.meta.total);
-                setTotalPages(data.meta.last_page);
-                setIsLoading(false);
-            });
-    }, []);
+    const getModels = useCallback(
+        (page = 1, limit = 10, searchWord = '') => {
+            setIsLoading(true);
+            axios
+                .get(`/models`, {
+                    params: {
+                        filter: searchWord,
+                        page: page,
+                        limit: limit,
+                        sort_column: order.order_field,
+                        sort_order: order.sort_order,
+                    },
+                })
+                .then(({ data }) => {
+                    setModels(data.data);
+                    setTotalRecords(data.meta.total);
+                    setTotalPages(data.meta.last_page);
+                    setIsLoading(false);
+                });
+        },
+        [order]
+    );
 
-    const defaultParams = { id: '', model_name: '', serial_number: '', description: '' };
+    const defaultParams = { id: '', name: '', serial_number: '', description: '' };
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
         getModels(currentPage, pageLimit, searchWord);
     };
 
+    const sortByField = (field) => {
+        order.order_field === field
+            ? order.sort_order === 'asc'
+                ? setOrder({ ...order, sort_order: 'desc' })
+                : setOrder({ ...order, sort_order: 'asc' })
+            : setOrder({ ...order, sort_order: 'desc', order_field: field });
+    };
+
     const formHandler = async (values) => {
         try {
             if (params?.id) {
-                await axios.post(`/model/${params?.id}`, values);
+                await axios.post(`/models/${params?.id}`, values);
             } else {
-                await axios.post('/model', values);
+                await axios.post('/models', values);
             }
             Modal?.current.close();
             refresh();
@@ -60,7 +78,7 @@ const Model = (props) => {
     const handleEdit = (obj) => {
         setParams({
             id: obj.id,
-            model_name: obj.model_name,
+            name: obj.name,
             serial_number: obj.serial_number,
             description: obj.description,
         });
@@ -70,7 +88,7 @@ const Model = (props) => {
     const handleDelete = async (id) => {
         let confirmation = confirm('are you sure want to delete');
         if (confirmation) {
-            await axios.post(`/model/${id}/delete`);
+            await axios.delete(`/models/${id}`);
             refresh();
         }
     };
@@ -82,11 +100,10 @@ const Model = (props) => {
     return (
         <div>
             <div className="mx-5">
-                <h1 className="mt-5 text-xl">Model</h1>
+                <h1 className="mt-5 text-xl">Models</h1>
                 <div className="mb-5 text-right">
                     <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
                         <div className="w-full flex-none md:max-w-[240px]">
-
                             <div className="relative">
                                 <input
                                     type="text"
@@ -118,7 +135,7 @@ const Model = (props) => {
                             }}
                             className="btn mb-0 mt-2"
                         >
-                            add Model
+                            Add Model
                         </button>
                     </div>
                 </div>
@@ -127,7 +144,23 @@ const Model = (props) => {
                         <thead className="bg-lightblue1">
                             <tr>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div
+                                        className={`flex cursor-pointer justify-between ${
+                                            order.order_field === 'serial_number' ? 'text-primary' : ''
+                                        }`}
+                                        onClick={() => sortByField('serial_number')}
+                                    >
+                                        <span>Serial number</span>
+                                        <IconUpDownArrow />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div
+                                        className={`flex cursor-pointer justify-between ${
+                                            order.order_field === 'name' ? 'text-primary' : ''
+                                        }`}
+                                        onClick={() => sortByField('name')}
+                                    >
                                         <span>Name</span>
                                         <IconUpDownArrow />
                                     </div>
@@ -135,18 +168,16 @@ const Model = (props) => {
 
                                 <th>
                                     <div className="flex cursor-pointer justify-between">
-                                        <span>Serial number</span>
-                                        <IconUpDownArrow />
-                                    </div>
-                                </th>
-                                <th>
-                                    <div className="flex cursor-pointer justify-between">
                                         <span>Description</span>
-                                        <IconUpDownArrow />
                                     </div>
                                 </th>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div
+                                        className={`flex cursor-pointer justify-between ${
+                                            order.order_field === 'created_at' ? 'text-primary' : ''
+                                        }`}
+                                        onClick={() => sortByField('created_at')}
+                                    >
                                         <span>Date</span>
                                         <IconUpDownArrow />
                                     </div>
@@ -162,10 +193,8 @@ const Model = (props) => {
                                 models?.map((model) => {
                                     return (
                                         <tr key={model.id} className="bg-white">
-
-                                            <td>{model?.model_name}</td>
-
                                             <td>{model?.serial_number}</td>
+                                            <td>{model?.name}</td>
                                             <td>{helper.trancateString(model?.description)}</td>
 
                                             <td>{helper?.getFormattedDate(model?.created_at)}</td>
@@ -225,7 +254,7 @@ const Model = (props) => {
                                                 <label className="form-label">Name</label>
 
                                                 <Field
-                                                    name="model_name"
+                                                    name="name"
                                                     type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="name"
@@ -244,14 +273,14 @@ const Model = (props) => {
                                             </div>
 
                                             <div>
-                                                <label className="form-label">description</label>
+                                                <label className="form-label">Description</label>
 
                                                 <Field
                                                     as="textarea"
                                                     name="description"
                                                     type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="address"
+                                                    placeholder="Description"
                                                 />
                                             </div>
                                         </div>

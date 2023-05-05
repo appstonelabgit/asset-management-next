@@ -65,7 +65,7 @@ const CommonSideModal = ({ children, width, closeOnEsc = true, backdrop = true, 
                         >
                             {closeButoon && (
                                 <div
-                                    className="absolute right-2.5 top-2.5 cursor-pointer"
+                                    className="absolute right-5 top-5 cursor-pointer bg-lightblue p-2 rounded-full"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     <IconClose />

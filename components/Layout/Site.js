@@ -17,7 +17,7 @@ const Site = ({ children, middleware, layout }) => {
             {layout === 'nosidebar' && (
                 <NoSidebarLayout>
                     {middleware?.auth === true ? (
-                        <Auth verify={middleware?.verify}>{children}</Auth>
+                        <Auth verify={middleware?.verify} companyRequired={middleware?.companyRequired}>{children}</Auth>
                     ) : middleware?.auth === false ? (
                         <NoAuth>{children}</NoAuth>
                     ) : (
@@ -28,7 +28,7 @@ const Site = ({ children, middleware, layout }) => {
             {layout === 'default' && (
                 <DefaultLayout>
                     {middleware?.auth === true ? (
-                        <Auth verify={middleware?.verify}>{children}</Auth>
+                        <Auth verify={middleware?.verify} companyRequired={middleware?.companyRequired}>{children}</Auth>
                     ) : middleware?.auth === false ? (
                         <NoAuth>{children}</NoAuth>
                     ) : (

@@ -30,7 +30,7 @@ export const useWorkspace = () => {
 
     const toggle = async (id) => {
         try {
-            await axios.post(`/select/company/${id}`);
+            await axios.post(`/companies/${id}/select`);
             window.location = '/';
         } catch {}
     };

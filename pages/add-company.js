@@ -47,6 +47,7 @@ export default AddCompany;
 AddCompany.middleware = {
     auth: true,
     verify: true,
+    companyRequired: false,
 };
 
 AddCompany.layout = 'nosidebar';

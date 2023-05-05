@@ -20,15 +20,21 @@ const Component = () => {
     const Modal = useRef();
 
     const [Components, setComponents] = useState([]);
+
     const [assets, setAssets] = useState([]);
     const [models, setModels] = useState([]);
     const [brands, setBrands] = useState([]);
+
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(10);
     const [totalRecords, setTotalRecords] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+
     const [searchWord, setSearchWord] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'serial_number' });
+
     const [selectedBrand, setSelectedBrand] = useState([]);
     const [selectedModel, setSelectedModel] = useState([]);
     const [selectedAsset, setSelectedAsset] = useState([]);
@@ -38,11 +44,14 @@ const Component = () => {
             setIsLoading(true);
 
             axios
-                .get(`/component`, {
+                .get(`/components`, {
                     params: {
                         filter: searchWord,
+                        warranty_expiry_date: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
                         page: page,
                         limit: limit,
+                        sort_column: order.order_field,
+                        sort_order: order.sort_order,
                         brand_id: selectedBrand.length === 0 ? '' : selectedBrand,
                         model_id: selectedModel.length === 0 ? '' : selectedModel,
                         asset_id: selectedAsset.length === 0 ? '' : selectedAsset,
@@ -55,13 +64,13 @@ const Component = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedAsset]
+        [selectedBrand, selectedModel, selectedAsset, order, expiryDate]
     );
 
     const defaultParams = {
         id: '',
         asset_id: '',
-        component_name: '',
+        name: '',
         serial_number: '',
         description: '',
         purchase_date: '',
@@ -77,12 +86,20 @@ const Component = () => {
         getComponents(currentPage, pageLimit, searchWord);
     };
 
+    const sortByField = (field) => {
+        order.order_field === field
+            ? order.sort_order === 'asc'
+                ? setOrder({ ...order, sort_order: 'desc' })
+                : setOrder({ ...order, sort_order: 'asc' })
+            : setOrder({ ...order, sort_order: 'desc', order_field: field });
+    };
+
     const formHandler = async (values) => {
         try {
             if (params?.id) {
-                await axios.post(`/component/${params?.id}`, values);
+                await axios.post(`/components/${params?.id}`, values);
             } else {
-                await axios.post('/component', values);
+                await axios.post('/components', values);
             }
             Modal?.current.close();
             refresh();
@@ -92,16 +109,16 @@ const Component = () => {
     const handleEdit = (obj) => {
         setParams({
             id: obj.id,
-            asset_id: obj.asset_id,
-            component_name: obj.component_name,
+            asset_id: obj.asset_id || '',
+            name: obj.name,
             serial_number: obj.serial_number,
             description: obj.description,
             purchase_date: obj.purchase_date,
             quantity: obj.quantity,
             purchase_cost: obj.purchase_cost,
             warranty_expiry_date: obj.warranty_expiry_date,
-            model_id: obj.model_id,
-            brand_id: obj.brand_id,
+            model_id: obj.model_id || '',
+            brand_id: obj.brand_id || '',
         });
         Modal?.current?.open();
     };
@@ -109,20 +126,16 @@ const Component = () => {
     const handleDelete = async (id) => {
         let confirmation = confirm('are you sure want to delete');
         if (confirmation) {
-            await axios.post(`/component/${id}/delete`);
+            await axios.delete(`/components/${id}`);
             refresh();
         }
     };
 
     useEffect(() => {
-        axios.get(`/asset`).then(({ data }) => {
-            setAssets(data.data);
-        });
-        axios.get(`/model`).then(({ data }) => {
-            setModels(data.data);
-        });
-        axios.get(`/brand`).then(({ data }) => {
-            setBrands(data.data);
+        axios.get(`/components/dependent/information`).then(({ data }) => {
+            setAssets(data.assets);
+            setModels(data.models);
+            setBrands(data.brands);
         });
     }, []);
 
@@ -132,14 +145,25 @@ const Component = () => {
 
     return (
         <div className="p-5">
-            <h2 className="text-xl">component</h2>
+            <h2 className="text-xl">Components</h2>
             <div className="mb-5 text-right">
                 <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+                    <div className="">
+                        <Flatpickr
+                            name="warranty_expiry_date"
+                            type="text"
+                            className="form-input rounded-l-none"
+                            placeholder="Warranty expiry date"
+                            onChange={(date) => {
+                                setExpiryDate(helper.getFormattedDate2(date[0]));
+                            }}
+                        />
+                    </div>
                     <div className="mb-0 mt-2">
                         <MultipleSelect
                             list={brands}
-                            name="brand"
-                            keyName="brand_name"
+                            name="Brand"
+                            keyName="name"
                             selectedoptions={selectedBrand}
                             setSelectedoptions={setSelectedBrand}
                         />
@@ -147,8 +171,8 @@ const Component = () => {
                     <div className="mb-0 mt-2">
                         <MultipleSelect
                             list={models}
-                            name="model"
-                            keyName="model_name"
+                            name="Model"
+                            keyName="name"
                             selectedoptions={selectedModel}
                             setSelectedoptions={setSelectedModel}
                         />
@@ -156,8 +180,8 @@ const Component = () => {
                     <div className="mb-0 mt-2">
                         <MultipleSelect
                             list={assets}
-                            name="asset"
-                            keyName="asset_name"
+                            name="Asset"
+                            keyName="name"
                             selectedoptions={selectedAsset}
                             setSelectedoptions={setSelectedAsset}
                         />
@@ -195,7 +219,7 @@ const Component = () => {
                         }}
                         className="btn mb-0 mt-2"
                     >
-                        add component
+                        Add Component
                     </button>
                 </div>
             </div>
@@ -204,13 +228,23 @@ const Component = () => {
                     <thead className="bg-lightblue1">
                         <tr>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'serial_number' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('serial_number')}
+                                >
                                     <span>Serial number</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'name' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('name')}
+                                >
                                     <span>Name</span>
                                     <IconUpDownArrow />
                                 </div>
@@ -218,47 +252,81 @@ const Component = () => {
                             <th>
                                 <div className="flex cursor-pointer justify-between">
                                     <span>Description</span>
-                                    <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'purchase_date' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('purchase_date')}
+                                >
                                     <span>Purchase date</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'quantity' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('quantity')}
+                                >
                                     <span>Quantity</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'purchase_cost' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('purchase_cost')}
+                                >
                                     <span>Purchase cost</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'warranty_expiry_date' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('warranty_expiry_date')}
+                                >
                                     <span>Warranty expiry</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'asset_name' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('asset_name')}
+                                >
                                     <span>Asset</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'model_name' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('model_name')}
+                                >
                                     <span>Model</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div
+                                    className={`flex cursor-pointer justify-between ${
+                                        order.order_field === 'brand_name' ? 'text-primary' : ''
+                                    }`}
+                                    onClick={() => sortByField('brand_name')}
+                                >
                                     <span>Brand</span>
                                     <IconUpDownArrow />
                                 </div>
@@ -275,15 +343,15 @@ const Component = () => {
                                 return (
                                     <tr key={component.id} className="bg-white">
                                         <td>{component?.serial_number}</td>
-                                        <td>{component?.component_name}</td>
+                                        <td>{component?.name}</td>
                                         <td>{helper.trancateString(component?.description)}</td>
                                         <td>{helper?.getFormattedDate(component?.purchase_date)}</td>
                                         <td>{component?.quantity}</td>
                                         <td>{component?.purchase_cost}</td>
                                         <td>{helper?.getFormattedDate(component?.warranty_expiry_date)}</td>
-                                        <td>{assets?.find((item) => item.id === component?.asset_id)?.asset_name}</td>
-                                        <td>{models?.find((item) => item.id === component?.model_id)?.model_name}</td>
-                                        <td>{brands?.find((item) => item.id === component?.brand_id)?.brand_name}</td>
+                                        <td>{component?.asset_name}</td>
+                                        <td>{component?.model_name}</td>
+                                        <td>{component?.brand_name}</td>
 
                                         <td>
                                             <div className="flex">
@@ -331,7 +399,7 @@ const Component = () => {
             <CommonSideModal ref={Modal}>
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
-                        <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} component</h2>
+                        <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} Component</h2>
 
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
@@ -341,10 +409,10 @@ const Component = () => {
                                             <label className="form-label">Name</label>
 
                                             <Field
-                                                name="component_name"
+                                                name="name"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="name"
+                                                placeholder="Name"
                                             />
                                         </div>
                                         <div>
@@ -358,14 +426,14 @@ const Component = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">description</label>
+                                            <label className="form-label">Description</label>
 
                                             <Field
                                                 as="textarea"
                                                 name="description"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="address"
+                                                placeholder="Description"
                                             />
                                         </div>
                                         <div>
@@ -385,13 +453,13 @@ const Component = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">quantity</label>
+                                            <label className="form-label">Quantity</label>
 
                                             <Field
                                                 name="quantity"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="quantity"
+                                                placeholder="Quantity"
                                             />
                                         </div>
                                         <div>
@@ -401,7 +469,7 @@ const Component = () => {
                                                 name="purchase_cost"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="cost"
+                                                placeholder="Cost"
                                             />
                                         </div>
                                         <div>
@@ -426,7 +494,7 @@ const Component = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Asset</label>
+                                            <label className="form-label">Asset Name</label>
 
                                             <Field
                                                 as="select"
@@ -434,18 +502,18 @@ const Component = () => {
                                                 className="form-select rounded-l-none"
                                                 placeholder=""
                                             >
-                                                <option value="">select Asset name</option>
+                                                <option value="">Select Asset name</option>
                                                 {assets?.map((asset) => {
                                                     return (
                                                         <option key={asset.id} value={asset.id}>
-                                                            {asset.asset_name}
+                                                            {asset.name}
                                                         </option>
                                                     );
                                                 })}
                                             </Field>
                                         </div>
                                         <div>
-                                            <label className="form-label">Model</label>
+                                            <label className="form-label">Model name</label>
 
                                             <Field
                                                 as="select"
@@ -453,18 +521,18 @@ const Component = () => {
                                                 className="form-select rounded-l-none"
                                                 placeholder=""
                                             >
-                                                <option value="">select model name</option>
+                                                <option value="">Select Model name</option>
                                                 {models?.map((model) => {
                                                     return (
                                                         <option key={model.id} value={model.id}>
-                                                            {model.model_name}
+                                                            {model.name}
                                                         </option>
                                                     );
                                                 })}
                                             </Field>
                                         </div>
                                         <div>
-                                            <label className="form-label">Brand</label>
+                                            <label className="form-label">Brand name</label>
 
                                             <Field
                                                 as="select"
@@ -472,11 +540,11 @@ const Component = () => {
                                                 className="form-select rounded-l-none"
                                                 placeholder=""
                                             >
-                                                <option value="">select Brand name</option>
+                                                <option value="">Select Brand name</option>
                                                 {brands?.map((brand) => {
                                                     return (
                                                         <option key={brand.id} value={brand.id}>
-                                                            {brand.brand_name}
+                                                            {brand.name}
                                                         </option>
                                                     );
                                                 })}

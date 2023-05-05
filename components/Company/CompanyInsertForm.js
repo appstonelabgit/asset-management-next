@@ -3,16 +3,16 @@ import { Field, Form, Formik } from 'formik';
 import ButtonField from '../Field/ButtonField';
 
 const CompanyInsertForm = ({ redirect }) => {
-    const params = { company_name: ''};
+    const params = { name: ''};
 
     const formHandler = async (values) => {
         try {
             const formData = new FormData();
-            formData.append("company_logo_url", values.company_logo_url)
-            formData.append("company_name", values.company_name)
+            formData.append("logo_url", values.logo_url)
+            formData.append("name", values.name)
 
 
-            await axios.post('/company', formData);
+            await axios.post('/companies', formData);
             if (redirect) {
                 window.location = redirect;
             }
@@ -30,7 +30,7 @@ const CompanyInsertForm = ({ redirect }) => {
                                 <label className="form-label">Company name</label>
 
                                 <Field
-                                    name="company_name"
+                                    name="name"
                                     type="text"
                                     className="form-input rounded-l-none"
                                     placeholder="company name"
@@ -40,10 +40,10 @@ const CompanyInsertForm = ({ redirect }) => {
                                 <label className="form-label">Company logo</label>
 
                                 <input
-                                    name="company_logo_url"
+                                    name="logo_url"
                                     type="file"
                                     className="form-input rounded-l-none"
-                                    onChange={(e)=>setFieldValue('company_logo_url', e.target.files[0])}
+                                    onChange={(e)=>setFieldValue('logo_url', e.target.files[0])}
                                 />
                             </div>
                         </div>

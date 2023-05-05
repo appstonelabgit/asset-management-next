@@ -82,7 +82,7 @@ const Dropdown = (props, forwardedRef) => {
                             ref={popperRef}
                             style={styles.popper}
                             {...attributes.popper}
-                            className="z-10 w-full overflow-hidden rounded bg-white p-0 shadow"
+                            className={`${props.zindex || 'z-10'} w-full overflow-hidden rounded bg-white p-0 shadow`}
                         >
                             {visibility && props.children}
                         </div>
@@ -92,7 +92,7 @@ const Dropdown = (props, forwardedRef) => {
                                 ref={popperRef}
                                 style={styles.popper}
                                 {...attributes.popper}
-                                className="z-10 overflow-hidden rounded bg-white p-0 shadow"
+                                className={`${props.zindex || 'z-10'} overflow-hidden rounded bg-white p-0 shadow`}
                             >
                                 {visibility && props.children}
                             </div>,

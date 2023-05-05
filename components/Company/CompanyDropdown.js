@@ -17,7 +17,7 @@ const CompanyDropdown = () => {
             button={
                 <>
                     <span className="text-sm truncate max-w-[135px]">
-                        {workspace?.company_name || 'Add company'}
+                        {workspace?.name || 'Add company'}
                     </span>
                     <IconDownArrow className="ml-2 text-darkblue dark:text-white" />
                 </>

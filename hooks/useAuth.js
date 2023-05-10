@@ -48,6 +48,14 @@ export const useAuth = () => {
         } catch {}
     };
 
+    const setPassword = async (args) => {
+        try {
+            await axios.post(router.query.token, args);
+            console.log("dfsdfsdb");
+            router.push('/users');
+        } catch {}
+    };
+
     const resendEmailVerification = async () => {
         try {
             await axios.post('/auth/email/verify/resend');
@@ -78,5 +86,6 @@ export const useAuth = () => {
         resendEmailVerification,
         verifyEmail,
         logout,
+        setPassword,
     };
 };

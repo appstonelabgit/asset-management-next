@@ -11,7 +11,7 @@ export const useWorkspace = () => {
             setWorkspace(false);
         }
 
-        if (!user?.last_company_login_id) {
+        if (!user?.company_login_id) {
             setWorkspace(false);
         }
 
@@ -19,7 +19,7 @@ export const useWorkspace = () => {
             setWorkspace(false);
         }
 
-        const companys = company?.find((item) => parseInt(item.id) === parseInt(user?.last_company_login_id));
+        const companys = company?.find((item) => parseInt(item.id) === parseInt(user?.company_login_id));
 
         if (!companys) {
             setWorkspace(false);

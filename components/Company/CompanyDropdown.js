@@ -16,14 +16,14 @@ const CompanyDropdown = () => {
             btnClassName="flex items-center"
             button={
                 <>
-                    <span className="text-sm truncate max-w-[135px]">
+                    <span className="text-lg font-bold truncate max-w-[135px] capitalize">
                         {workspace?.name || 'Add company'}
                     </span>
-                    <IconDownArrow className="ml-2 text-darkblue dark:text-white" />
+                    {/* <IconDownArrow className="ml-2 text-darkblue dark:text-white" /> */}
                 </>
             }
         >
-            <div className="text-sm">
+            {/* <div className="text-sm">
                 {company?.length &&
                     company?.map((item) => <CompanyDropdownCard key={item.id} company={item} />)}
                 <Link
@@ -32,7 +32,7 @@ const CompanyDropdown = () => {
                 >
                     Add company
                 </Link>
-            </div>
+            </div> */}
         </Dropdown>
     );
 };

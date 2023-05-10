@@ -9,34 +9,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '@/components/Dropdown';
 import IconSun from '../Icon/IconSun';
 import NavBar from '../Nav/NavBar';
-import IconRefreshWhite from '../Icon/IconRefreshWhite';
 import { setHasMenuExpanded } from '@/store/appSlice';
 import { useAuth } from '@/hooks/useAuth';
 import CompanyDropdown from '../Company/CompanyDropdown';
 
 const SideBar = () => {
     const { logout } = useAuth();
-    const { status, user ,company } = useSelector((state) => state.auth);
+    const { status, user, company } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     const profileDropdownRef = useRef();
 
-    const [expanded, setExpanded] = useState(typeof window !== 'undefined' && window.innerWidth < 1023 ? false : true);
+    const [expanded, setExpanded] = useState();
 
     const toggleSidebar = (value) => {
         setExpanded(value);
         localStorage.setItem('sidebar.__expanded', value.toString());
     };
-
-    useEffect(() => {
-        if (typeof window !== 'undefined' && window.innerWidth >= 1023) {
-            if (localStorage.getItem('sidebar.__expanded') !== null) {
-                setExpanded(localStorage.getItem('sidebar.__expanded') === 'true');
-            } else {
-                toggleSidebar(true);
-            }
-        }
-    }, []);
 
     useEffect(() => {
         dispatch(setHasMenuExpanded(expanded));
@@ -53,10 +42,28 @@ const SideBar = () => {
     };
 
     useEffect(() => {
+        if (typeof window !== 'undefined' && window.innerWidth < 1023) {
+            console.log("sfsdf");
+            setExpanded(true);
+        } else {
+            setExpanded(false);
+        }
+
+        if (typeof window !== 'undefined' && window.innerWidth >= 1023) {
+            if (localStorage.getItem('sidebar.__expanded') !== null) {
+                setExpanded(localStorage.getItem('sidebar.__expanded') === 'true');
+            } else {
+                toggleSidebar(true);
+            }
+        } else {
+            toggleSidebar(false);
+        }
         if (localStorage.getItem('darkMode') === 'true') {
             document.documentElement.classList.add('dark');
         }
     }, []);
+
+
 
     return (
         <div className={`main-sidebar ${(!expanded && 'collapsed') || ''}`}>
@@ -88,7 +95,7 @@ const SideBar = () => {
 
             {expanded && (
                 <div className="mt-4 flex shrink-0 items-center justify-between px-4">
-                    <CompanyDropdown/>
+                    <CompanyDropdown />
                 </div>
             )}
 

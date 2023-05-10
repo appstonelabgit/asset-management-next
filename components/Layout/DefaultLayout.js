@@ -8,7 +8,7 @@ const DefaultLayout = ({ children }) => {
             <div className="bg-[#F5F7FA] font-SourceSansPro text-base font-normal leading-5 text-black antialiased">
                 <div className="">
                     <SideBar />
-                    <div className="ml-[60px] lg:ml-[215px]">
+                    <div className="main-contain">
                         <Header/>
                         {children}</div>
                 </div>

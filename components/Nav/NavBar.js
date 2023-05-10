@@ -17,27 +17,28 @@ const NavBar = () => {
                 <NavLink href="/" icon={<IconHome />} label="Dashboard" />
             </li>
             <li>
-                <NavLink href="/user" icon={<IconUser />} label="Users" />
+                <NavLink href="/assets" icon={<IconCrawl />} label="Assets" />
             </li>
             <li>
-                <NavLink href="/seller" icon={<IconChain />} label="Sellers" />
+                <NavLink href="/components" icon={<IconChain />} label="Components" />
             </li>
             <li>
-                <NavLink href="/model" icon={<IconChain />} label="Models" />
+                <NavLink href="/accessories" icon={<IconChain />} label="Accessories" />
             </li>
             <li>
-                <NavLink href="/brand" icon={<IconChain />} label="Brands" />
+                <NavLink href="/users" icon={<IconUser />} label="Users" />
             </li>
             <li>
-                <NavLink href="/accessory" icon={<IconChain />} label="Accessories" />
+                <NavLink href="/sellers" icon={<IconChain />} label="Sellers" />
             </li>
             <li>
-                <NavLink href="/asset" icon={<IconCrawl />} label="Assets" />
+                <NavLink href="/models" icon={<IconChain />} label="Models" />
             </li>
             <li>
-                <NavLink href="/component" icon={<IconChain />} label="Components" />
+                <NavLink href="/brands" icon={<IconChain />} label="Brands" />
             </li>
-            <li>
+
+            {/* <li>
                 <NavLink
                     href="/settings/General"
                     icon={<IconGear />}
@@ -58,7 +59,7 @@ const NavBar = () => {
                         <NavLink href="/settings/Brand" label="Brand" />
                     </li>
                 </ul>
-            </li>
+            </li> */}
         </ul>
     );
 };

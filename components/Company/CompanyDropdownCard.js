@@ -9,7 +9,7 @@ const CompanyDropdownCard = ({ company }) => {
     return (
         <div
             className={`${
-                user.last_company_login_id === company.id ? 'bg-lightblue1' : ''
+                user.company_login_id === company.id ? 'bg-lightblue1' : ''
             } flex items-center justify-around hover:bg-lightblue1`}
         >
             <button

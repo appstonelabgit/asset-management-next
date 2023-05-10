@@ -7,7 +7,7 @@ const Auth = ({ children, verify: verificationRequired, companyRequired }) => {
     const router = useRouter();
     const { status, user, company } = useSelector((state) => state.auth);
     const isVerified = user?.email_verified_at;
-    const hasCompany = user?.last_company_login_id && company;
+    const hasCompany = user?.company_login_id && company;
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/login');

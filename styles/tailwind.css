@@ -198,3 +198,10 @@ label:not(.on-off-label) input[type='checkbox'] {
     background-size: 10px 8px;
     border-color: #99f6e4;
 }
+.main-contain{
+    @apply ml-[215px];
+}
+
+.main-sidebar.collapsed + .main-contain{
+    @apply ml-[60px];
+}

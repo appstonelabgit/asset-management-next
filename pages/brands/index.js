@@ -192,7 +192,7 @@ const Brands = () => {
                                             <td>
                                                 <Image src={brand?.logo_url} alt="image" width={50} height={50} />
                                             </td>
-                                            <td className='capitalize'>{brand?.name}</td>
+                                            <td className="capitalize">{brand?.name}</td>
 
                                             <td>{helper?.getFormattedDate(brand?.created_at)}</td>
                                             <td>
@@ -238,11 +238,9 @@ const Brands = () => {
                         setCurrentPage={setCurrentPage}
                     />
                 </div>
-                <CommonSideModal ref={SideModal}>
+                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Brand' : 'Add Brand'}>
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
-                            <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} brand</h2>
-
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting, setFieldValue }) => (
                                     <Form className="w-full space-y-5  bg-white p-[25px]">
@@ -293,4 +291,5 @@ export default Brands;
 Brands.middleware = {
     auth: true,
     verify: true,
+    isAdmin: false,
 };

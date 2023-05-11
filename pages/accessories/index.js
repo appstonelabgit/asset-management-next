@@ -20,8 +20,11 @@ import AddSeller from '@/components/AddSeller';
 import AddModel from '@/components/AddModel';
 import AddBrand from '@/components/AddBrand';
 import AddUser from '@/components/AddUser';
+import { useSelector } from 'react-redux';
 
 const Accessories = () => {
+    const { user } = useSelector((state) => state.auth);
+
     const SideModal = useRef();
     const Popup = useRef();
     const addSellerModal = useRef();
@@ -58,7 +61,7 @@ const Accessories = () => {
             setIsLoading(true);
 
             axios
-                .get(`/accessories`, {
+                .get(`/${user?.role === 1 ? 'accessories' : 'employee/accessories'}`, {
                     params: {
                         filter: searchWord,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
@@ -243,15 +246,17 @@ const Accessories = () => {
                                 </button>
                             </div>
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setParams(defaultParams), SideModal?.current?.open();
-                            }}
-                            className="btn mb-0 mt-2"
-                        >
-                            Add Accessory
-                        </button>
+                        {user?.role === 1 && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setParams(defaultParams), SideModal?.current?.open();
+                                }}
+                                className="btn mb-0 mt-2"
+                            >
+                                Add Accessory
+                            </button>
+                        )}
                     </div>
                 </div>
                 <div className="main-table w-full overflow-x-auto">
@@ -364,7 +369,7 @@ const Accessories = () => {
                                     </div>
                                 </th>
 
-                                <th>Action</th>
+                                {user?.role === 1 && <th>Action</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -385,35 +390,37 @@ const Accessories = () => {
                                             <td className="capitalize">{accessory?.brand_name}</td>
                                             <td className="capitalize">{accessory?.user_name}</td>
 
-                                            <td>
-                                                <div className="flex">
-                                                    <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#fcd34d] bg-[#fcd34d] p-2 hover:bg-transparent"
-                                                        onClick={() => {
-                                                            handleModalData(accessory?.id, accessory?.user_id);
-                                                        }}
-                                                    >
-                                                        history
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
-                                                        onClick={() => {
-                                                            handleEdit(accessory?.id);
-                                                        }}
-                                                    >
-                                                        <IconEdit />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
-                                                        onClick={() => handleDelete(accessory?.id)}
-                                                    >
-                                                        <IconDelete />
-                                                    </button>
-                                                </div>
-                                            </td>
+                                            {user?.role === 1 && (
+                                                <td>
+                                                    <div className="flex">
+                                                        <button
+                                                            type="button"
+                                                            className="mx-0.5 rounded-md border border-[#fcd34d] bg-[#fcd34d] p-2 hover:bg-transparent"
+                                                            onClick={() => {
+                                                                handleModalData(accessory?.id, accessory?.user_id);
+                                                            }}
+                                                        >
+                                                            history
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
+                                                            onClick={() => {
+                                                                handleEdit(accessory?.id);
+                                                            }}
+                                                        >
+                                                            <IconEdit />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
+                                                            onClick={() => handleDelete(accessory?.id)}
+                                                        >
+                                                            <IconDelete />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            )}
                                         </tr>
                                     );
                                 })
@@ -472,13 +479,9 @@ const Accessories = () => {
                         )}
                     </div>
                 </Modal>
-                <CommonSideModal ref={SideModal}>
+                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Accessory' : 'Add Accessory'}>
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
-                            <h2 className="text-base font-semibold leading-7">
-                                {params?.id ? 'Edit' : 'Add'} Accessory
-                            </h2>
-
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting, setFieldValue }) => (
                                     <Form className="w-full space-y-5  bg-white p-[25px]">

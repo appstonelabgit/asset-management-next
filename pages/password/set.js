@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-const set = () => {
+const Set = () => {
     const router = useRouter();
     const { setPassword } = useAuth();
     const params = { password: '', password_confirmation: '' };
@@ -74,8 +74,8 @@ const set = () => {
 
 export default set;
 
-set.middleware = {
+Set.middleware = {
     auth: true,
 };
 
-set.layout = 'nosidebar';
+Set.layout = 'nosidebar';

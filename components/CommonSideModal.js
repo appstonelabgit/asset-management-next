@@ -1,7 +1,10 @@
 import ReactDOM from 'react-dom';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import IconClose from '@/components/Icon/IconClose';
-const CommonSideModal = ({ children, width, closeOnEsc = true, backdrop = true, closeButoon = true }, forwardedRef) => {
+const CommonSideModal = (
+    { children, width, closeOnEsc = true, backdrop = true, closeButoon = true, title = '' },
+    forwardedRef
+) => {
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
@@ -56,21 +59,25 @@ const CommonSideModal = ({ children, width, closeOnEsc = true, backdrop = true, 
                             ref={modalPanelRef}
                             className={`${
                                 (isOpen && '!right-0') || ''
-                            } fixed top-0 bottom-0  z-[52] w-full overflow-y-auto bg-white p-5 pt-10 shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-[right] md:px-[43px] md:pb-[46px] md:pt-[52px]`}
+                            } fixed top-0 bottom-0  z-[52] w-full overflow-y-auto bg-white p-5 pt-10 shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-[right] md:px-[43px] md:pb-[46px] md:pt-[25px]`}
                             style={{
                                 right: isOpen ? `-${width}` : '-546px',
                                 transition: 'right 0.3s ease-in-out',
                                 maxWidth: width || '546px',
                             }}
                         >
-                            {closeButoon && (
-                                <div
-                                    className="absolute right-5 top-5 cursor-pointer bg-lightblue p-2 rounded-full"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    <IconClose />
-                                </div>
-                            )}
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-bold text-darkprimary">{title}</h2>
+
+                                {closeButoon && (
+                                    <div
+                                        className="cursor-pointer rounded-full bg-lightblue p-2"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <IconClose />
+                                    </div>
+                                )}
+                            </div>
                             {isOpen && children}
                         </div>
                     </>,

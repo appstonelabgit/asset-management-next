@@ -148,17 +148,16 @@ const Users = () => {
                                 </button>
                             </div>
                         </div>
-                        {user?.role === 1 && (
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setParams(defaultParams), SideModal?.current?.open();
-                                }}
-                                className="btn mb-0 mt-2"
-                            >
-                                Add Users
-                            </button>
-                        )}
+
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setParams(defaultParams), SideModal?.current?.open();
+                            }}
+                            className="btn mb-0 mt-2"
+                        >
+                            Add Users
+                        </button>
                     </div>
                 </div>
                 <div className="main-table w-full overflow-x-auto">
@@ -355,11 +354,9 @@ const Users = () => {
                     </div>
                 </Modal>
 
-                <CommonSideModal ref={SideModal}>
+                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit User' : 'Add User'}>
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
-                            <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} User</h2>
-
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting }) => (
                                     <Form className="w-full space-y-5  bg-white p-[25px]">
@@ -422,4 +419,5 @@ export default Users;
 Users.middleware = {
     auth: true,
     verify: true,
+    isAdmin: false,
 };

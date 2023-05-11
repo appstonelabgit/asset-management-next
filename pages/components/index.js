@@ -18,8 +18,11 @@ import MultipleSelect from '@/components/MultipleSelect';
 import AddAsset from '@/components/AddAsset';
 import AddBrand from '@/components/AddBrand';
 import AddModel from '@/components/AddModel';
+import { useSelector } from 'react-redux';
 
 const Components = () => {
+    const { user } = useSelector((state) => state.auth);
+
     const SideModal = useRef();
     const addModelModal = useRef();
     const addBrandModal = useRef();
@@ -224,15 +227,17 @@ const Components = () => {
                             </button>
                         </div>
                     </div>
-                    <button
-                        type="button"
-                        onClick={() => {
-                            setParams(defaultParams), SideModal?.current?.open();
-                        }}
-                        className="btn mb-0 mt-2"
-                    >
-                        Add Component
-                    </button>
+                    {user?.role === 1 && (
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setParams(defaultParams), SideModal?.current?.open();
+                            }}
+                            className="btn mb-0 mt-2"
+                        >
+                            Add Component
+                        </button>
+                    )}
                 </div>
             </div>
             <div className="main-table overflow-auto">
@@ -334,7 +339,7 @@ const Components = () => {
                                 </div>
                             </th>
 
-                            <th>Action</th>
+                            {user?.role === 1 && <th>Action</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -354,26 +359,28 @@ const Components = () => {
                                         <td className="capitalize">{component?.model_name}</td>
                                         <td className="capitalize">{component?.brand_name}</td>
 
-                                        <td>
-                                            <div className="flex">
-                                                <button
-                                                    type="button"
-                                                    className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
-                                                    onClick={() => {
-                                                        handleEdit(component?.id);
-                                                    }}
-                                                >
-                                                    <IconEdit />
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
-                                                    onClick={() => handleDelete(component?.id)}
-                                                >
-                                                    <IconDelete />
-                                                </button>
-                                            </div>
-                                        </td>
+                                        {user?.role === 1 && (
+                                            <td>
+                                                <div className="flex">
+                                                    <button
+                                                        type="button"
+                                                        className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
+                                                        onClick={() => {
+                                                            handleEdit(component?.id);
+                                                        }}
+                                                    >
+                                                        <IconEdit />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
+                                                        onClick={() => handleDelete(component?.id)}
+                                                    >
+                                                        <IconDelete />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        )}
                                     </tr>
                                 );
                             })
@@ -397,11 +404,9 @@ const Components = () => {
                     setCurrentPage={setCurrentPage}
                 />
             </div>
-            <CommonSideModal ref={SideModal}>
+            <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Component' : 'Add Component'}>
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
-                        <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} Component</h2>
-
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
                                 <Form className="w-full space-y-5  bg-white p-[25px]">
@@ -626,4 +631,5 @@ export default Components;
 Components.middleware = {
     auth: true,
     verify: true,
+    isAdmin: false,
 };

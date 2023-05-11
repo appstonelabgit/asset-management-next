@@ -20,7 +20,7 @@ const SideBar = () => {
 
     const profileDropdownRef = useRef();
 
-    const [expanded, setExpanded] = useState();
+    const [expanded, setExpanded] = useState(true);
 
     const toggleSidebar = (value) => {
         setExpanded(value);
@@ -43,7 +43,6 @@ const SideBar = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.innerWidth < 1023) {
-            console.log("sfsdf");
             setExpanded(true);
         } else {
             setExpanded(false);
@@ -62,6 +61,7 @@ const SideBar = () => {
             document.documentElement.classList.add('dark');
         }
     }, []);
+
 
 
 
@@ -116,7 +116,7 @@ const SideBar = () => {
                             </span>
                             {expanded && (
                                 <>
-                                    <span className="line-clamp-1 ml-2 grow text-left text-xs">nitin</span>
+                                    <span className="line-clamp-1 ml-2 grow text-left text-xs">{user?.name}</span>
                                     <IconDownArrow className="ml-4 shrink-0" />
                                 </>
                             )}

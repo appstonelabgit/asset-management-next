@@ -39,10 +39,9 @@ const AddSeller = (props, forwardedRef) => {
 
     return (
         <div>
-            <CommonSideModal ref={SideModal}>
+            <CommonSideModal ref={SideModal} title='Add Asset'>
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
-                        <h2 className="text-base font-semibold leading-7">Add Asset</h2>
 
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (

@@ -23,8 +23,11 @@ import AddModel from '@/components/AddModel';
 import AddBrand from '@/components/AddBrand';
 import AddUser from '@/components/AddUser';
 import AddComponent from '@/components/AddComponent';
+import { useSelector } from 'react-redux';
 
 const Assets = () => {
+    const { user } = useSelector((state) => state.auth);
+
     const SideModal = useRef();
     const formRef = useRef();
     const Popup = useRef();
@@ -63,7 +66,7 @@ const Assets = () => {
         (page = 1, limit = 10, searchWord = '') => {
             setIsLoading(true);
             axios
-                .get(`/assets`, {
+                .get(`/${user?.role === 1 ? 'assets' : 'employee/assets'}`, {
                     params: {
                         filter: searchWord,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
@@ -323,15 +326,17 @@ const Assets = () => {
                             </button>
                         </div>
                     </div>
-                    <button
-                        type="button"
-                        onClick={() => {
-                            handleAdd();
-                        }}
-                        className="btn mb-0 mt-2"
-                    >
-                        Add Asset
-                    </button>
+                    {user?.role === 1 && (
+                        <button
+                            type="button"
+                            onClick={() => {
+                                handleAdd();
+                            }}
+                            className="btn mb-0 mt-2"
+                        >
+                            Add Asset
+                        </button>
+                    )}
                 </div>
             </div>
             <div className="main-table overflow-auto">
@@ -444,7 +449,7 @@ const Assets = () => {
                                 </div>
                             </th>
 
-                            <th>Action</th>
+                            {user?.role === 1 && <th>Action</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -465,35 +470,37 @@ const Assets = () => {
                                         <td className="capitalize">{asset?.brand_name}</td>
                                         <td className="capitalize">{asset?.user_name}</td>
 
-                                        <td>
-                                            <div className="flex">
-                                                <button
-                                                    type="button"
-                                                    className="mx-0.5 rounded-md border border-[#fcd34d] bg-[#fcd34d] p-2 hover:bg-transparent"
-                                                    onClick={() => {
-                                                        handleModalData(asset?.id, asset?.user_id);
-                                                    }}
-                                                >
-                                                    History
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
-                                                    onClick={() => {
-                                                        handleEdit(asset?.id);
-                                                    }}
-                                                >
-                                                    <IconEdit />
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
-                                                    onClick={() => handleDelete(asset?.id)}
-                                                >
-                                                    <IconDelete />
-                                                </button>
-                                            </div>
-                                        </td>
+                                        {user?.role === 1 && (
+                                            <td>
+                                                <div className="flex">
+                                                    <button
+                                                        type="button"
+                                                        className="mx-0.5 rounded-md border border-[#fcd34d] bg-[#fcd34d] p-2 hover:bg-transparent"
+                                                        onClick={() => {
+                                                            handleModalData(asset?.id, asset?.user_id);
+                                                        }}
+                                                    >
+                                                        History
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
+                                                        onClick={() => {
+                                                            handleEdit(asset?.id);
+                                                        }}
+                                                    >
+                                                        <IconEdit />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
+                                                        onClick={() => handleDelete(asset?.id)}
+                                                    >
+                                                        <IconDelete />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        )}
                                     </tr>
                                 );
                             })
@@ -550,11 +557,9 @@ const Assets = () => {
                     {selectedModelData?.data?.length === 0 && <div className="text-center">data not available.</div>}
                 </div>
             </Modal>
-            <CommonSideModal ref={SideModal}>
+            <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Asset' : 'Add Asset'}>
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
-                        <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} Asset</h2>
-
                         <Formik innerRef={formRef} initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
                                 <Form className="w-full space-y-5  bg-white p-[25px]">
@@ -596,7 +601,6 @@ const Assets = () => {
                                             {params?.id ? (
                                                 <Flatpickr
                                                     name="purchased_at"
-                                                    type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
                                                     options={{
@@ -609,7 +613,6 @@ const Assets = () => {
                                             ) : (
                                                 <Flatpickr
                                                     name="purchased_at"
-                                                    type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
                                                     onChange={(date) =>
@@ -635,7 +638,6 @@ const Assets = () => {
                                             {params?.id ? (
                                                 <Flatpickr
                                                     name="warranty_expired_at"
-                                                    type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
                                                     options={{
@@ -653,7 +655,6 @@ const Assets = () => {
                                             ) : (
                                                 <Flatpickr
                                                     name="warranty_expired_at"
-                                                    type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
                                                     onChange={(date) => {

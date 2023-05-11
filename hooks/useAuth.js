@@ -51,7 +51,6 @@ export const useAuth = () => {
     const setPassword = async (args) => {
         try {
             await axios.post(router.query.token, args);
-            console.log("dfsdfsdb");
             router.push('/users');
         } catch {}
     };

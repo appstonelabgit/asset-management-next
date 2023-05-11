@@ -7,9 +7,11 @@ import IconHome from '../Icon/IconHome';
 import IconPageAudit from '../Icon/IconPageAudit';
 import NavLink from './NavLink';
 import IconUser from '../Icon/IconUser';
+import { useSelector } from 'react-redux';
 
 const NavBar = () => {
     const router = useRouter();
+    const { user } = useSelector((state) => state.auth);
 
     return (
         <ul className="main-nav">
@@ -19,24 +21,39 @@ const NavBar = () => {
             <li>
                 <NavLink href="/assets" icon={<IconCrawl />} label="Assets" />
             </li>
-            <li>
-                <NavLink href="/components" icon={<IconChain />} label="Components" />
-            </li>
+            {user?.role === 1 && (
+                <li>
+                    <NavLink href="/components" icon={<IconChain />} label="Components" />
+                </li>
+            )}
             <li>
                 <NavLink href="/accessories" icon={<IconChain />} label="Accessories" />
             </li>
-            <li>
-                <NavLink href="/users" icon={<IconUser />} label="Users" />
-            </li>
-            <li>
-                <NavLink href="/sellers" icon={<IconChain />} label="Sellers" />
-            </li>
-            <li>
-                <NavLink href="/models" icon={<IconChain />} label="Models" />
-            </li>
-            <li>
-                <NavLink href="/brands" icon={<IconChain />} label="Brands" />
-            </li>
+            {user?.role === 1 && (
+                <li>
+                    <NavLink href="/users" icon={<IconUser />} label="Users" />
+                </li>
+            )}
+            {user?.role === 1 && (
+                <li>
+                    <NavLink href="/sellers" icon={<IconChain />} label="Sellers" />
+                </li>
+            )}
+            {user?.role === 1 && (
+                <li>
+                    <NavLink href="/models" icon={<IconChain />} label="Models" />
+                </li>
+            )}
+            {user?.role === 1 && (
+                <li>
+                    <NavLink href="/brands" icon={<IconChain />} label="Brands" />
+                </li>
+            )}
+            {user?.role === 2 && (
+                <li>
+                    <NavLink href="/request" icon={<IconChain />} label="Request" />
+                </li>
+            )}
 
             {/* <li>
                 <NavLink

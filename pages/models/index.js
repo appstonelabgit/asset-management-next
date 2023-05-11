@@ -198,7 +198,7 @@ const Models = () => {
                                     return (
                                         <tr key={model.id} className="bg-white">
                                             <td>{model?.serial_number}</td>
-                                            <td className='capitalize'>{model?.name}</td>
+                                            <td className="capitalize">{model?.name}</td>
                                             <td>{helper.trancateString(model?.description)}</td>
 
                                             <td>{helper?.getFormattedDate(model?.created_at)}</td>
@@ -245,11 +245,9 @@ const Models = () => {
                         setCurrentPage={setCurrentPage}
                     />
                 </div>
-                <CommonSideModal ref={SideModal}>
+                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit model' : 'Add model'}>
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
-                            <h2 className="text-base font-semibold leading-7">{params?.id ? 'Edit' : 'Add'} model</h2>
-
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting }) => (
                                     <Form className="w-full space-y-5  bg-white p-[25px]">
@@ -313,4 +311,5 @@ export default Models;
 Models.middleware = {
     auth: true,
     verify: true,
+    isAdmin: false,
 };

@@ -22,7 +22,7 @@ const Dropdown = (props, forwardedRef) => {
     });
 
     const handleDocumentClick = (event) => {
-        if (referenceRef.current.contains(event.target) || popperRef.current.contains(event.target)) {
+        if (referenceRef?.current?.contains(event.target) || popperRef?.current?.contains(event.target)) {
             return;
         }
 

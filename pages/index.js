@@ -5,9 +5,11 @@ const Home = () => {
     const [dashboard, setDashboard] = useState({});
 
     const getDashboardData = useCallback(() => {
-        axios.get(`/users/dashboard`).then(({ data }) => {
-            setDashboard(data);
-        });
+        try {
+            axios.get(`/dashboard`).then(({ data }) => {
+                setDashboard(data);
+            });
+        } catch (error) {}
     }, []);
 
     useEffect(() => {

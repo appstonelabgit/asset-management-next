@@ -94,7 +94,7 @@ const Brands = () => {
     };
 
     const handleDelete = async (id) => {
-        let confirmation = confirm('are you sure want to delete');
+        let confirmation = confirm('Do you really want to delete?\nDeletion can not be reverted if you ok!');
         if (confirmation) {
             await axios.delete(`/brands/${id}`);
             refresh();
@@ -190,7 +190,7 @@ const Brands = () => {
                                     return (
                                         <tr key={brand.id} className="bg-white">
                                             <td>
-                                                <Image src={brand?.logo_url} alt="image" width={50} height={50} />
+                                                <img src={brand?.image_url} alt="image" width={50} height={50} />
                                             </td>
                                             <td className="capitalize">{brand?.name}</td>
 

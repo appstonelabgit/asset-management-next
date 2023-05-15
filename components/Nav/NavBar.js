@@ -49,11 +49,15 @@ const NavBar = () => {
                     <NavLink href="/brands" icon={<IconChain />} label="Brands" />
                 </li>
             )}
-            {user?.role === 2 && (
+            {/* {user?.role === 2 && (
                 <li>
-                    <NavLink href="/request" icon={<IconChain />} label="Request" />
+                    <NavLink href="/requests/send-request" icon={<IconChain />} label="Send Request" />
                 </li>
-            )}
+            )} */}
+
+            <li>
+                <NavLink href="/requests" icon={<IconChain />} label="Requests" />
+            </li>
 
             {/* <li>
                 <NavLink

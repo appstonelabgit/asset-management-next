@@ -97,7 +97,7 @@ const Users = () => {
         } catch (error) {}
     };
     const handleDelete = async (id) => {
-        let confirmation = confirm('are you sure want to delete');
+        let confirmation = confirm('Do you really want to delete?\nDeletion can not be reverted if you ok!');
         if (confirmation) {
             await axios.delete(`/users/${id}/`);
             refresh();
@@ -224,7 +224,7 @@ const Users = () => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={4} totalTd={4} tdWidth={60} />
+                                <TableLoadnig totalTr={6} totalTd={6} tdWidth={60} />
                             ) : users?.length !== 0 ? (
                                 users?.map((user) => {
                                     return (
@@ -292,7 +292,7 @@ const Users = () => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={4}>No data is available.</td>
+                                    <td colSpan={6}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>

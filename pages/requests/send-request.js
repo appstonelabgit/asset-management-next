@@ -3,14 +3,14 @@ import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import axios from '@/libs/axios';
 
-const Request = () => {
+const SendRequest = () => {
     const formRef = useRef();
 
     const defaultParams = {
         id: '',
         request_type: '',
         type: '',
-        subType: '',
+        sub_type: '',
         description: '',
     };
     const [params, setParams] = useState(defaultParams);
@@ -24,44 +24,46 @@ const Request = () => {
                 setType({ ...Type, name: 'Accessories' });
             } else if (type === 'component') {
                 setType({ ...Type, name: 'Components' });
+            } else {
+                setType({ ...Type, name: '' });
             }
         } catch (error) {}
     };
 
     const formHandler = async (values) => {
         try {
-            await axios.post('/request', values);
+            await axios.post('/employees/request', values);
             formRef.current.resetForm();
+            setType({ ...Type, name: '' });
         } catch {}
     };
 
     useEffect(() => {
         try {
-            axios.get(`/request/dependent/information`).then(({ data }) => {
+            axios.get(`/employees/dependent/information`).then(({ data }) => {
                 setType({
-                    ...Type,
-                    name: 'Assets',
-                    data: { Assets: data.assets, Accessories: data.accessories, Components: data.components },
+                    name: '',
+                    data: { Assets: data.asset, Accessories: data.accessory, Components: data.component },
                 });
             });
         } catch (error) {}
     }, []);
 
     return (
-        <div className="flex min-h-screen w-full items-center justify-center">
-            <div className="w-full max-w-lg space-y-12">
+        <div className="flex h-[calc(100vh_-_68px)] w-full items-center justify-center">
+            <div className="w-full max-w-lg">
                 <div className="border-gray-900/10">
                     <Formik innerRef={formRef} initialValues={params} onSubmit={formHandler}>
                         {({ isSubmitting, setFieldValue }) => (
                             <Form className="w-full space-y-5  bg-white p-[25px]">
                                 <div className="space-y-5">
                                     <div>
-                                        <label className="form-label">Reqest type</label>
+                                        <label className="form-label">Request type</label>
 
-                                        <Field as="select" name="seller_id" className="form-select rounded-l-none">
-                                            <option value="">Select Reqest</option>
+                                        <Field as="select" name="request_type" className="form-select rounded-l-none">
+                                            <option value="">Select Request</option>
                                             <option value="new">New</option>
-                                            <option value="issue">Issue</option>
+                                            <option value="replace">Replace</option>
                                         </Field>
                                     </div>
                                     <div>
@@ -69,9 +71,12 @@ const Request = () => {
 
                                         <Field
                                             as="select"
-                                            name="seller_id"
+                                            name="type"
                                             className="form-select rounded-l-none"
-                                            onChange={(e) => handleType(e.target.value)}
+                                            onChange={(e) => {
+                                                setFieldValue('type', e.target.value);
+                                                handleType(e.target.value);
+                                            }}
                                         >
                                             <option value="">Select Type name</option>
                                             <option value="asset">Asset</option>
@@ -86,13 +91,13 @@ const Request = () => {
 
                                                 <Field
                                                     as="select"
-                                                    name="seller_id"
+                                                    name="sub_type"
                                                     className="form-select rounded-l-none"
                                                 >
                                                     <option value="">Select {Type?.name} name</option>
                                                     {Type?.data[Type?.name]?.map((data) => {
                                                         return (
-                                                            <option key={data.id} value={data.id}>
+                                                            <option key={data.id} value={data.name}>
                                                                 {data.name}
                                                             </option>
                                                         );
@@ -127,9 +132,9 @@ const Request = () => {
     );
 };
 
-export default Request;
+export default SendRequest;
 
-Request.middleware = {
+SendRequest.middleware = {
     auth: true,
     verify: true,
 };

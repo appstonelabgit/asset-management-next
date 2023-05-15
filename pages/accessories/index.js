@@ -61,7 +61,7 @@ const Accessories = () => {
             setIsLoading(true);
 
             axios
-                .get(`/${user?.role === 1 ? 'accessories' : 'employee/accessories'}`, {
+                .get(`/${user?.role === 1 ? 'accessories' : 'employees/accessories'}`, {
                     params: {
                         filter: searchWord,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
@@ -81,7 +81,7 @@ const Accessories = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedSeller, order, expiryDate]
+        [selectedBrand, selectedModel, selectedSeller, order, expiryDate, user?.role]
     );
 
     const defaultParams = {
@@ -145,7 +145,7 @@ const Accessories = () => {
     };
 
     const handleDelete = async (id) => {
-        let confirmation = confirm('are you sure want to delete');
+        let confirmation = confirm('Do you really want to delete?\nDeletion can not be reverted if you ok!');
         if (confirmation) {
             await axios.delete(`/accessories/${id}`);
             refresh();
@@ -185,7 +185,6 @@ const Accessories = () => {
                         <div className="">
                             <Flatpickr
                                 name="warranty_expired_at"
-                                type="text"
                                 className="form-input rounded-l-none"
                                 placeholder="Warranty expiry date"
                                 onChange={(date) => {

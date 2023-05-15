@@ -16,7 +16,7 @@ const CompanyDropdown = () => {
             btnClassName="flex items-center"
             button={
                 <>
-                    <span className="max-w-[135px] truncate text-lg font-bold capitalize">
+                    <span className="max-w-[135px] truncate text-lg font-bold capitalize border-b-4 pb-2 border-darkprimary">
                         {workspace?.name || 'Add company'}
                     </span>
                     {/* <IconDownArrow className="ml-2 text-darkblue dark:text-white" /> */}

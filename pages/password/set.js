@@ -72,7 +72,7 @@ const Set = () => {
     );
 };
 
-export default set;
+export default Set;
 
 Set.middleware = {
     auth: true,

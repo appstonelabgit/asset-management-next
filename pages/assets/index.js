@@ -66,7 +66,7 @@ const Assets = () => {
         (page = 1, limit = 10, searchWord = '') => {
             setIsLoading(true);
             axios
-                .get(`/${user?.role === 1 ? 'assets' : 'employee/assets'}`, {
+                .get(`/${user?.role === 1 ? 'assets' : 'employees/assets'}`, {
                     params: {
                         filter: searchWord,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
@@ -86,7 +86,7 @@ const Assets = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedSeller, order, expiryDate]
+        [selectedBrand, selectedModel, selectedSeller, order, expiryDate, user?.role]
     );
 
     const defaultParams = {
@@ -196,7 +196,7 @@ const Assets = () => {
     };
 
     const handleDelete = async (id) => {
-        let confirmation = confirm('are you sure want to delete');
+        let confirmation = confirm('Do you really want to delete?\nDeletion can not be reverted if you ok!');
         if (confirmation) {
             await axios.delete(`/assets/${id}`);
             refresh();
@@ -212,6 +212,16 @@ const Assets = () => {
     const unAssignUser = async (id) => {
         try {
             await axios.post(`/assets/${id}`, {
+                id: params?.id,
+                seller_id: params?.seller_id || '',
+                name: params?.name,
+                serial_number: params?.serial_number,
+                description: params?.description,
+                purchased_at: helper.getFormattedDate2(params?.purchased_at),
+                purchased_cost: params?.purchased_cost,
+                warranty_expired_at: helper.getFormattedDate2(params?.warranty_expired_at),
+                model_id: params?.model_id || '',
+                brand_id: params?.brand_id || '',
                 user_id: null,
             });
 
@@ -242,10 +252,24 @@ const Assets = () => {
     }, []);
 
     const getDependentComponent = () => {
+        let newSelectedComponent = [];
         try {
-            axios.get(`/components/assign/list`).then(({ data }) => {
-                setComponents(data);
-            });
+            if (params?.id) {
+                axios.get(`/components/assign/list?asset_id=${params?.id}`).then(({ data }) => {
+                    data?.map((d) => {
+                        if (d?.asset_id !== null) {
+                            newSelectedComponent.push(d?.id.toString());
+                        }
+                    });
+                    setSelectedComponent(newSelectedComponent);
+                    setComponents(data);
+                    SideModal?.current?.open();
+                });
+            } else {
+                axios.get(`/components/assign/list`).then(({ data }) => {
+                    setComponents(data);
+                });
+            }
         } catch (error) {}
     };
 

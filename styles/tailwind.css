@@ -103,14 +103,14 @@
         @apply space-y-1;
     }
     .main-nav .nav-item {
-        @apply flex items-center space-x-2 whitespace-nowrap py-2 px-4;
+        @apply flex items-center space-x-2 whitespace-nowrap py-2 px-4 rounded mx-2;
     }
     .main-nav .nav-item:hover,
     .main-nav .nav-item.active {
         @apply font-semibold;
     }
     .main-nav span.icon {
-        @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/30 text-darkblue dark:bg-white/20 dark:text-white;
+        @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/50 text-darkblue dark:bg-white/20 dark:text-white;
     }
     .main-nav .nav-item:hover ,
     .main-nav .nav-item.active  {
@@ -123,6 +123,7 @@
     .main-nav ul .nav-item.active {
         @apply bg-primary/10 font-semibold dark:bg-[#ffffff33];
     }
+
     .collapsed .main-nav .nav-item span:last-child {
         @apply hidden;
     }
@@ -204,4 +205,21 @@ label:not(.on-off-label) input[type='checkbox'] {
 
 .main-sidebar.collapsed + .main-contain{
     @apply ml-[60px];
+}
+
+.status {
+    @apply rounded-[3px] bg-primary/10 px-[7px] py-[5px] text-sm font-semibold text-primary duration-300;
+}
+
+.status-pending{
+    @apply bg-[#bfdbfe] text-[#1967d3]
+}
+.status-approved{
+    @apply bg-[#c9f5cd] text-[#179401]
+}
+.status-onhold{
+    @apply bg-[#fef08a] text-[#a16207]
+}
+.status-rejected{
+    @apply bg-[#f5c9c9] text-red
 }

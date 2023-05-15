@@ -58,3 +58,5 @@ AccountVerify.middleware = {
     companyRequired: false,
 
 };
+
+AccountVerify.layout = 'nosidebar';

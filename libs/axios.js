@@ -19,6 +19,10 @@ axios.interceptors.response.use(
                 toast.success(response.data.success);
             }
 
+            if (response.data?.message) {
+                toast.success(response.data.message);
+            }
+
             if (response.data?.error) {
                 toast.error(response.data.error);
             }

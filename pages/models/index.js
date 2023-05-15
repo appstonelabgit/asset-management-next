@@ -90,7 +90,7 @@ const Models = () => {
     };
 
     const handleDelete = async (id) => {
-        let confirmation = confirm('are you sure want to delete');
+        let confirmation = confirm('Do you really want to delete?\nDeletion can not be reverted if you ok!');
         if (confirmation) {
             await axios.delete(`/models/${id}`);
             refresh();

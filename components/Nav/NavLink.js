@@ -6,13 +6,16 @@ const NavLink = ({ href, icon, label, active, target, rel }) => {
     const router = useRouter();
 
     return (
-        <Link href={href}
-                target={target}
-                rel={rel}
-                className={classNames({ active: active || (!active && router.asPath === href) }, 'nav-item')}
-            >
-                <span className={`icon ${(!icon && 'invisible') || ''}`}>{icon}</span>
-                <span>{label}</span>
+        <Link
+            href={href}
+            target={target}
+            rel={rel}
+            className={classNames({ active: active || (!active && router.asPath === href) }, 'nav-item')}
+        >
+            <span className={`icon ${router.asPath === href ? 'active' : ''} ${(!icon && 'invisible') || ''}`}>
+                {icon}
+            </span>
+            <span>{label}</span>
         </Link>
     );
 };

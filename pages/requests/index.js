@@ -273,11 +273,11 @@ const Request = () => {
                                     <th>
                                         <div
                                             className={`flex cursor-pointer justify-between ${
-                                                order.order_field === 'user_name' ? 'text-primary' : ''
+                                                order.order_field === 'user_name' ? 'text-darkprimary' : ''
                                             }`}
                                             onClick={() => sortByField('user_name')}
                                         >
-                                            <span>User</span>
+                                            <span>User Name</span>
                                             <IconUpDownArrow />
                                         </div>
                                     </th>
@@ -285,7 +285,7 @@ const Request = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'request_type' ? 'text-primary' : ''
+                                            order.order_field === 'request_type' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('request_type')}
                                     >
@@ -297,7 +297,7 @@ const Request = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'type' ? 'text-primary' : ''
+                                            order.order_field === 'type' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('type')}
                                     >
@@ -308,11 +308,11 @@ const Request = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'sub_type' ? 'text-primary' : ''
+                                            order.order_field === 'sub_type' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('sub_type')}
                                     >
-                                        <span>Name</span>
+                                        <span>Item</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -325,7 +325,7 @@ const Request = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'status' ? 'text-primary' : ''
+                                            order.order_field === 'status' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('status')}
                                     >
@@ -341,7 +341,7 @@ const Request = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'created_at' ? 'text-primary' : ''
+                                            order.order_field === 'created_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('created_at')}
                                     >

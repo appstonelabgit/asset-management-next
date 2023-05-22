@@ -35,7 +35,7 @@ const AddUser = (props, forwardedRef) => {
                                 <Form className="w-full space-y-5  bg-white p-[25px]">
                                     <div className="space-y-5">
                                         <div>
-                                            <label className="form-label">Name</label>
+                                            <label className="form-label">User Name</label>
 
                                             <Field
                                                 name="name"

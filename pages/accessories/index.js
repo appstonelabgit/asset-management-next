@@ -265,7 +265,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'serial_number' ? 'text-primary' : ''
+                                            order.order_field === 'serial_number' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('serial_number')}
                                     >
@@ -276,11 +276,11 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'name' ? 'text-primary' : ''
+                                            order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
                                     >
-                                        <span>Name</span>
+                                        <span>Accessory Name</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -292,7 +292,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'purchased_at' ? 'text-primary' : ''
+                                            order.order_field === 'purchased_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('purchased_at')}
                                     >
@@ -304,7 +304,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'purchased_cost' ? 'text-primary' : ''
+                                            order.order_field === 'purchased_cost' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('purchased_cost')}
                                     >
@@ -315,7 +315,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'warranty_expired_at' ? 'text-primary' : ''
+                                            order.order_field === 'warranty_expired_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('warranty_expired_at')}
                                     >
@@ -326,7 +326,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'seller_name' ? 'text-primary' : ''
+                                            order.order_field === 'seller_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('seller_name')}
                                     >
@@ -337,7 +337,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'model_name' ? 'text-primary' : ''
+                                            order.order_field === 'model_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('model_name')}
                                     >
@@ -348,7 +348,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'brand_name' ? 'text-primary' : ''
+                                            order.order_field === 'brand_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('brand_name')}
                                     >
@@ -359,7 +359,7 @@ const Accessories = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'user_name' ? 'text-primary' : ''
+                                            order.order_field === 'user_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('user_name')}
                                     >
@@ -382,7 +382,7 @@ const Accessories = () => {
                                             <td className="capitalize">{accessory?.name}</td>
                                             <td>{helper.trancateString(accessory?.description)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.purchased_at)}</td>
-                                            <td>{accessory?.purchased_cost}</td>
+                                            <td>₹ {accessory?.purchased_cost}</td>
                                             <td>{helper?.getFormattedDate(accessory?.warranty_expired_at)}</td>
                                             <td className="capitalize">{accessory?.seller_name}</td>
                                             <td className="capitalize">{accessory?.model_name}</td>
@@ -445,13 +445,13 @@ const Accessories = () => {
                 </div>
                 <Modal ref={Popup} width={500}>
                     <div className="mx-5">
-                        <h3 className="my-5">History</h3>
+                        <h3 className="my-5 text-lg font-bold text-darkprimary">History</h3>
                         {selectedModelData?.data?.length !== 0 && (
                             <div className="main-table w-full overflow-x-auto">
                                 <table className="w-full table-auto">
                                     <thead className="bg-lightblue1">
                                         <tr>
-                                            <th>Name</th>
+                                            <th>Accessory Name</th>
                                             <th colSpan={2}>Date</th>
                                         </tr>
                                     </thead>
@@ -486,7 +486,7 @@ const Accessories = () => {
                                     <Form className="w-full space-y-5  bg-white p-[25px]">
                                         <div className="space-y-5">
                                             <div>
-                                                <label className="form-label">Name</label>
+                                                <label className="form-label">Accessory Name</label>
 
                                                 <Field
                                                     name="name"
@@ -554,7 +554,7 @@ const Accessories = () => {
                                             </div>
 
                                             <div>
-                                                <label className="form-label">Purchase cost</label>
+                                                <label className="form-label">Purchase cost <span className='text-black/30'>( In rupee (₹) )</span></label>
 
                                                 <Field
                                                     name="purchased_cost"

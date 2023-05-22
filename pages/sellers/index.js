@@ -151,11 +151,11 @@ const Sellers = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'name' ? 'text-primary' : ''
+                                            order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
                                     >
-                                        <span>Name</span>
+                                        <span>Seller Name</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -163,7 +163,7 @@ const Sellers = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'email' ? 'text-primary' : ''
+                                            order.order_field === 'email' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('email')}
                                     >
@@ -174,7 +174,7 @@ const Sellers = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'phone_number' ? 'text-primary' : ''
+                                            order.order_field === 'phone_number' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('phone_number')}
                                     >
@@ -190,7 +190,7 @@ const Sellers = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'created_at' ? 'text-primary' : ''
+                                            order.order_field === 'created_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('created_at')}
                                     >
@@ -265,7 +265,7 @@ const Sellers = () => {
                                     <Form className="w-full space-y-5  bg-white p-[25px]">
                                         <div className="space-y-5">
                                             <div>
-                                                <label className="form-label">Name</label>
+                                                <label className="form-label">Seller Name</label>
 
                                                 <Field
                                                     name="name"

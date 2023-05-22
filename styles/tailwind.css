@@ -58,10 +58,10 @@
 
     /* Buttons */
     .btn {
-        @apply mb-1.5 inline-block rounded  bg-primary py-[9px] px-3 text-center font-semibold text-darkblue shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:bg-darkblue hover:text-white;
+        @apply  inline-block rounded  bg-primary py-[9px] px-3 text-center font-semibold text-darkblue shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:bg-darkblue hover:text-white;
     }
     .btn-secondary {
-        @apply mb-1.5 rounded border border-lightblue bg-white py-[9px] px-[11px] font-semibold text-black shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:border-primary/10 hover:bg-primary/10;
+        @apply  rounded border border-lightblue bg-white py-[9px] px-[11px] font-semibold text-black shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:border-primary/10 hover:bg-primary/10;
     }
     .tab-menu {
         @apply inline-block bg-white py-[10px] px-3 transition-all duration-300 before:invisible before:block before:h-0 before:overflow-hidden before:font-semibold before:content-[attr(data-text)] hover:bg-primary/10 hover:font-semibold;

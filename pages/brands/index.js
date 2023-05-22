@@ -152,7 +152,7 @@ const Brands = () => {
                             <tr>
                                 <th>
                                     <div className="flex cursor-pointer justify-between">
-                                        <span>Logo</span>
+                                        <span>Brand Logo</span>
                                     </div>
                                 </th>
                                 <th>
@@ -162,7 +162,7 @@ const Brands = () => {
                                         }`}
                                         onClick={() => sortByField('name')}
                                     >
-                                        <span>Name</span>
+                                        <span>Brand Name</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -246,7 +246,7 @@ const Brands = () => {
                                     <Form className="w-full space-y-5  bg-white p-[25px]">
                                         <div className="space-y-5">
                                             <div>
-                                                <label className="form-label">Name</label>
+                                                <label className="form-label">Brand Name</label>
 
                                                 <Field
                                                     name="name"
@@ -256,7 +256,7 @@ const Brands = () => {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="form-label">Company logo</label>
+                                                <label className="form-label">Brand logo</label>
 
                                                 <input
                                                     name="logo_url"

@@ -167,11 +167,11 @@ const Users = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'name' ? 'text-primary' : ''
+                                            order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
                                     >
-                                        <span>Name</span>
+                                        <span>User Name</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -179,7 +179,7 @@ const Users = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'email' ? 'text-primary' : ''
+                                            order.order_field === 'email' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('email')}
                                     >
@@ -190,7 +190,7 @@ const Users = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'designation' ? 'text-primary' : ''
+                                            order.order_field === 'designation' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('designation')}
                                     >
@@ -201,7 +201,7 @@ const Users = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'total_assets' ? 'text-primary' : ''
+                                            order.order_field === 'total_assets' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('total_assets')}
                                     >
@@ -211,7 +211,7 @@ const Users = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'total_accessories' ? 'text-primary' : ''
+                                            order.order_field === 'total_accessories' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('total_accessories')}
                                     >
@@ -322,7 +322,7 @@ const Users = () => {
                                     <thead className="bg-lightblue1">
                                         <tr>
                                             <th>Serial number</th>
-                                            <th>Name</th>
+                                            <th>{selectedModelData?.name} Name</th>
                                             <th>Purchase cost</th>
                                             <th>Seller</th>
                                             <th>Model</th>
@@ -336,7 +336,7 @@ const Users = () => {
                                                 <tr key={modeldata.id} className="bg-white">
                                                     <td>{modeldata?.serial_number}</td>
                                                     <td className="capitalize">{modeldata?.name}</td>
-                                                    <td>{modeldata?.purchased_cost}</td>
+                                                    <td>₹ {modeldata?.purchased_cost}</td>
                                                     <td className="capitalize">{modeldata?.seller_name}</td>
                                                     <td className="capitalize">{modeldata?.model_name}</td>
                                                     <td className="capitalize">{modeldata?.brand_name}</td>

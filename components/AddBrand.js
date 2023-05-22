@@ -39,7 +39,7 @@ const AddBrand = (props, forwardedRef) => {
                                 <Form className="w-full space-y-5  bg-white p-[25px]">
                                     <div className="space-y-5">
                                         <div>
-                                            <label className="form-label">Name</label>
+                                            <label className="form-label">Brand Name</label>
 
                                             <Field
                                                 name="name"
@@ -49,7 +49,7 @@ const AddBrand = (props, forwardedRef) => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Company logo</label>
+                                            <label className="form-label">Brand logo</label>
 
                                             <input
                                                 name="logo_url"

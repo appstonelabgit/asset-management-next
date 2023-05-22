@@ -150,7 +150,7 @@ const Models = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'serial_number' ? 'text-primary' : ''
+                                            order.order_field === 'serial_number' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('serial_number')}
                                     >
@@ -161,11 +161,11 @@ const Models = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'name' ? 'text-primary' : ''
+                                            order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
                                     >
-                                        <span>Name</span>
+                                        <span>Model Name</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -178,7 +178,7 @@ const Models = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'created_at' ? 'text-primary' : ''
+                                            order.order_field === 'created_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('created_at')}
                                     >
@@ -253,7 +253,7 @@ const Models = () => {
                                     <Form className="w-full space-y-5  bg-white p-[25px]">
                                         <div className="space-y-5">
                                             <div>
-                                                <label className="form-label">Name</label>
+                                                <label className="form-label">Model Name</label>
 
                                                 <Field
                                                     name="name"

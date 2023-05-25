@@ -86,7 +86,7 @@ const Register = () => {
                     </Formik>
 
                     <p className=" text-center text-lightblack">
-                        Not registered?{' '}
+                    Already registered?{' '}
                         <Link
                             href="/login"
                             className="text-darkblue underline transition-all duration-300 hover:text-primary"

@@ -20,7 +20,12 @@ const AccountVerify = () => {
     return (
         <div className="min-h-screen">
             <div className="py-6">
-                <p className="text-center">Logo</p>
+                <div className="flex flex-col items-center justify-center space-y-5 text-4xl font-extrabold text-darkprimary">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-darkprimary text-white">
+                        A
+                    </div>
+                    <div className="text-3xl">Assets</div>
+                </div>
             </div>
             {router?.query?.token ? (
                 <Loading message="Verifying..." />
@@ -56,7 +61,6 @@ AccountVerify.middleware = {
     auth: true,
     verify: false,
     companyRequired: false,
-
 };
 
 AccountVerify.layout = 'nosidebar';

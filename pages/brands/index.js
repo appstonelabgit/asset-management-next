@@ -158,7 +158,7 @@ const Brands = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'name' ? 'text-primary' : ''
+                                            order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
                                     >
@@ -170,7 +170,7 @@ const Brands = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'created_at' ? 'text-primary' : ''
+                                            order.order_field === 'created_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('created_at')}
                                     >

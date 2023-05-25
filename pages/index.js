@@ -109,7 +109,7 @@ const Home = () => {
         getDashboardData();
     }, [getDashboardData]);
     return (
-        <div>
+        <div className='hidden'>
             <div className="mb-2 flex flex-wrap">
                 <div className="w-1/2 px-3 pt-3 md:w-1/3 md:pl-2 xl:w-1/3">
                     <div className={`rounded border bg-[#f59e0b] p-5 text-white shadow`}>

@@ -285,7 +285,8 @@ const Assets = () => {
     return (
         <div className="p-5">
             <h2 className="text-xl font-bold text-darkprimary">Assets</h2>
-            <div className="mb-5 flex justify-between">
+            <div className="mb-5 flex flex-wrap justify-between">
+                {/* ToDo */}
                 <div className="flex space-x-2">
                     <button
                         type="button"
@@ -300,7 +301,7 @@ const Assets = () => {
                         Export
                     </button>
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex flex-wrap space-x-2">
                     <div>
                         <Flatpickr
                             name="purchased_at"
@@ -396,7 +397,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'serial_number' ? 'text-blue' : ''
+                                        order.order_field === 'serial_number' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('serial_number')}
                                 >
@@ -407,7 +408,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'name' ? 'text-blue' : ''
+                                        order.order_field === 'name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('name')}
                                 >
@@ -423,7 +424,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'purchased_at' ? 'text-blue' : ''
+                                        order.order_field === 'purchased_at' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('purchased_at')}
                                 >
@@ -435,7 +436,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'purchased_cost' ? 'text-blue' : ''
+                                        order.order_field === 'purchased_cost' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('purchased_cost')}
                                 >
@@ -446,7 +447,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'warranty_expired_at' ? 'text-blue' : ''
+                                        order.order_field === 'warranty_expired_at' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('warranty_expired_at')}
                                 >
@@ -457,7 +458,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'seller_name' ? 'text-blue' : ''
+                                        order.order_field === 'seller_name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('seller_name')}
                                 >
@@ -468,7 +469,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'model_name' ? 'text-blue' : ''
+                                        order.order_field === 'model_name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('model_name')}
                                 >
@@ -479,7 +480,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'brand_name' ? 'text-blue' : ''
+                                        order.order_field === 'brand_name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('brand_name')}
                                 >
@@ -490,7 +491,7 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer justify-between ${
-                                        order.order_field === 'user_name' ? 'text-blue' : ''
+                                        order.order_field === 'user_name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('user_name')}
                                 >
@@ -849,48 +850,48 @@ const Assets = () => {
                                             </Field>
                                         </div>
                                         <div>
-                                            <label className="form-label">Components</label>
-
                                             <div className="flex items-center justify-between">
-                                                <div className="relative">
-                                                    <Dropdown
-                                                        zindex="z-[60]"
-                                                        ref={box}
-                                                        btnClassName="btn-secondary inline-flex items-center gap-[9px] ml-auto font-normal"
-                                                        button={
-                                                            <>
-                                                                Components
-                                                                <IconDownArrow />
-                                                            </>
-                                                        }
-                                                    >
-                                                        <div className=" h-full max-h-[150px] overflow-y-auto text-sm">
-                                                            {components.map((option) => {
-                                                                return (
-                                                                    <label key={option.id} className="my-3 flex px-5">
-                                                                        <input
-                                                                            type="checkbox"
-                                                                            className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
-                                                                            value={option.id}
-                                                                            checked={selectedComponent.includes(
-                                                                                option.id.toString()
-                                                                            )}
-                                                                            onChange={handleChange}
-                                                                        />
-                                                                        {option['name']}
-                                                                    </label>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </Dropdown>
-                                                </div>
+                                                <label className="form-label">Components</label>
                                                 <button
                                                     type="button"
                                                     onClick={() => addComponentModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs"
+                                                    className="btn mb-0 py-1 text-xs "
                                                 >
                                                     Add Componemts
                                                 </button>
+                                            </div>
+
+                                            <div className="relative mt-[9px]">
+                                                <Dropdown
+                                                    zindex="z-[60]"
+                                                    ref={box}
+                                                    btnClassName="btn-secondary inline-flex items-center gap-[9px] w-full justify-between font-normal"
+                                                    button={
+                                                        <>
+                                                            Components
+                                                            <IconDownArrow />
+                                                        </>
+                                                    }
+                                                >
+                                                    <div className=" h-full max-h-[150px] w-[400px] overflow-y-auto text-sm">
+                                                        {components.map((option) => {
+                                                            return (
+                                                                <label key={option.id} className="my-3 flex px-5">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
+                                                                        value={option.id}
+                                                                        checked={selectedComponent.includes(
+                                                                            option.id.toString()
+                                                                        )}
+                                                                        onChange={handleChange}
+                                                                    />
+                                                                    {option['name']}
+                                                                </label>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </Dropdown>
                                             </div>
                                         </div>
                                     </div>

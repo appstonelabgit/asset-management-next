@@ -126,7 +126,7 @@ const SideBar = () => {
                     <div className="w-32 text-xs" onClick={() => profileDropdownRef.current.close()}>
                         <Link
                             href="/my-account"
-                            className="block w-full cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
+                            className="hidden w-full cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
                         >
                             Profile
                         </Link>

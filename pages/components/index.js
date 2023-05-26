@@ -19,6 +19,7 @@ import AddAsset from '@/components/AddAsset';
 import AddBrand from '@/components/AddBrand';
 import AddModel from '@/components/AddModel';
 import { useSelector } from 'react-redux';
+import Import from '@/components/Import';
 
 const Components = () => {
     const { user } = useSelector((state) => state.auth);
@@ -27,6 +28,7 @@ const Components = () => {
     const addModelModal = useRef();
     const addBrandModal = useRef();
     const addAssetModal = useRef();
+    const importModal = useRef();
 
     const [Components, setComponents] = useState([]);
 
@@ -162,6 +164,19 @@ const Components = () => {
         });
     }, []);
 
+    const exportdata = async () => {
+        try {
+            const response = await axios.get(`/components/file/export`);
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', `components.csv`);
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            return true;
+        } catch {}
+    };
+
     useEffect(() => {
         getDependentInformation();
     }, [getDependentInformation]);
@@ -173,14 +188,28 @@ const Components = () => {
     return (
         <div className="p-5">
             <h2 className="text-xl font-bold text-darkprimary">Components</h2>
-            <div className="mb-5 text-right">
-                <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+            <div className="mb-5 flex flex-wrap justify-between">
+                <div className="flex space-x-2">
+                    <button
+                        type="button"
+                        className="btn-secondary mb-0 mt-2"
+                        onClick={() => {
+                            importModal?.current?.open();
+                        }}
+                    >
+                        Import
+                    </button>
+                    <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
+                        Export
+                    </button>
+                </div>
+                <div className="flex flex-1 flex-wrap justify-end space-x-2">
                     <div>
                         <Flatpickr
                             name="purchased_at"
                             value={purchasedDate}
                             className="form-input rounded-l-none"
-                            placeholder="Purchased date"
+                            placeholder="Purchase Date"
                             onChange={(date) => {
                                 setPurchasedDate(helper.getFormattedDate2(date[0]));
                             }}
@@ -191,7 +220,7 @@ const Components = () => {
                             name="warranty_expired_at"
                             value={expiryDate}
                             className="form-input rounded-l-none"
-                            placeholder="Warranty expiry date"
+                            placeholder="Warranty Expiry Date"
                             onChange={(date) => {
                                 setExpiryDate(helper.getFormattedDate2(date[0]));
                             }}
@@ -334,7 +363,7 @@ const Components = () => {
                                     }`}
                                     onClick={() => sortByField('warranty_expired_at')}
                                 >
-                                    <span>Warranty expiry</span>
+                                    <span>Warranty Expiry</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
@@ -523,7 +552,7 @@ const Components = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Warranty expiry date</label>
+                                            <label className="form-label">Warranty Expiry Date</label>
 
                                             {params?.id ? (
                                                 <Flatpickr
@@ -588,7 +617,7 @@ const Components = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
-                                                <label className="form-label">Model name</label>
+                                                <label className="form-label">Model Name</label>
                                                 <button
                                                     type="button"
                                                     onClick={() => addModelModal.current.open()}
@@ -604,7 +633,7 @@ const Components = () => {
                                                 className="form-select rounded-l-none"
                                                 placeholder=""
                                             >
-                                                <option value="">Select Model name</option>
+                                                <option value="">Select Model Name</option>
                                                 {models?.map((model) => {
                                                     return (
                                                         <option key={model.id} value={model.id}>
@@ -616,7 +645,7 @@ const Components = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
-                                                <label className="form-label">Brand name</label>
+                                                <label className="form-label">Brand Name</label>
                                                 <button
                                                     type="button"
                                                     onClick={() => addBrandModal.current.open()}
@@ -632,7 +661,7 @@ const Components = () => {
                                                 className="form-select rounded-l-none"
                                                 placeholder=""
                                             >
-                                                <option value="">Select Brand name</option>
+                                                <option value="">Select Brand Name</option>
                                                 {brands?.map((brand) => {
                                                     return (
                                                         <option key={brand.id} value={brand.id}>
@@ -657,6 +686,7 @@ const Components = () => {
             <AddModel ref={addModelModal} refresh={getDependentInformation} />
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddAsset ref={addAssetModal} refresh={getDependentInformation} />
+            <Import ref={importModal} refresh={refresh} type="components" csvPath="/csv/sample_components.csv" />
         </div>
     );
 };

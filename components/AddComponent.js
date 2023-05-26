@@ -101,7 +101,7 @@ const AddComponent = (props, forwardedRef) => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Warranty expiry date</label>
+                                            <label className="form-label">Warranty Expiry Date</label>
 
                                             <Flatpickr
                                                 name="warranty_expired_at"

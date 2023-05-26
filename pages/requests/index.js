@@ -18,6 +18,7 @@ import Modal from '@/components/Modal';
 import MultipleSelect from '@/components/MultipleSelect';
 import { useSelector } from 'react-redux';
 import CommonSideModal from '@/components/CommonSideModal';
+import IconStatus from '@/components/Icon/IconStatus';
 
 const Request = () => {
     const { user } = useSelector((state) => state.auth);
@@ -384,39 +385,11 @@ const Request = () => {
                                             <td className="capitalize">{request?.type}</td>
                                             <td className="capitalize">{request?.sub_type}</td>
                                             <td>{helper.trancateString(request?.description)}</td>
-                                            {request?.status === 'Pending' ? (
-                                                <>
-                                                    {user?.role === 1 ? (
-                                                        <td
-                                                            className="flex cursor-pointer items-center space-x-2 capitalize"
-                                                            onClick={() => {
-                                                                handleStatusEdit(request?.id);
-                                                            }}
-                                                        >
-                                                            <span className={`status status-${request?.status}`}>
-                                                                {request?.status}
-                                                            </span>
-                                                            <Tippy content="Click here">
-                                                                <span>
-                                                                    <IconInfo />
-                                                                </span>
-                                                            </Tippy>
-                                                        </td>
-                                                    ) : (
-                                                        <td className="flex cursor-pointer items-center space-x-2 capitalize">
-                                                            <span className={`status status-${request?.status}`}>
-                                                                {request?.status}
-                                                            </span>
-                                                        </td>
-                                                    )}
-                                                </>
-                                            ) : (
-                                                <td className="flex  items-center space-x-2 capitalize">
-                                                    <span className={`status status-${request?.status}`}>
-                                                        {request?.status}
-                                                    </span>
-                                                </td>
-                                            )}
+                                            <td className="flex cursor-pointer items-center space-x-2 capitalize">
+                                                <span className={`status status-${request?.status}`}>
+                                                    {request?.status}
+                                                </span>
+                                            </td>
 
                                             <td>{helper.trancateString(request?.reject_reason || '')}</td>
 
@@ -424,6 +397,18 @@ const Request = () => {
 
                                             <td>
                                                 <div className="flex items-center justify-end">
+                                                    {user?.role === 1 && request?.status === 'Pending' && (
+                                                        <button
+                                                            type="button"
+                                                            className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
+                                                            onClick={() => {
+                                                                handleStatusEdit(request?.id);
+                                                            }}
+                                                        >
+                                                            <IconStatus />
+                                                        </button>
+                                                    )}
+
                                                     {user?.role === 2 && request?.status === 'Pending' && (
                                                         <button
                                                             type="button"

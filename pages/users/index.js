@@ -3,7 +3,6 @@ import IconEdit from '@/components/Icon/IconEdit';
 import IconSearch from '@/components/Icon/IconSearch';
 import IconUpDownArrow from '@/components/Icon/IconUpDownArrow';
 import IconView from '@/components/Icon/IconView';
-import IconInfo from '@/components/Icon/IconInfo';
 import Pagination from '@/components/Pagination';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from '@/libs/axios';
@@ -255,9 +254,9 @@ const Users = () => {
                                                 >
                                                     <div className="flex space-x-2">
                                                         <span>{user?.total_assets}</span>
-                                                        <Tippy content="Click here">
+                                                        <Tippy content="Click here to view assets">
                                                             <span>
-                                                                <IconInfo />
+                                                                <IconView />
                                                             </span>
                                                         </Tippy>
                                                     </div>
@@ -272,9 +271,9 @@ const Users = () => {
                                                 >
                                                     <div className="flex space-x-2">
                                                         <span>{user?.total_accessories}</span>
-                                                        <Tippy content="Click here">
+                                                        <Tippy content="Click here to view accessories">
                                                             <span>
-                                                                <IconInfo />
+                                                                <IconView />
                                                             </span>
                                                         </Tippy>
                                                     </div>

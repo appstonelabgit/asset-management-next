@@ -39,7 +39,7 @@ const Import = (props, forwardedRef) => {
                             {({ isSubmitting, setFieldValue }) => (
                                 <Form>
                                     <div>
-                                        <label className="form-label">Import CSV File</label>
+                                        <label className="form-label font-bold text-darkprimary text-lg">Import CSV File</label>
 
                                         <input
                                             name="data"
@@ -49,7 +49,7 @@ const Import = (props, forwardedRef) => {
                                                 setFieldValue('data', e.target.files[0]);
                                             }}
                                         />
-                                        <Link href={props.csvPath} className="btn-secondary block">
+                                        <Link href={props.csvPath} className="btn-secondary block mt-2">
                                             Download Sample csv
                                         </Link>
                                     </div>

@@ -9,7 +9,7 @@ const CompanyInsertForm = ({ redirect }) => {
         try {
             const formData = new FormData();
             formData.append("logo_url", values.logo_url)
-            formData.append("name", values.name)
+            formData.append("company_name", values.name)
 
 
             await axios.post('/companies', formData);

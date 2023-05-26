@@ -93,7 +93,7 @@ const Request = () => {
 
     const updateStatus = async (values, id) => {
         try {
-            if (statusParams?.status === 'rejected' || statusParams?.status === 'onhold') {
+            if (statusParams?.status === 'Rejected' || statusParams?.status === 'Onhold') {
                 await axios.post(`/requests/response/${statusParams?.id}`, values);
             } else {
                 await axios.post(`/requests/response/${id}`, { status: values });
@@ -384,7 +384,7 @@ const Request = () => {
                                             <td className="capitalize">{request?.type}</td>
                                             <td className="capitalize">{request?.sub_type}</td>
                                             <td>{helper.trancateString(request?.description)}</td>
-                                            {request?.status === 'pending' ? (
+                                            {request?.status === 'Pending' ? (
                                                 <>
                                                     {user?.role === 1 ? (
                                                         <td
@@ -424,7 +424,7 @@ const Request = () => {
 
                                             <td>
                                                 <div className="flex items-center justify-end">
-                                                    {user?.role === 2 && request?.status === 'pending' && (
+                                                    {user?.role === 2 && request?.status === 'Pending' && (
                                                         <button
                                                             type="button"
                                                             className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -479,7 +479,7 @@ const Request = () => {
                                                 type="button"
                                                 className="btn my-0 bg-[#c9f5cd] py-1"
                                                 onClick={() => {
-                                                    updateStatus('approved', statusParams?.id);
+                                                    updateStatus('Approved', statusParams?.id);
                                                 }}
                                             >
                                                 Approve
@@ -488,8 +488,8 @@ const Request = () => {
                                                 type="button"
                                                 className="btn my-0 bg-[#fef08a] py-1"
                                                 onClick={() => {
-                                                    setStatusParams({ ...statusParams, status: 'onhold' });
-                                                    setFieldValue('status', 'onhold');
+                                                    setStatusParams({ ...statusParams, status: 'Onhold' });
+                                                    setFieldValue('status', 'Onhold');
                                                 }}
                                             >
                                                 On Hold
@@ -498,15 +498,15 @@ const Request = () => {
                                                 type="button"
                                                 className="btn my-0 bg-[#f5c9c9] py-1"
                                                 onClick={() => {
-                                                    setStatusParams({ ...statusParams, status: 'rejected' });
-                                                    setFieldValue('status', 'rejected');
+                                                    setStatusParams({ ...statusParams, status: 'Rejected' });
+                                                    setFieldValue('status', 'Rejected');
                                                 }}
                                             >
                                                 Reject
                                             </button>
                                         </div>
 
-                                        {statusParams?.status === 'rejected' && (
+                                        {statusParams?.status === 'Rejected' && (
                                             <div className="space-y-5">
                                                 <div>
                                                     <label className="form-label">Reject reason</label>
@@ -521,14 +521,14 @@ const Request = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        {statusParams?.status === 'onhold' && (
+                                        {statusParams?.status === 'Onhold' && (
                                             <div className="space-y-5">
                                                 <div>
                                                     <label className="form-label">Onhold reason</label>
 
                                                     <Field
                                                         as="textarea"
-                                                        name="onhold_reason"
+                                                        name="reject_reason"
                                                         type="text"
                                                         className="form-input rounded-l-none"
                                                         placeholder="Onhold reason"
@@ -536,7 +536,7 @@ const Request = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        {statusParams?.status === 'rejected' || statusParams?.status === 'onhold' && (
+                                        {(statusParams?.status === 'Rejected' || statusParams?.status === 'Onhold') && (
                                             <div>
                                                 <ButtonField
                                                     type="submit"

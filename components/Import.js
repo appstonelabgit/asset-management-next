@@ -3,6 +3,7 @@ import Modal from '@/components/Modal';
 import axios from '@/libs/axios';
 import { Field, Form, Formik } from 'formik';
 import ButtonField from './Field/ButtonField';
+import Link from 'next/link';
 
 const Import = (props, forwardedRef) => {
     const modal = useRef();
@@ -43,14 +44,17 @@ const Import = (props, forwardedRef) => {
                                         <input
                                             name="data"
                                             type="file"
-                                            className="form-input my-10"
+                                            className="form-input mt-5"
                                             onChange={(e) => {
                                                 setFieldValue('data', e.target.files[0]);
                                             }}
                                         />
+                                        <Link href={props.csvPath} className="btn-secondary block">
+                                            Download Sample csv
+                                        </Link>
                                     </div>
 
-                                    <div>
+                                    <div className="mt-5">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn">
                                             Import
                                         </ButtonField>

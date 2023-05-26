@@ -211,15 +211,15 @@ label:not(.on-off-label) input[type='checkbox'] {
     @apply rounded-[3px] bg-primary/10 px-[7px] py-[5px] text-sm font-semibold text-primary duration-300;
 }
 
-.status-pending{
+.status-Pending{
     @apply bg-[#bfdbfe] text-[#1967d3]
 }
-.status-approved{
+.status-Approved{
     @apply bg-[#c9f5cd] text-[#179401]
 }
-.status-onhold{
+.status-Onhold{
     @apply bg-[#fef08a] text-[#a16207]
 }
-.status-rejected{
+.status-Rejected{
     @apply bg-[#f5c9c9] text-red
 }

@@ -1,0 +1,4 @@
+seller_id,model_id,brand_id,user_id,purchased_at,warranty_expired_at,name,description,serial_number,purchased_cost
+2,1,1,1,2023/05/23,2025/03/24,PC1,Computer,123456,19999
+3,3,2,4,2023/05/23,2025/03/24,PC2,Computer,1234567,21999
+5,5,6,2,2023/05/23,2025/03/24,PC3,Computer,12345678,29999

@@ -928,7 +928,7 @@ const Assets = () => {
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddUser ref={addUserModal} refresh={getDependentInformation} />
             <AddComponent ref={addComponentModal} refresh={getDependentComponent} />
-            <Import ref={importModal} refresh={refresh} type="assets" />
+            <Import ref={importModal} refresh={refresh} type="assets" csvPath='/csv/sample_assets.csv' />
         </div>
     );
 };

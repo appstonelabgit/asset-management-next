@@ -1,0 +1,4 @@
+seller_id,model_id,brand_id,user_id,name,description,serial_number,purchased_cost,purchased_at,warranty_expired_at
+1,1,1,5,Earphone,Wireless Earphone,ABCD1234,999,2023/05/23,2025/03/24
+2,3,2,1,Headphone,Wired Headphone,ASDF4321,1999,2023/05/23,2025/03/24
+3,5,6,2,Pendrive,8 GB,9765432,29999,2023/05/23,2025/03/24

@@ -314,7 +314,13 @@ const Components = () => {
                                     onClick={() => sortByField('serial_number')}
                                 >
                                     <span>Serial Number</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'serial_number' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
                             <th>
@@ -325,7 +331,13 @@ const Components = () => {
                                     onClick={() => sortByField('name')}
                                 >
                                     <span>Component Name</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
                             <th>
@@ -341,7 +353,13 @@ const Components = () => {
                                     onClick={() => sortByField('purchased_at')}
                                 >
                                     <span>Purchase Date</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'purchased_at' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
 
@@ -353,7 +371,13 @@ const Components = () => {
                                     onClick={() => sortByField('purchased_cost')}
                                 >
                                     <span>Purchase Cost</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'purchased_cost' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
                             <th>
@@ -364,7 +388,13 @@ const Components = () => {
                                     onClick={() => sortByField('warranty_expired_at')}
                                 >
                                     <span>Warranty Expiry</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'warranty_expired_at' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
                             <th>
@@ -375,7 +405,13 @@ const Components = () => {
                                     onClick={() => sortByField('asset_name')}
                                 >
                                     <span>Asset</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'asset_name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
                             <th>
@@ -386,7 +422,13 @@ const Components = () => {
                                     onClick={() => sortByField('model_name')}
                                 >
                                     <span>Model</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'model_name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
                             <th>
@@ -397,7 +439,13 @@ const Components = () => {
                                     onClick={() => sortByField('brand_name')}
                                 >
                                     <span>Brand</span>
-                                    <IconUpDownArrow />
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'brand_name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
                                 </div>
                             </th>
 

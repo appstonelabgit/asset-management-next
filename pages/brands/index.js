@@ -178,7 +178,13 @@ const Brands = () => {
                                         onClick={() => sortByField('name')}
                                     >
                                         <span>Brand Name</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'name' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 
@@ -190,7 +196,13 @@ const Brands = () => {
                                         onClick={() => sortByField('created_at')}
                                     >
                                         <span>Date</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'created_at' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 

@@ -12,9 +12,11 @@ import CommonSideModal from '@/components/CommonSideModal';
 import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
+import Import from '@/components/Import';
 
 const Models = () => {
     const SideModal = useRef();
+    const importModal = useRef();
 
     const [models, setModels] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -102,6 +104,19 @@ const Models = () => {
         }
     };
 
+    const exportdata = async () => {
+        try {
+            const response = await axios.get(`/models/file/export`);
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', `models.csv`);
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            return true;
+        } catch {}
+    };
+
     useEffect(() => {
         getModels(currentPage, pageLimit);
     }, [getModels, currentPage, pageLimit]);
@@ -110,8 +125,22 @@ const Models = () => {
         <div>
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Models</h1>
-                <div className="mb-5 text-right">
-                    <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+                <div className="mb-5 flex flex-wrap justify-between">
+                    <div className="flex space-x-2">
+                        <button
+                            type="button"
+                            className="btn-secondary mb-0 mt-2"
+                            onClick={() => {
+                                importModal?.current?.open();
+                            }}
+                        >
+                            Import
+                        </button>
+                        <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
+                            Export
+                        </button>
+                    </div>
+                    <div className="flex flex-1 flex-wrap justify-end space-x-2">
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
                                 <input
@@ -169,7 +198,13 @@ const Models = () => {
                                         onClick={() => sortByField('serial_number')}
                                     >
                                         <span>Serial Number</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'serial_number' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
                                 <th>
@@ -180,7 +215,13 @@ const Models = () => {
                                         onClick={() => sortByField('name')}
                                     >
                                         <span>Model Name</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'name' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 
@@ -197,7 +238,13 @@ const Models = () => {
                                         onClick={() => sortByField('created_at')}
                                     >
                                         <span>Date</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'created_at' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 
@@ -273,7 +320,7 @@ const Models = () => {
                                                     name="name"
                                                     type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="name"
+                                                    placeholder="Name"
                                                 />
                                             </div>
 
@@ -315,6 +362,7 @@ const Models = () => {
                         </div>
                     </div>
                 </CommonSideModal>
+                <Import ref={importModal} refresh={refresh} type="models" csvPath="/csv/sample_models.csv" />
             </div>
         </div>
     );

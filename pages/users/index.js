@@ -185,7 +185,13 @@ const Users = () => {
                                         onClick={() => sortByField('name')}
                                     >
                                         <span>User Name</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'name' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 
@@ -197,7 +203,13 @@ const Users = () => {
                                         onClick={() => sortByField('email')}
                                     >
                                         <span>Email</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'email' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
                                 <th>
@@ -208,7 +220,13 @@ const Users = () => {
                                         onClick={() => sortByField('designation')}
                                     >
                                         <span>Designation</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'designation' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
                                 <th>

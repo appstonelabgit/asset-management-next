@@ -47,8 +47,12 @@ const helper = {
     },
 
     trancateString(s) {
-        if (s.length > 20) {
-            return `${s.substr(0, 20)}...`;
+        if (s) {
+            if (s.length > 20) {
+                return `${s.substr(0, 20)}...`;
+            } else {
+                return s;
+            }
         } else {
             return s;
         }

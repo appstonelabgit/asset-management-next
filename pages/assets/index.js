@@ -25,6 +25,7 @@ import AddUser from '@/components/AddUser';
 import AddComponent from '@/components/AddComponent';
 import { useSelector } from 'react-redux';
 import Import from '@/components/Import';
+import IconHistory from '@/components/Icon/IconHistory';
 
 const Assets = () => {
     const { user } = useSelector((state) => state.auth);
@@ -553,7 +554,7 @@ const Assets = () => {
                                                             handleModalData(asset?.id, asset?.user_id);
                                                         }}
                                                     >
-                                                        History
+                                                        <IconHistory />
                                                     </button>
                                                     <button
                                                         type="button"

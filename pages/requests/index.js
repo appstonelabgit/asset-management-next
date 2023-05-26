@@ -33,8 +33,8 @@ const Request = () => {
     const [totalPages, setTotalPages] = useState(5);
 
     const [searchWord, setSearchWord] = useState('');
-    const [status, setStatus] = useState([]);
-    const [request_type, setRequest_type] = useState([]);
+    const [status, setStatus] = useState('');
+    const [request_type, setRequest_type] = useState('');
     const [typeSelected, setTypeSelected] = useState([]);
     const [typeData, setTypeData] = useState([
         { id: 'asset', type: 'Asset' },
@@ -54,9 +54,9 @@ const Request = () => {
                         limit: limit,
                         sort_column: order.order_field,
                         sort_order: order.sort_order,
-                        type: typeSelected === 0 ? '' : typeSelected,
-                        request_type: request_type === 0 ? '' : request_type,
-                        status: status === 0 ? '' : status,
+                        type: typeSelected.length === 0 ? '' : typeSelected,
+                        request_type: request_type,
+                        status: status,
                     },
                 })
                 .then(({ data }) => {
@@ -78,9 +78,9 @@ const Request = () => {
 
     const resetFilter = () => {
         setSearchWord('');
-        setRequest_type([]);
+        setRequest_type('');
         setTypeSelected([]);
-        setStatus([]);
+        setStatus('');
     };
 
     const sortByField = (field) => {
@@ -93,7 +93,7 @@ const Request = () => {
 
     const updateStatus = async (values, id) => {
         try {
-            if (statusParams?.status === 'rejected') {
+            if (statusParams?.status === 'rejected' || statusParams?.status === 'onhold') {
                 await axios.post(`/requests/response/${statusParams?.id}`, values);
             } else {
                 await axios.post(`/requests/response/${id}`, { status: values });
@@ -198,23 +198,25 @@ const Request = () => {
                             <select
                                 name="status"
                                 className="form-select"
+                                value={status}
                                 onChange={(e) => {
-                                    setStatus(e.target.value !== '' ? [e.target.value] : '');
+                                    setStatus(e.target.value);
                                 }}
                             >
                                 <option value="">Select Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="approved">Approved</option>
-                                <option value="rejected">On Hold</option>
-                                <option value="rejected">Rejected</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Onhold">On Hold</option>
+                                <option value="Rejected">Rejected</option>
                             </select>
                         </div>
                         <div className="w-[200px]">
                             <select
                                 name="request_type"
                                 className="form-select"
+                                value={request_type}
                                 onChange={(e) => {
-                                    setRequest_type(e.target.value !== '' ? [e.target.value] : '');
+                                    setRequest_type(e.target.value);
                                 }}
                             >
                                 <option value="">Select Request</option>
@@ -238,7 +240,7 @@ const Request = () => {
                                     type="text"
                                     className="form-input pr-10"
                                     placeholder="Search..."
-                                    values={searchWord}
+                                    value={searchWord}
                                     onChange={(event) => setSearchWord(event.target.value)}
                                     onKeyUp={(e) => {
                                         if (e.key === 'Enter') {
@@ -486,7 +488,8 @@ const Request = () => {
                                                 type="button"
                                                 className="btn my-0 bg-[#fef08a] py-1"
                                                 onClick={() => {
-                                                    updateStatus('onhold', statusParams?.id);
+                                                    setStatusParams({ ...statusParams, status: 'onhold' });
+                                                    setFieldValue('status', 'onhold');
                                                 }}
                                             >
                                                 On Hold
@@ -518,7 +521,22 @@ const Request = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        {statusParams?.status === 'rejected' && (
+                                        {statusParams?.status === 'onhold' && (
+                                            <div className="space-y-5">
+                                                <div>
+                                                    <label className="form-label">Onhold reason</label>
+
+                                                    <Field
+                                                        as="textarea"
+                                                        name="onhold_reason"
+                                                        type="text"
+                                                        className="form-input rounded-l-none"
+                                                        placeholder="Onhold reason"
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+                                        {statusParams?.status === 'rejected' || statusParams?.status === 'onhold' && (
                                             <div>
                                                 <ButtonField
                                                     type="submit"

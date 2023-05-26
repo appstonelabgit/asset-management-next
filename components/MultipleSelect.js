@@ -16,6 +16,21 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
         }
     };
 
+    const getNamesByIds = (ids) => {
+        const result = [];
+
+        for (const id of ids) {
+            const item = list.find((objItem) => objItem.id == id);
+            if (item) {
+                result.push(item[keyName]);
+            } else {
+                result.push(id);
+            }
+        }
+
+        return result;
+    };
+
     return (
         <div className="flex items-center justify-between">
             <div className="relative">
@@ -24,7 +39,7 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
                     btnClassName="btn-secondary inline-flex items-center gap-[9px] ml-auto font-normal"
                     button={
                         <>
-                            {selectedoptions.length === 0 ? name : selectedoptions.join(',')}
+                            {selectedoptions.length === 0 ? name : getNamesByIds(selectedoptions).join(',')}
                             <IconDownArrow />
                         </>
                     }

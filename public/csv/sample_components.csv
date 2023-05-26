@@ -1,4 +1,4 @@
-asset_id,model_id,brand_id,purchased_at,warranty_expired_at,name,description,serial_number,purchased_cost
-3,1,1,2023/05/23,2025/03/24,RAM,8 GB,123456,9999
-2,5,4,2023/05/23,2025/03/24,SSD,256 GB,1234567,6999
-1,3,3,2023/05/23,2025/03/24,Graphics Card,4 GB,12345678,4999
+Serial Number,Component Name,Description,Purchase Date,Purchase Cost,Warranty Expiry,Seller,Model,Brand
+123456,RAM,8 GB,2023/05/23,9999,2025/03/24,1,2,1
+1234567,SSD,256 GB,2023/05/23,6999,2025/03/24,2,1,2
+12345678,Graphics Card,4 GB,2023/05/23,4999,2025/03/24,3,2,3

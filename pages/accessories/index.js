@@ -429,7 +429,8 @@ const Accessories = () => {
                                         <span>Warranty Expiry</span>
                                         <IconUpDownArrow
                                             className={`${
-                                                order.order_field === 'warranty_expired_at' && order.sort_order === 'desc'
+                                                order.order_field === 'warranty_expired_at' &&
+                                                order.sort_order === 'desc'
                                                     ? 'rotate-180'
                                                     : ''
                                             }`}
@@ -519,7 +520,7 @@ const Accessories = () => {
                                             <td className="capitalize">{accessory?.name}</td>
                                             <td>{helper.trancateString(accessory?.description)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.purchased_at)}</td>
-                                            <td>₹ {accessory?.purchased_cost}</td>
+                                            <td>{helper.formatIndianCurrency(accessory?.purchased_cost)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.warranty_expired_at)}</td>
                                             <td className="capitalize">{accessory?.seller_name}</td>
                                             <td className="capitalize">{accessory?.model_name}</td>
@@ -761,7 +762,7 @@ const Accessories = () => {
                                                     {sellers?.map((seller) => {
                                                         return (
                                                             <option key={seller.id} value={seller.id}>
-                                                                {seller.name}
+                                                                {helper.trancateString(seller.name)}
                                                             </option>
                                                         );
                                                     })}
@@ -789,7 +790,7 @@ const Accessories = () => {
                                                     {models?.map((model) => {
                                                         return (
                                                             <option key={model.id} value={model.id}>
-                                                                {model.name}
+                                                                {helper.trancateString(model.name)}
                                                             </option>
                                                         );
                                                     })}
@@ -817,7 +818,7 @@ const Accessories = () => {
                                                     {brands?.map((brand) => {
                                                         return (
                                                             <option key={brand.id} value={brand.id}>
-                                                                {brand.name}
+                                                                {helper.trancateString(brand.name)}
                                                             </option>
                                                         );
                                                     })}
@@ -856,7 +857,7 @@ const Accessories = () => {
                                                     {users?.map((user) => {
                                                         return (
                                                             <option key={user.id} value={user.id}>
-                                                                {user.name}
+                                                                {helper.trancateString(user.name)}
                                                             </option>
                                                         );
                                                     })}

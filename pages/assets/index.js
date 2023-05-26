@@ -604,7 +604,7 @@ const Assets = () => {
                                         <td className="capitalize">{asset?.name}</td>
                                         <td>{helper.trancateString(asset?.description)}</td>
                                         <td>{helper?.getFormattedDate(asset?.purchased_at)}</td>
-                                        <td>₹ {asset?.purchased_cost}</td>
+                                        <td>{helper.formatIndianCurrency(asset?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(asset?.warranty_expired_at)}</td>
                                         <td className="capitalize">{asset?.seller_name}</td>
                                         <td className="capitalize">{asset?.model_name}</td>
@@ -832,7 +832,7 @@ const Assets = () => {
                                                 {sellers?.map((seller) => {
                                                     return (
                                                         <option key={seller.id} value={seller.id}>
-                                                            {seller.name}
+                                                            {helper.trancateString(seller.name)}
                                                         </option>
                                                     );
                                                 })}
@@ -860,7 +860,7 @@ const Assets = () => {
                                                 {models?.map((model) => {
                                                     return (
                                                         <option key={model.id} value={model.id}>
-                                                            {model.name}
+                                                            {helper.trancateString(model.name)}
                                                         </option>
                                                     );
                                                 })}
@@ -888,7 +888,7 @@ const Assets = () => {
                                                 {brands?.map((brand) => {
                                                     return (
                                                         <option key={brand.id} value={brand.id}>
-                                                            {brand.name}
+                                                            {helper.trancateString(brand.name)}
                                                         </option>
                                                     );
                                                 })}
@@ -927,7 +927,7 @@ const Assets = () => {
                                                 {users?.map((user) => {
                                                     return (
                                                         <option key={user.id} value={user.id}>
-                                                            {user.name}
+                                                            {helper.trancateString(user.name)}
                                                         </option>
                                                     );
                                                 })}

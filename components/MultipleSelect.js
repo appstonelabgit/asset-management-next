@@ -39,7 +39,9 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
                     btnClassName="btn-secondary inline-flex items-center gap-[9px] ml-auto font-normal"
                     button={
                         <>
-                            {selectedoptions.length === 0 ? name : getNamesByIds(selectedoptions).join(',')}
+                            {selectedoptions.length === 0
+                                ? name
+                                : helper.trancateString(getNamesByIds(selectedoptions).join(','))}
                             <IconDownArrow />
                         </>
                     }

@@ -463,7 +463,7 @@ const Components = () => {
                                         <td className="capitalize">{component?.name}</td>
                                         <td>{helper.trancateString(component?.description)}</td>
                                         <td>{helper?.getFormattedDate(component?.purchased_at)}</td>
-                                        <td>₹ {component?.purchased_cost}</td>
+                                        <td>{helper.formatIndianCurrency(component?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(component?.warranty_expired_at)}</td>
                                         <td className="capitalize">{component?.asset_name}</td>
                                         <td className="capitalize">{component?.model_name}</td>
@@ -657,7 +657,7 @@ const Components = () => {
                                                 {assets?.map((asset) => {
                                                     return (
                                                         <option key={asset.id} value={asset.id}>
-                                                            {asset.name}
+                                                            {helper.trancateString(asset.name)}
                                                         </option>
                                                     );
                                                 })}
@@ -685,7 +685,7 @@ const Components = () => {
                                                 {models?.map((model) => {
                                                     return (
                                                         <option key={model.id} value={model.id}>
-                                                            {model.name}
+                                                            {helper.trancateString(model.name)}
                                                         </option>
                                                     );
                                                 })}
@@ -713,7 +713,7 @@ const Components = () => {
                                                 {brands?.map((brand) => {
                                                     return (
                                                         <option key={brand.id} value={brand.id}>
-                                                            {brand.name}
+                                                            {helper.trancateString(brand.name)}
                                                         </option>
                                                     );
                                                 })}

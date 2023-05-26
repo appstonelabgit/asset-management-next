@@ -57,5 +57,15 @@ const helper = {
             return s;
         }
     },
+
+    formatIndianCurrency(price) {
+        const formatter = new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+        });
+
+        return formatter.format(price);
+    },
 };
 export default helper;

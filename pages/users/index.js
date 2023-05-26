@@ -367,7 +367,7 @@ const Users = () => {
                                                 <tr key={modeldata.id} className="bg-white">
                                                     <td>{modeldata?.serial_number}</td>
                                                     <td className="capitalize">{modeldata?.name}</td>
-                                                    <td>₹ {modeldata?.purchased_cost}</td>
+                                                    <td>{helper.formatIndianCurrency(modeldata?.purchased_cost)}</td>
                                                     <td className="capitalize">{modeldata?.seller_name}</td>
                                                     <td className="capitalize">{modeldata?.model_name}</td>
                                                     <td className="capitalize">{modeldata?.brand_name}</td>

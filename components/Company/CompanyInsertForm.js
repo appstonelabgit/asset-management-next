@@ -33,7 +33,7 @@ const CompanyInsertForm = ({ redirect }) => {
                                     name="name"
                                     type="text"
                                     className="form-input rounded-l-none"
-                                    placeholder="Company name"
+                                    placeholder="Company name..."
                                 />
                             </div>
                             <div>

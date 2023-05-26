@@ -58,13 +58,13 @@ const AddSeller = (props, forwardedRef) => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Serial number</label>
+                                            <label className="form-label">Serial Number</label>
 
                                             <Field
                                                 name="serial_number"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="Serial number"
+                                                placeholder="Serial Number"
                                             />
                                         </div>
                                         <div>
@@ -79,7 +79,7 @@ const AddSeller = (props, forwardedRef) => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Purchase date</label>
+                                            <label className="form-label">Purchase Date</label>
 
                                             <Flatpickr
                                                 name="purchased_at"
@@ -93,7 +93,7 @@ const AddSeller = (props, forwardedRef) => {
                                         </div>
 
                                         <div>
-                                            <label className="form-label">Purchase cost <span className='text-black/30'>( In rupee (₹) )</span></label>
+                                            <label className="form-label">Purchase Cost <span className='text-black/30'>( In rupee (₹) )</span></label>
 
                                             <Field
                                                 name="purchased_cost"

@@ -323,7 +323,7 @@ const Accessories = () => {
                                         }`}
                                         onClick={() => sortByField('serial_number')}
                                     >
-                                        <span>Serial number</span>
+                                        <span>Serial Number</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -350,7 +350,7 @@ const Accessories = () => {
                                         }`}
                                         onClick={() => sortByField('purchased_at')}
                                     >
-                                        <span>Purchase date</span>
+                                        <span>Purchase Date</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -362,7 +362,7 @@ const Accessories = () => {
                                         }`}
                                         onClick={() => sortByField('purchased_cost')}
                                     >
-                                        <span>Purchase cost</span>
+                                        <span>Purchase Cost</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -550,13 +550,13 @@ const Accessories = () => {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="form-label">Serial number</label>
+                                                <label className="form-label">Serial Number</label>
 
                                                 <Field
                                                     name="serial_number"
                                                     type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="Serial number"
+                                                    placeholder="Serial Number"
                                                 />
                                             </div>
                                             <div>
@@ -571,7 +571,7 @@ const Accessories = () => {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="form-label">Purchase date</label>
+                                                <label className="form-label">Purchase Date</label>
 
                                                 {params?.id ? (
                                                     <Flatpickr
@@ -609,7 +609,7 @@ const Accessories = () => {
 
                                             <div>
                                                 <label className="form-label">
-                                                    Purchase cost{' '}
+                                                    Purchase Cost{' '}
                                                     <span className="text-black/30">( In rupee (₹) )</span>
                                                 </label>
 

@@ -47,13 +47,13 @@ const AddModel = (props, forwardedRef) => {
                                         </div>
 
                                         <div>
-                                            <label className="form-label">Serial number</label>
+                                            <label className="form-label">Serial Number</label>
 
                                             <Field
                                                 name="serial_number"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="Serial number"
+                                                placeholder="Serial Number"
                                             />
                                         </div>
 

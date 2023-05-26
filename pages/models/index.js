@@ -168,7 +168,7 @@ const Models = () => {
                                         }`}
                                         onClick={() => sortByField('serial_number')}
                                     >
-                                        <span>Serial number</span>
+                                        <span>Serial Number</span>
                                         <IconUpDownArrow />
                                     </div>
                                 </th>
@@ -278,13 +278,13 @@ const Models = () => {
                                             </div>
 
                                             <div>
-                                                <label className="form-label">Serial number</label>
+                                                <label className="form-label">Serial Number</label>
 
                                                 <Field
                                                     name="serial_number"
                                                     type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="Serial number"
+                                                    placeholder="Serial Number"
                                                 />
                                             </div>
 

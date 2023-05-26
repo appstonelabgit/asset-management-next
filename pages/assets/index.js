@@ -288,6 +288,19 @@ const Assets = () => {
         } catch (error) {}
     };
 
+    const exportdata = async () => {
+        try {
+            const response = await axios.get(`/assets/file/export`);
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', `assets.csv`);
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            return true;
+        } catch {}
+    };
+
     useEffect(() => {
         getDependentInformation();
     }, [getDependentInformation]);
@@ -300,7 +313,6 @@ const Assets = () => {
         <div className="p-5">
             <h2 className="text-xl font-bold text-darkprimary">Assets</h2>
             <div className="mb-5 flex flex-wrap justify-between">
-                {/* ToDo */}
                 <div className="flex space-x-2">
                     <button
                         type="button"
@@ -311,7 +323,7 @@ const Assets = () => {
                     >
                         Import
                     </button>
-                    <button type="button" className="btn-secondary mb-0 mt-2">
+                    <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
                         Export
                     </button>
                 </div>
@@ -425,7 +437,7 @@ const Assets = () => {
                                     }`}
                                     onClick={() => sortByField('serial_number')}
                                 >
-                                    <span>Serial number</span>
+                                    <span>Serial Number</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
@@ -452,7 +464,7 @@ const Assets = () => {
                                     }`}
                                     onClick={() => sortByField('purchased_at')}
                                 >
-                                    <span>Purchase date</span>
+                                    <span>Purchase Date</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
@@ -464,7 +476,7 @@ const Assets = () => {
                                     }`}
                                     onClick={() => sortByField('purchased_cost')}
                                 >
-                                    <span>Purchase cost</span>
+                                    <span>Purchase Cost</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
@@ -651,13 +663,13 @@ const Assets = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Serial number</label>
+                                            <label className="form-label">Serial Number</label>
 
                                             <Field
                                                 name="serial_number"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="Serial number"
+                                                placeholder="Serial Number"
                                             />
                                         </div>
                                         <div>
@@ -672,7 +684,7 @@ const Assets = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Purchase date</label>
+                                            <label className="form-label">Purchase Date</label>
 
                                             {params?.id ? (
                                                 <Flatpickr
@@ -700,7 +712,7 @@ const Assets = () => {
 
                                         <div>
                                             <label className="form-label">
-                                                Purchase cost <span className="text-black/30">( In rupee (₹) )</span>
+                                                Purchase Cost <span className="text-black/30">( In rupee (₹) )</span>
                                             </label>
 
                                             <Field

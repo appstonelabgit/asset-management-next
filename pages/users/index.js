@@ -335,9 +335,9 @@ const Users = () => {
                                 <table className="w-full table-auto">
                                     <thead className="bg-lightblue1">
                                         <tr>
-                                            <th>Serial number</th>
+                                            <th>Serial Number</th>
                                             <th>{selectedModelData?.name} Name</th>
-                                            <th>Purchase cost</th>
+                                            <th>Purchase Cost</th>
                                             <th>Seller</th>
                                             <th>Model</th>
                                             <th>Brand</th>

@@ -170,6 +170,27 @@ const Accessories = () => {
         Popup?.current?.open();
     };
 
+    const unAssignUser = async (id) => {
+        try {
+            await axios.post(`/accessories/${id}`, {
+                id: params?.id,
+                seller_id: params?.seller_id || '',
+                name: params?.name,
+                serial_number: params?.serial_number,
+                description: params?.description,
+                purchased_at: helper.getFormattedDate2(params?.purchased_at),
+                purchased_cost: params?.purchased_cost,
+                warranty_expired_at: helper.getFormattedDate2(params?.warranty_expired_at),
+                model_id: params?.model_id || '',
+                brand_id: params?.brand_id || '',
+                user_id: null,
+            });
+
+            SideModal?.current.close();
+            refresh();
+        } catch {}
+    };
+
     const getDependentInformation = useCallback(() => {
         axios.get(`/accessories/dependent/information`).then(({ data }) => {
             setSellers(data.sellers);
@@ -722,13 +743,24 @@ const Accessories = () => {
                                             <div>
                                                 <div className="flex items-end justify-between">
                                                     <label className="form-label">User name</label>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => addUserModal.current.open()}
-                                                        className="btn mb-0 py-1 text-xs"
-                                                    >
-                                                        Add User
-                                                    </button>
+                                                    <div>
+                                                        {params?.id && params?.user_id ? (
+                                                            <button
+                                                                type="button"
+                                                                className="btn-secondary mb-0 mr-2 py-1 text-xs"
+                                                                onClick={() => unAssignUser(params?.id)}
+                                                            >
+                                                                Unassign
+                                                            </button>
+                                                        ) : null}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => addUserModal.current.open()}
+                                                            className="btn mb-0 py-1 text-xs"
+                                                        >
+                                                            Add User
+                                                        </button>
+                                                    </div>
                                                 </div>
 
                                                 <Field

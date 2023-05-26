@@ -237,6 +237,7 @@ const Assets = () => {
                 model_id: params?.model_id || '',
                 brand_id: params?.brand_id || '',
                 user_id: null,
+                component_id: selectedComponent.length !== 0 ? selectedComponent : '',
             });
 
             SideModal?.current.close();
@@ -928,7 +929,7 @@ const Assets = () => {
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddUser ref={addUserModal} refresh={getDependentInformation} />
             <AddComponent ref={addComponentModal} refresh={getDependentComponent} />
-            <Import ref={importModal} refresh={refresh} type="assets" csvPath='/csv/sample_assets.csv' />
+            <Import ref={importModal} refresh={refresh} type="assets" csvPath="/csv/sample_assets.csv" />
         </div>
     );
 };

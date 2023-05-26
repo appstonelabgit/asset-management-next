@@ -54,7 +54,7 @@ const Login = () => {
                                         href="/forgot-password"
                                         className="text-darkblue underline transition-all duration-300 hover:text-primary"
                                     >
-                                        Forgot Password ?
+                                        Forgot Password?
                                     </Link>
                                 </div>
                                 <div>

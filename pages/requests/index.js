@@ -76,6 +76,13 @@ const Request = () => {
         getRequests(currentPage, pageLimit, searchWord);
     };
 
+    const resetFilter = () => {
+        setSearchWord('');
+        setRequest_type([]);
+        setTypeSelected([]);
+        setStatus([]);
+    };
+
     const sortByField = (field) => {
         order.order_field === field
             ? order.sort_order === 'asc'
@@ -231,6 +238,7 @@ const Request = () => {
                                     type="text"
                                     className="form-input pr-10"
                                     placeholder="Search..."
+                                    values={searchWord}
                                     onChange={(event) => setSearchWord(event.target.value)}
                                     onKeyUp={(e) => {
                                         if (e.key === 'Enter') {
@@ -250,6 +258,15 @@ const Request = () => {
                                 </button>
                             </div>
                         </div>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                resetFilter();
+                            }}
+                            className="btn-secondary mb-0 mt-2"
+                        >
+                            Reset Filter
+                        </button>
                         {user?.role === 2 && (
                             <button
                                 type="button"
@@ -454,7 +471,7 @@ const Request = () => {
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={statusParams} onSubmit={updateStatus}>
                                 {({ isSubmitting, setFieldValue }) => (
-                                    <Form className="w-full space-y-5  bg-white p-[25px]">
+                                    <Form className="w-full space-y-5  bg-white py-[25px]">
                                         <div className="flex justify-center space-x-2">
                                             <button
                                                 type="button"
@@ -523,7 +540,7 @@ const Request = () => {
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting, setFieldValue }) => (
-                                    <Form className="w-full space-y-5  bg-white p-[25px]">
+                                    <Form className="w-full space-y-5  bg-white py-[25px]">
                                         <div className="space-y-5">
                                             <div>
                                                 <label className="form-label">Request type</label>

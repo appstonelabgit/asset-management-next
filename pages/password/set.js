@@ -60,7 +60,7 @@ const Set = () => {
 
                                 <div>
                                     <button disabled={isSubmitting} type="submit" className="btn mt-6 block w-full">
-                                        Reset Password
+                                        Set Password
                                     </button>
                                 </div>
                             </Form>

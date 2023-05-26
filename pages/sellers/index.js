@@ -56,6 +56,11 @@ const Sellers = () => {
         getSellers(currentPage, pageLimit, searchWord);
     };
 
+    const resetFilter = () => {
+        setSearchWord('');
+        getSellers(currentPage, pageLimit);
+    };
+
     const sortByField = (field) => {
         order.order_field === field
             ? order.sort_order === 'asc'
@@ -133,6 +138,15 @@ const Sellers = () => {
                                 </button>
                             </div>
                         </div>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                resetFilter();
+                            }}
+                            className="btn-secondary mb-0 mt-2"
+                        >
+                            Reset Filter
+                        </button>
                         <button
                             type="button"
                             onClick={() => {
@@ -262,7 +276,7 @@ const Sellers = () => {
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting }) => (
-                                    <Form className="w-full space-y-5  bg-white p-[25px]">
+                                    <Form className="w-full space-y-5  bg-white py-[25px]">
                                         <div className="space-y-5">
                                             <div>
                                                 <label className="form-label">Seller Name</label>

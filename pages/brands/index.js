@@ -57,6 +57,11 @@ const Brands = () => {
         getBrands(currentPage, pageLimit, searchWord);
     };
 
+    const resetFilter = () => {
+        setSearchWord('');
+        getBrands(currentPage, pageLimit);
+    };
+
     const sortByField = (field) => {
         order.order_field === field
             ? order.sort_order === 'asc'
@@ -84,9 +89,10 @@ const Brands = () => {
         try {
             axios.get(`/brands/${id}`).then(({ data }) => {
                 setParams({
-                    id: data.id,
-                    name: data.name,
+                    id: data?.id,
+                    name: data?.name,
                     logo_url: '',
+                    image_url: data?.image_url,
                 });
                 SideModal?.current?.open();
             });
@@ -135,6 +141,15 @@ const Brands = () => {
                                 </button>
                             </div>
                         </div>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                resetFilter();
+                            }}
+                            className="btn-secondary mb-0 mt-2"
+                        >
+                            Reset Filter
+                        </button>
                         <button
                             type="button"
                             onClick={() => {
@@ -243,7 +258,7 @@ const Brands = () => {
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting, setFieldValue }) => (
-                                    <Form className="w-full space-y-5  bg-white p-[25px]">
+                                    <Form className="w-full space-y-5  bg-white py-[25px]">
                                         <div className="space-y-5">
                                             <div>
                                                 <label className="form-label">Brand Name</label>
@@ -258,11 +273,25 @@ const Brands = () => {
                                             <div>
                                                 <label className="form-label">Brand logo</label>
 
+                                                {params?.image_url && (
+                                                    <img
+                                                        src={params?.image_url}
+                                                        className="my-2 w-40 rounded-xl border p-1"
+                                                        alt=""
+                                                    />
+                                                )}
+
                                                 <input
                                                     name="logo_url"
                                                     type="file"
                                                     className="form-input rounded-l-none"
-                                                    onChange={(e) => setFieldValue('logo_url', e.target.files[0])}
+                                                    onChange={(e) => {
+                                                        setParams({
+                                                            ...params,
+                                                            image_url: URL.createObjectURL(e.target.files[0]),
+                                                        });
+                                                        setFieldValue('logo_url', e.target.files[0]);
+                                                    }}
                                                 />
                                             </div>
                                         </div>

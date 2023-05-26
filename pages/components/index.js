@@ -42,6 +42,8 @@ const Components = () => {
 
     const [searchWord, setSearchWord] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
+    const [purchasedDate, setPurchasedDate] = useState('');
+
     const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'serial_number' });
 
     const [selectedBrand, setSelectedBrand] = useState([]);
@@ -57,6 +59,7 @@ const Components = () => {
                     params: {
                         filter: searchWord,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
+                        purchased_at: purchasedDate !== 'NaN-NaN-NaN' ? purchasedDate : '',
                         page: page,
                         limit: limit,
                         sort_column: order.order_field,
@@ -73,7 +76,7 @@ const Components = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedAsset, order, expiryDate]
+        [selectedBrand, selectedModel, selectedAsset, order, expiryDate, purchasedDate]
     );
 
     const defaultParams = {
@@ -92,6 +95,15 @@ const Components = () => {
 
     const refresh = () => {
         getComponents(currentPage, pageLimit, searchWord);
+    };
+
+    const resetFilter = () => {
+        setSearchWord('');
+        setExpiryDate('');
+        setPurchasedDate('');
+        setSelectedBrand([]);
+        setSelectedModel([]);
+        setSelectedAsset([]);
     };
 
     const sortByField = (field) => {
@@ -163,10 +175,21 @@ const Components = () => {
             <h2 className="text-xl font-bold text-darkprimary">Components</h2>
             <div className="mb-5 text-right">
                 <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+                    <div>
+                        <Flatpickr
+                            name="purchased_at"
+                            value={purchasedDate}
+                            className="form-input rounded-l-none"
+                            placeholder="Purchased date"
+                            onChange={(date) => {
+                                setPurchasedDate(helper.getFormattedDate2(date[0]));
+                            }}
+                        />
+                    </div>
                     <div className="">
                         <Flatpickr
                             name="warranty_expired_at"
-                            type="text"
+                            value={expiryDate}
                             className="form-input rounded-l-none"
                             placeholder="Warranty expiry date"
                             onChange={(date) => {
@@ -208,6 +231,7 @@ const Components = () => {
                                 type="text"
                                 className="form-input pr-10"
                                 placeholder="Search..."
+                                value={searchWord}
                                 onChange={(event) => setSearchWord(event.target.value)}
                                 onKeyUp={(e) => {
                                     if (e.key === 'Enter') {
@@ -227,6 +251,15 @@ const Components = () => {
                             </button>
                         </div>
                     </div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            resetFilter();
+                        }}
+                        className="btn-secondary mb-0 mt-2"
+                    >
+                        Reset Filter
+                    </button>
                     {user?.role === 1 && (
                         <button
                             type="button"
@@ -409,7 +442,7 @@ const Components = () => {
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white p-[25px]">
+                                <Form className="w-full space-y-5  bg-white py-[25px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Component Name</label>
@@ -478,7 +511,9 @@ const Components = () => {
                                         </div>
 
                                         <div>
-                                            <label className="form-label">Purchase cost <span className='text-black/30'>( In rupee (₹) )</span></label>
+                                            <label className="form-label">
+                                                Purchase cost <span className="text-black/30">( In rupee (₹) )</span>
+                                            </label>
 
                                             <Field
                                                 name="purchased_cost"

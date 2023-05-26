@@ -24,6 +24,7 @@ import AddBrand from '@/components/AddBrand';
 import AddUser from '@/components/AddUser';
 import AddComponent from '@/components/AddComponent';
 import { useSelector } from 'react-redux';
+import Import from '@/components/Import';
 
 const Assets = () => {
     const { user } = useSelector((state) => state.auth);
@@ -54,6 +55,7 @@ const Assets = () => {
 
     const [searchWord, setSearchWord] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
+    const [purchasedDate, setPurchasedDate] = useState('');
     const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'serial_number' });
 
     const [selectedBrand, setSelectedBrand] = useState([]);
@@ -71,6 +73,7 @@ const Assets = () => {
                     params: {
                         filter: searchWord,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
+                        purchased_at: purchasedDate !== 'NaN-NaN-NaN' ? purchasedDate : '',
                         page: page,
                         limit: limit,
                         sort_column: order.order_field,
@@ -87,7 +90,7 @@ const Assets = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedSeller, order, expiryDate, user?.role]
+        [selectedBrand, selectedModel, selectedSeller, order, expiryDate, user?.role, purchasedDate]
     );
 
     const defaultParams = {
@@ -108,6 +111,15 @@ const Assets = () => {
 
     const refresh = () => {
         getAssets(currentPage, pageLimit, searchWord);
+    };
+
+    const resetFilter = () => {
+        setSearchWord('');
+        setExpiryDate('');
+        setPurchasedDate('');
+        setSelectedBrand([]);
+        setSelectedModel([]);
+        setSelectedSeller([]);
     };
 
     const sortByField = (field) => {
@@ -305,18 +317,18 @@ const Assets = () => {
                     <div>
                         <Flatpickr
                             name="purchased_at"
-                            type="text"
+                            value={purchasedDate}
                             className="form-input rounded-l-none"
-                            placeholder="Purchased At"
+                            placeholder="Purchased date"
                             onChange={(date) => {
-                                setExpiryDate(helper.getFormattedDate2(date[0]));
+                                setPurchasedDate(helper.getFormattedDate2(date[0]));
                             }}
                         />
                     </div>
                     <div>
                         <Flatpickr
                             name="warranty_expired_at"
-                            type="text"
+                            value={expiryDate}
                             className="form-input rounded-l-none"
                             placeholder="Warranty expiry date"
                             onChange={(date) => {
@@ -358,6 +370,7 @@ const Assets = () => {
                                 type="text"
                                 className="form-input pr-10"
                                 placeholder="Search..."
+                                value={searchWord}
                                 onChange={(event) => setSearchWord(event.target.value)}
                                 onKeyUp={(e) => {
                                     if (e.key === 'Enter') {
@@ -377,6 +390,15 @@ const Assets = () => {
                             </button>
                         </div>
                     </div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            resetFilter();
+                        }}
+                        className="btn-secondary mb-0 mt-2"
+                    >
+                        Reset Filter
+                    </button>
                     {user?.role === 1 && (
                         <button
                             type="button"
@@ -495,7 +517,7 @@ const Assets = () => {
                                     }`}
                                     onClick={() => sortByField('user_name')}
                                 >
-                                    <span>User Name</span>
+                                    <span>User</span>
                                     <IconUpDownArrow />
                                 </div>
                             </th>
@@ -608,19 +630,13 @@ const Assets = () => {
                     {selectedModelData?.data?.length === 0 && <div className="text-center">data not available.</div>}
                 </div>
             </Modal>
-            <Modal ref={importModal} width={500}>
-                <div>
-                    <label className="form-label">Import CSV File</label>
 
-                    <input name="logo_url" type="file" className="form-input my-10" />
-                </div>
-            </Modal>
             <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Asset' : 'Add Asset'}>
                 <div className="space-y-12">
                     <div className="border-gray-900/10">
                         <Formik innerRef={formRef} initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white p-[25px]">
+                                <Form className="w-full space-y-5  bg-white py-[25px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Asset Name</label>
@@ -911,6 +927,7 @@ const Assets = () => {
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddUser ref={addUserModal} refresh={getDependentInformation} />
             <AddComponent ref={addComponentModal} refresh={getDependentComponent} />
+            <Import ref={importModal} refresh={refresh} type="assets" />
         </div>
     );
 };

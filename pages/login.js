@@ -58,7 +58,7 @@ const Login = () => {
                                     </Link>
                                 </div>
                                 <div>
-                                    <button disabled={isSubmitting} type="submit" className="btn mt-6 block w-full">
+                                    <button disabled={isSubmitting} type="submit" className="btn block w-full">
                                         Login
                                     </button>
                                 </div>

@@ -103,7 +103,7 @@
         @apply space-y-1;
     }
     .main-nav .nav-item {
-        @apply flex items-center space-x-2 whitespace-nowrap py-2 px-4 rounded mx-2;
+        @apply flex items-center space-x-2 whitespace-nowrap py-2 px-2 rounded mx-2;
     }
     .main-nav .nav-item:hover,
     .main-nav .nav-item.active {

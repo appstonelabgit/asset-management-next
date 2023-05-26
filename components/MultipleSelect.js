@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Dropdown from '@/components/Dropdown';
 import IconDownArrow from '@/components/Icon/IconDownArrow';
+import helper from '@/libs/helper';
 
 const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptions }) => {
     const box = useRef();
@@ -39,7 +40,7 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
                                         checked={selectedoptions.includes(option.id.toString())}
                                         onChange={handleChange}
                                     />
-                                    {option[keyName]}
+                                    {helper.trancateString(option[keyName])}
                                 </label>
                             );
                         })}

@@ -55,7 +55,7 @@ const SendRequest = () => {
                 <div className="border-gray-900/10">
                     <Formik innerRef={formRef} initialValues={params} onSubmit={formHandler}>
                         {({ isSubmitting, setFieldValue }) => (
-                            <Form className="w-full space-y-5  bg-white p-[25px]">
+                            <Form className="w-full space-y-5  bg-white py-[25px]">
                                 <div className="space-y-5">
                                     <div>
                                         <label className="form-label">Request type</label>

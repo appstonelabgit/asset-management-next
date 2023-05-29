@@ -242,7 +242,7 @@ const Models = () => {
                                     return (
                                         <tr key={model.id} className="bg-white">
                                             <td>{model?.serial_number}</td>
-                                            <td className="capitalize">{model?.name}</td>
+                                            <td className="capitalize">{helper.trancateString(model?.name)}</td>
                                             <td>{helper.trancateString(model?.description)}</td>
 
                                             <td>

@@ -257,6 +257,21 @@ const Assets = () => {
         }
     };
 
+    const getNamesByIds = (ids) => {
+        const result = [];
+
+        for (const id of ids) {
+            const item = components?.find((objItem) => objItem.id == id);
+            if (item) {
+                result.push(item?.name);
+            } else {
+                result.push(id);
+            }
+        }
+
+        return result;
+    };
+
     const getDependentInformation = useCallback(() => {
         axios.get(`/assets/dependent/information`).then(({ data }) => {
             setSellers(data.sellers);
@@ -607,15 +622,15 @@ const Assets = () => {
                                 return (
                                     <tr key={asset.id} className="bg-white">
                                         <td>{asset?.serial_number}</td>
-                                        <td className="capitalize">{asset?.name}</td>
+                                        <td className="capitalize">{helper.trancateString(asset?.name)}</td>
                                         <td>{helper.trancateString(asset?.description)}</td>
                                         <td>{helper?.getFormattedDate(asset?.purchased_at)}</td>
                                         <td>{helper.formatIndianCurrency(asset?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(asset?.warranty_expired_at)}</td>
-                                        <td className="capitalize">{asset?.seller_name}</td>
-                                        <td className="capitalize">{asset?.model_name}</td>
-                                        <td className="capitalize">{asset?.brand_name}</td>
-                                        <td className="capitalize">{asset?.user_name}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.seller_name)}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.model_name)}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.brand_name)}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.user_name)}</td>
 
                                         {user?.role === 1 && (
                                             <td>
@@ -961,33 +976,45 @@ const Assets = () => {
 
                                             <div className="relative mt-[9px]">
                                                 <Dropdown
+                                                    usePortal={false}
+                                                    strategy="absolute"
                                                     zindex="z-[60]"
                                                     ref={box}
                                                     btnClassName="btn-secondary inline-flex items-center gap-[9px] w-full justify-between font-normal"
                                                     button={
                                                         <>
-                                                            Components
+                                                            {selectedComponent.length === 0
+                                                                ? 'components'
+                                                                : helper.trancateString(
+                                                                      getNamesByIds(selectedComponent).join(',')
+                                                                  )}
                                                             <IconDownArrow />
                                                         </>
                                                     }
                                                 >
-                                                    <div className=" h-full max-h-[150px] w-[400px] overflow-y-auto text-sm">
-                                                        {components.map((option) => {
-                                                            return (
-                                                                <label key={option.id} className="my-3 flex px-5">
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
-                                                                        value={option.id}
-                                                                        checked={selectedComponent.includes(
-                                                                            option.id.toString()
-                                                                        )}
-                                                                        onChange={handleChange}
-                                                                    />
-                                                                    {option['name']}
-                                                                </label>
-                                                            );
-                                                        })}
+                                                    <div className=" h-full max-h-[150px] overflow-y-auto text-sm">
+                                                        {components?.length !== 0 ? (
+                                                            components.map((option) => {
+                                                                return (
+                                                                    <label key={option.id} className="my-3 flex px-5">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
+                                                                            value={option.id}
+                                                                            checked={selectedComponent.includes(
+                                                                                option.id.toString()
+                                                                            )}
+                                                                            onChange={handleChange}
+                                                                        />
+                                                                        {option['name']}
+                                                                    </label>
+                                                                );
+                                                            })
+                                                        ) : (
+                                                            <p className="mr-2  cursor-pointer py-2.5 px-5 text-left">
+                                                                No data is available.
+                                                            </p>
+                                                        )}
                                                     </div>
                                                 </Dropdown>
                                             </div>

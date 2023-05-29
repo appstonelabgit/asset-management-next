@@ -58,6 +58,18 @@ const helper = {
         }
     },
 
+    trancateSmallString(s) {
+        if (s) {
+            if (s.length > 10) {
+                return `${s.substr(0, 10)}...`;
+            } else {
+                return s;
+            }
+        } else {
+            return s;
+        }
+    },
+
     formatIndianCurrency(price) {
         const formatter = new Intl.NumberFormat('en-IN', {
             style: 'currency',

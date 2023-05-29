@@ -259,7 +259,7 @@ const Sellers = () => {
                                 sellers?.map((seller) => {
                                     return (
                                         <tr key={seller.id} className="bg-white">
-                                            <td className="capitalize">{seller?.name}</td>
+                                            <td className="capitalize">{helper.trancateString(seller?.name)}</td>
                                             <td>{seller?.email}</td>
                                             <td>{seller?.phone_number}</td>
                                             <td>{helper.trancateString(seller?.address)}</td>

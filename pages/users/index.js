@@ -260,9 +260,9 @@ const Users = () => {
                                 users?.map((user) => {
                                     return (
                                         <tr key={user.id} className="bg-white">
-                                            <td className="capitalize">{user?.name}</td>
+                                            <td className="capitalize">{helper.trancateString(user?.name)}</td>
                                             <td>{user?.email}</td>
-                                            <td className="capitalize">{user?.designation}</td>
+                                            <td className="capitalize">{helper.trancateString(user?.designation)}</td>
                                             {user?.total_assets === 0 ? (
                                                 <td>{user?.total_assets}</td>
                                             ) : (
@@ -366,11 +366,11 @@ const Users = () => {
                                             return (
                                                 <tr key={modeldata.id} className="bg-white">
                                                     <td>{modeldata?.serial_number}</td>
-                                                    <td className="capitalize">{modeldata?.name}</td>
+                                                    <td className="capitalize">{helper.trancateString(modeldata?.name)}</td>
                                                     <td>{helper.formatIndianCurrency(modeldata?.purchased_cost)}</td>
-                                                    <td className="capitalize">{modeldata?.seller_name}</td>
-                                                    <td className="capitalize">{modeldata?.model_name}</td>
-                                                    <td className="capitalize">{modeldata?.brand_name}</td>
+                                                    <td className="capitalize">{helper.trancateSmallString(modeldata?.seller_name)}</td>
+                                                    <td className="capitalize">{helper.trancateSmallString(modeldata?.model_name)}</td>
+                                                    <td className="capitalize">{helper.trancateSmallString(modeldata?.brand_name)}</td>
                                                     <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
                                                 </tr>
                                             );

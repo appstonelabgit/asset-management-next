@@ -231,7 +231,7 @@ const Brands = () => {
                                             <td>
                                                 <img src={brand?.image_url} alt="image" width={50} height={50} />
                                             </td>
-                                            <td className="capitalize">{brand?.name}</td>
+                                            <td className="capitalize">{helper.trancateString(brand?.name)}</td>
 
                                             <td>
                                                 <div className="flex">

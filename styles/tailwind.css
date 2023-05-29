@@ -71,7 +71,7 @@
     }
 
     .main-table table thead tr th {
-        @apply py-[10px] px-5 text-left whitespace-nowrap;
+        @apply py-[10px] px-5 text-left font-semibold text-[16px] whitespace-nowrap;
     }
     .main-table table thead tr th div {
         @apply space-x-2;
@@ -80,7 +80,7 @@
         @apply border-t border-lightblue hover:bg-[#F5F7FA];
     }
     .main-table table tbody tr td {
-        @apply py-2  px-5;
+        @apply py-2  px-5 ;
     }
     .main-table table thead tr th:first-child {
         @apply rounded-tl-[3px];

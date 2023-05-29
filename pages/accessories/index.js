@@ -524,15 +524,15 @@ const Accessories = () => {
                                     return (
                                         <tr key={accessory.id} className="bg-white">
                                             <td>{accessory?.serial_number}</td>
-                                            <td className="capitalize">{accessory?.name}</td>
+                                            <td className="capitalize">{helper.trancateString(accessory?.name)}</td>
                                             <td>{helper.trancateString(accessory?.description)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.purchased_at)}</td>
                                             <td>{helper.formatIndianCurrency(accessory?.purchased_cost)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.warranty_expired_at)}</td>
-                                            <td className="capitalize">{accessory?.seller_name}</td>
-                                            <td className="capitalize">{accessory?.model_name}</td>
-                                            <td className="capitalize">{accessory?.brand_name}</td>
-                                            <td className="capitalize">{accessory?.user_name}</td>
+                                            <td className="capitalize">{helper.trancateSmallString(accessory?.seller_name)}</td>
+                                            <td className="capitalize">{helper.trancateSmallString(accessory?.model_name)}</td>
+                                            <td className="capitalize">{helper.trancateSmallString(accessory?.brand_name)}</td>
+                                            <td className="capitalize">{helper.trancateSmallString(accessory?.user_name)}</td>
 
                                             {user?.role === 1 && (
                                                 <td>

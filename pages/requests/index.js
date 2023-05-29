@@ -383,7 +383,7 @@ const Request = () => {
                                             {user?.role === 1 && <td className="capitalize">{request?.user_name}</td>}
                                             <td className="capitalize">{request?.request_type}</td>
                                             <td className="capitalize">{request?.type}</td>
-                                            <td className="capitalize">{request?.sub_type}</td>
+                                            <td className="capitalize">{helper.trancateSmallString(request?.sub_type)}</td>
                                             <td>{helper.trancateString(request?.description)}</td>
                                             <td className="flex cursor-pointer items-center space-x-2 capitalize">
                                                 <span className={`status status-${request?.status}`}>

@@ -8,6 +8,8 @@ import IconPageAudit from '../Icon/IconPageAudit';
 import NavLink from './NavLink';
 import IconUser from '../Icon/IconUser';
 import { useSelector } from 'react-redux';
+import IconComponent from '../Icon/IconComponent';
+import IconSeller from '../Icon/IconSeller';
 
 const NavBar = () => {
     const router = useRouter();
@@ -23,7 +25,7 @@ const NavBar = () => {
             </li>
             {user?.role === 1 && (
                 <li>
-                    <NavLink href="/components" icon={<IconChain />} label="Components" />
+                    <NavLink href="/components" icon={<IconComponent />} label="Components" />
                 </li>
             )}
             <li>
@@ -36,7 +38,7 @@ const NavBar = () => {
             )}
             {user?.role === 1 && (
                 <li>
-                    <NavLink href="/sellers" icon={<IconChain />} label="Sellers" />
+                    <NavLink href="/sellers" icon={<IconSeller />} label="Sellers" />
                 </li>
             )}
             {user?.role === 1 && (

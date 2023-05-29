@@ -466,14 +466,14 @@ const Components = () => {
                                 return (
                                     <tr key={component.id} className="bg-white">
                                         <td>{component?.serial_number}</td>
-                                        <td className="capitalize">{component?.name}</td>
+                                        <td className="capitalize">{helper.trancateString(component?.name)}</td>
                                         <td>{helper.trancateString(component?.description)}</td>
                                         <td>{helper?.getFormattedDate(component?.purchased_at)}</td>
                                         <td>{helper.formatIndianCurrency(component?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(component?.warranty_expired_at)}</td>
-                                        <td className="capitalize">{component?.asset_name}</td>
-                                        <td className="capitalize">{component?.model_name}</td>
-                                        <td className="capitalize">{component?.brand_name}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(component?.asset_name)}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(component?.model_name)}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(component?.brand_name)}</td>
 
                                         {user?.role === 1 && (
                                             <td>

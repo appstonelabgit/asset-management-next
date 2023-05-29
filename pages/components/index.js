@@ -188,7 +188,7 @@ const Components = () => {
     return (
         <div className="p-5">
             <h2 className="text-xl font-bold text-darkprimary">Components</h2>
-            <div className="mb-5 flex flex-wrap justify-between">
+            <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
                 <div className="flex space-x-2">
                     <button
                         type="button"
@@ -203,13 +203,16 @@ const Components = () => {
                         Export
                     </button>
                 </div>
-                <div className="flex flex-1 flex-wrap justify-end space-x-2">
+                <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                     <div>
                         <Flatpickr
                             name="purchased_at"
                             value={purchasedDate}
                             className="form-input rounded-l-none"
                             placeholder="Purchase Date"
+                            options={{
+                                disableMobile: 'true',
+                            }}
                             onChange={(date) => {
                                 setPurchasedDate(helper.getFormattedDate2(date[0]));
                             }}
@@ -221,6 +224,9 @@ const Components = () => {
                             value={expiryDate}
                             className="form-input rounded-l-none"
                             placeholder="Warranty Expiry Date"
+                            options={{
+                                disableMobile: 'true',
+                            }}
                             onChange={(date) => {
                                 setExpiryDate(helper.getFormattedDate2(date[0]));
                             }}
@@ -308,7 +314,7 @@ const Components = () => {
                         <tr>
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'serial_number' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('serial_number')}
@@ -325,7 +331,7 @@ const Components = () => {
                             </th>
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('name')}
@@ -341,13 +347,13 @@ const Components = () => {
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer justify-between">
+                                <div className="flex cursor-pointer ">
                                     <span>Description</span>
                                 </div>
                             </th>
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'purchased_at' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('purchased_at')}
@@ -365,7 +371,7 @@ const Components = () => {
 
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'purchased_cost' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('purchased_cost')}
@@ -382,7 +388,7 @@ const Components = () => {
                             </th>
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'warranty_expired_at' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('warranty_expired_at')}
@@ -399,7 +405,7 @@ const Components = () => {
                             </th>
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'asset_name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('asset_name')}
@@ -416,7 +422,7 @@ const Components = () => {
                             </th>
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'model_name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('model_name')}
@@ -433,7 +439,7 @@ const Components = () => {
                             </th>
                             <th>
                                 <div
-                                    className={`flex cursor-pointer justify-between ${
+                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'brand_name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('brand_name')}
@@ -563,6 +569,7 @@ const Components = () => {
                                                     placeholder="YYYY-MM-DD"
                                                     options={{
                                                         defaultDate: [helper.getFormattedDate2(params.purchased_at)],
+                                                        disableMobile: 'true',
                                                     }}
                                                     onChange={(date) => {
                                                         setFieldValue(
@@ -577,6 +584,9 @@ const Components = () => {
                                                     type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
+                                                    options={{
+                                                        disableMobile: 'true',
+                                                    }}
                                                     onChange={(date) => {
                                                         setFieldValue(
                                                             'purchased_at',
@@ -612,6 +622,7 @@ const Components = () => {
                                                         defaultDate: [
                                                             helper.getFormattedDate2(params.warranty_expired_at),
                                                         ],
+                                                        disableMobile: 'true',
                                                     }}
                                                     onChange={(date) => {
                                                         setFieldValue(
@@ -626,6 +637,9 @@ const Components = () => {
                                                     type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="YYYY-MM-DD"
+                                                    options={{
+                                                        disableMobile: 'true',
+                                                    }}
                                                     onChange={(date) => {
                                                         setFieldValue(
                                                             'warranty_expired_at',

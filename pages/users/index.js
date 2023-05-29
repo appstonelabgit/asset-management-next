@@ -126,7 +126,7 @@ const Users = () => {
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Users</h1>
                 <div className="mb-5 text-right">
-                    <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
                                 <input
@@ -179,7 +179,7 @@ const Users = () => {
                             <tr>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
@@ -197,7 +197,7 @@ const Users = () => {
 
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'email' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('email')}
@@ -214,7 +214,7 @@ const Users = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'designation' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('designation')}
@@ -231,7 +231,7 @@ const Users = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'total_assets' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('total_assets')}
@@ -241,7 +241,7 @@ const Users = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'total_accessories' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('total_accessories')}

@@ -35,8 +35,10 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
         <div className="flex items-center justify-between">
             <div className="relative">
                 <Dropdown
+                    usePortal={false}
+                    strategy="absolute"
                     ref={box}
-                    btnClassName="btn-secondary inline-flex items-center gap-[9px] ml-auto font-normal"
+                    btnClassName="btn-secondary inline-flex items-center justify-between gap-[9px] ml-auto font-normal w-52"
                     button={
                         <>
                             {selectedoptions.length === 0

@@ -125,7 +125,7 @@ const Models = () => {
         <div>
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Models</h1>
-                <div className="mb-5 flex flex-wrap justify-between">
+                <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
                     <div className="flex space-x-2">
                         <button
                             type="button"
@@ -140,7 +140,7 @@ const Models = () => {
                             Export
                         </button>
                     </div>
-                    <div className="flex flex-1 flex-wrap justify-end space-x-2">
+                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
                                 <input
@@ -192,7 +192,7 @@ const Models = () => {
                             <tr>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'serial_number' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('serial_number')}
@@ -209,7 +209,7 @@ const Models = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
@@ -226,25 +226,8 @@ const Models = () => {
                                 </th>
 
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div className="flex cursor-pointer ">
                                         <span>Description</span>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div
-                                        className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'created_at' ? 'text-darkprimary' : ''
-                                        }`}
-                                        onClick={() => sortByField('created_at')}
-                                    >
-                                        <span>Date</span>
-                                        <IconUpDownArrow
-                                            className={`${
-                                                order.order_field === 'created_at' && order.sort_order === 'desc'
-                                                    ? 'rotate-180'
-                                                    : ''
-                                            }`}
-                                        />
                                     </div>
                                 </th>
 
@@ -253,7 +236,7 @@ const Models = () => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={5} totalTd={5} tdWidth={60} />
+                                <TableLoadnig totalTr={4} totalTd={4} tdWidth={60} />
                             ) : models?.length !== 0 ? (
                                 models?.map((model) => {
                                     return (
@@ -262,7 +245,6 @@ const Models = () => {
                                             <td className="capitalize">{model?.name}</td>
                                             <td>{helper.trancateString(model?.description)}</td>
 
-                                            <td>{helper?.getFormattedDate(model?.created_at)}</td>
                                             <td>
                                                 <div className="flex">
                                                     <button
@@ -288,7 +270,7 @@ const Models = () => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={5}>No data is available.</td>
+                                    <td colSpan={4}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>

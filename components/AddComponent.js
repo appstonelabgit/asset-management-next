@@ -84,6 +84,9 @@ const AddComponent = (props, forwardedRef) => {
                                                 type="text"
                                                 className="form-input rounded-l-none"
                                                 placeholder="YYYY-MM-DD"
+                                                options={{
+                                                    disableMobile: 'true',
+                                                }}
                                                 onChange={(date) => {
                                                     setFieldValue('purchased_at', helper.getFormattedDate2(date[0]));
                                                 }}
@@ -108,6 +111,9 @@ const AddComponent = (props, forwardedRef) => {
                                                 type="text"
                                                 className="form-input rounded-l-none"
                                                 placeholder="YYYY-MM-DD"
+                                                options={{
+                                                    disableMobile: 'true',
+                                                }}
                                                 onChange={(date) => {
                                                     setFieldValue(
                                                         'warranty_expired_at',

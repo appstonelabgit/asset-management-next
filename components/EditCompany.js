@@ -3,15 +3,29 @@ import CommonSideModal from '@/components/CommonSideModal';
 import axios from '@/libs/axios';
 import { Field, Form, Formik } from 'formik';
 import ButtonField from './Field/ButtonField';
+import { useDispatch, useSelector } from 'react-redux';
+import { useWorkspace } from '@/hooks/useWorkspace';
+import { fetchUser } from '@/store/authSlice';
 
-const AddBrand = (props, forwardedRef) => {
+const EditCompany = (props, forwardedRef) => {
     const SideModal = useRef();
-    const defaultParams = { id: '', name: '' };
+    const defaultParams = { name: '' };
     const [params, setParams] = useState(defaultParams);
+    const { workspace } = useWorkspace();
+    const dispatch = useDispatch();
+
+    const handleEdit = (id) => {
+        try {
+            axios.get(`/companies/${id}`).then(({ data }) => {
+                setParams({ ...params, name: data?.name, logo_url: '', image_url: data?.image_url });
+                SideModal?.current?.open();
+            });
+        } catch (error) {}
+    };
 
     useImperativeHandle(forwardedRef, () => ({
         open() {
-            SideModal?.current.open();
+            handleEdit(workspace?.id);
         },
         close() {
             SideModal?.current.close();
@@ -21,17 +35,18 @@ const AddBrand = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             const formData = new FormData();
-            formData.append('name', values.name);
-            formData.append('logo_url', values.logo_url);
-            await axios.post('/brands', formData);
-            props.refresh();
+            formData.append('logo_url', values?.logo_url);
+            formData.append('company_name', values?.name);
+            await axios.post(`/companies/${workspace?.id}`, formData);
             SideModal?.current.close();
+            dispatch(fetchUser());
+
         } catch {}
     };
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title="Add brand">
+            <CommonSideModal ref={SideModal} title="Edit Company Details">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
@@ -39,26 +54,24 @@ const AddBrand = (props, forwardedRef) => {
                                 <Form className="w-full space-y-5  bg-white py-[25px]">
                                     <div className="space-y-5">
                                         <div>
-                                            <label className="form-label">Brand Name</label>
+                                            <label className="form-label">Company name</label>
 
                                             <Field
                                                 name="name"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="Name"
+                                                placeholder="Company name..."
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Brand logo</label>
-
+                                            <label className="form-label">Company logo</label>
                                             {params?.image_url && (
                                                 <img
                                                     src={params?.image_url}
-                                                    className="my-2 w-40 rounded-xl border p-1"
+                                                    className="my-2 w-40 rounded-xl"
                                                     alt=""
                                                 />
                                             )}
-
                                             <input
                                                 name="logo_url"
                                                 type="file"
@@ -75,7 +88,7 @@ const AddBrand = (props, forwardedRef) => {
                                     </div>
                                     <div>
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
-                                            Add
+                                            Submit
                                         </ButtonField>
                                     </div>
                                 </Form>
@@ -88,4 +101,4 @@ const AddBrand = (props, forwardedRef) => {
     );
 };
 
-export default forwardRef(AddBrand);
+export default forwardRef(EditCompany);

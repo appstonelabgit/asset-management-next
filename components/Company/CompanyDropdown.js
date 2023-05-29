@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 import Dropdown from '../Dropdown';
 import IconDownArrow from '../Icon/IconDownArrow';
 import CompanyDropdownCard from './CompanyDropdownCard';
+import IconEdit from '../Icon/IconEdit';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 const CompanyDropdown = () => {
     const { workspace } = useWorkspace();
@@ -13,10 +16,10 @@ const CompanyDropdown = () => {
         <Dropdown
             offset={[0, 5]}
             placement="bottom-start"
-            btnClassName="flex items-center"
+            btnClassName="flex items-center border-b-4 pb-2 border-darkprimary"
             button={
                 <>
-                    <span className="max-w-[135px] truncate text-lg font-bold capitalize border-b-4 pb-2 border-darkprimary">
+                    <span className="max-w-[135px] truncate text-lg font-bold capitalize ">
                         {workspace?.name || 'Add company'}
                     </span>
                     {/* <IconDownArrow className="ml-2 text-darkblue dark:text-white" /> */}

@@ -292,7 +292,7 @@ const Request = () => {
                                 {user?.role === 1 && (
                                     <th>
                                         <div
-                                            className={`flex cursor-pointer justify-between ${
+                                            className={`flex cursor-pointer  ${
                                                 order.order_field === 'user_name' ? 'text-darkprimary' : ''
                                             }`}
                                             onClick={() => sortByField('user_name')}
@@ -304,7 +304,7 @@ const Request = () => {
                                 )}
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'request_type' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('request_type')}
@@ -316,7 +316,7 @@ const Request = () => {
 
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'type' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('type')}
@@ -327,7 +327,7 @@ const Request = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'sub_type' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('sub_type')}
@@ -338,13 +338,13 @@ const Request = () => {
                                 </th>
 
                                 <th>
-                                    <div className="flex cursor-pointer justify-between ">
+                                    <div className="flex cursor-pointer  ">
                                         <span>Description</span>
                                     </div>
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'status' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('status')}
@@ -354,13 +354,13 @@ const Request = () => {
                                     </div>
                                 </th>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between ">
-                                        <span>Reject reason</span>
+                                    <div className="flex cursor-pointer  ">
+                                        <span>Reject Reason</span>
                                     </div>
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'created_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('created_at')}

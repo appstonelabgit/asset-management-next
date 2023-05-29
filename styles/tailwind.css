@@ -71,7 +71,10 @@
     }
 
     .main-table table thead tr th {
-        @apply py-[10px] px-5 text-left;
+        @apply py-[10px] px-5 text-left whitespace-nowrap;
+    }
+    .main-table table thead tr th div {
+        @apply space-x-2;
     }
     .main-table table tbody tr {
         @apply border-t border-lightblue hover:bg-[#F5F7FA];

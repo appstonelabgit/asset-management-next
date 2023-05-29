@@ -12,6 +12,9 @@ import NavBar from '../Nav/NavBar';
 import { setHasMenuExpanded } from '@/store/appSlice';
 import { useAuth } from '@/hooks/useAuth';
 import CompanyDropdown from '../Company/CompanyDropdown';
+import CommonSideModal from '../CommonSideModal';
+import { Field, Form, Formik } from 'formik';
+import EditCompany from '../EditCompany';
 
 const SideBar = () => {
     const { logout } = useAuth();
@@ -19,6 +22,7 @@ const SideBar = () => {
     const dispatch = useDispatch();
 
     const profileDropdownRef = useRef();
+    const EditCompanyModal = useRef();
 
     const [expanded, setExpanded] = useState(true);
 
@@ -26,6 +30,7 @@ const SideBar = () => {
         setExpanded(value);
         localStorage.setItem('sidebar.__expanded', value.toString());
     };
+
 
     useEffect(() => {
         dispatch(setHasMenuExpanded(expanded));
@@ -61,9 +66,6 @@ const SideBar = () => {
             document.documentElement.classList.add('dark');
         }
     }, []);
-
-
-
 
     return (
         <div className={`main-sidebar ${(!expanded && 'collapsed') || ''}`}>
@@ -103,8 +105,10 @@ const SideBar = () => {
                 <NavBar />
             </div>
 
-            <div className="mx-4 mt-auto flex shrink-0 items-center justify-between pt-4">
+            <div className="relative mx-4 mt-auto flex shrink-0 items-center justify-between pt-4">
                 <Dropdown
+                    usePortal={false}
+                    strategy="absolute"
                     ref={profileDropdownRef}
                     offset={[0, 5]}
                     placement="top-start"
@@ -123,16 +127,25 @@ const SideBar = () => {
                         </>
                     }
                 >
-                    <div className="w-32 text-xs" onClick={() => profileDropdownRef.current.close()}>
+                    <div className="w-full text-xs" onClick={() => profileDropdownRef.current.close()}>
                         <Link
                             href="/my-account"
-                            className="hidden w-full cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
+                            className="hidden w-full cursor-pointer truncate py-2.5 px-5 text-left text-black hover:bg-lightblue1"
                         >
                             Profile
                         </Link>
+                        {user?.role === 1 && (
+                            <button
+                                type="button"
+                                className="block w-full cursor-pointer truncate py-2.5 px-5 text-left text-black hover:bg-lightblue1"
+                                onClick={() => EditCompanyModal?.current?.open()}
+                            >
+                                Edit Company Details
+                            </button>
+                        )}
                         <button
                             type="button"
-                            className="block w-full cursor-pointer truncate py-2.5 px-5 text-left hover:bg-lightblue1"
+                            className="block w-full cursor-pointer truncate py-2.5 px-5 text-left text-black hover:bg-lightblue1"
                             onClick={logout}
                         >
                             Logout
@@ -146,6 +159,8 @@ const SideBar = () => {
                     </button>
                 )}
             </div>
+            <EditCompany ref={EditCompanyModal} />
+
         </div>
     );
 };

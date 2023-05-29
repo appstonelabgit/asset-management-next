@@ -12,9 +12,11 @@ import CommonSideModal from '@/components/CommonSideModal';
 import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
+import Import from '@/components/Import';
 
 const Sellers = () => {
     const SideModal = useRef();
+    const importModal = useRef();
 
     const [sellers, setSellers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -103,6 +105,19 @@ const Sellers = () => {
         }
     };
 
+    const exportdata = async () => {
+        try {
+            const response = await axios.get(`/sellers/file/export`);
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', `sellers.csv`);
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            return true;
+        } catch {}
+    };
+
     useEffect(() => {
         getSellers(currentPage, pageLimit);
     }, [getSellers, currentPage, pageLimit]);
@@ -111,8 +126,22 @@ const Sellers = () => {
         <div>
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Sellers</h1>
-                <div className="mb-5 text-right">
-                    <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+                <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
+                    <div className="flex space-x-2">
+                        <button
+                            type="button"
+                            className="btn-secondary mb-0 mt-2"
+                            onClick={() => {
+                                importModal?.current?.open();
+                            }}
+                        >
+                            Import
+                        </button>
+                        <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
+                            Export
+                        </button>
+                    </div>
+                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
                                 <input
@@ -164,7 +193,7 @@ const Sellers = () => {
                             <tr>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
@@ -182,7 +211,7 @@ const Sellers = () => {
 
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'email' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('email')}
@@ -199,7 +228,7 @@ const Sellers = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'phone_number' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('phone_number')}
@@ -215,25 +244,8 @@ const Sellers = () => {
                                     </div>
                                 </th>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between ">
+                                    <div className="flex cursor-pointer  ">
                                         <span>Address</span>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div
-                                        className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'created_at' ? 'text-darkprimary' : ''
-                                        }`}
-                                        onClick={() => sortByField('created_at')}
-                                    >
-                                        <span>Date</span>
-                                        <IconUpDownArrow
-                                            className={`${
-                                                order.order_field === 'created_at' && order.sort_order === 'desc'
-                                                    ? 'rotate-180'
-                                                    : ''
-                                            }`}
-                                        />
                                     </div>
                                 </th>
 
@@ -242,7 +254,7 @@ const Sellers = () => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={6} totalTd={6} tdWidth={60} />
+                                <TableLoadnig totalTr={5} totalTd={5} tdWidth={60} />
                             ) : sellers?.length !== 0 ? (
                                 sellers?.map((seller) => {
                                     return (
@@ -251,7 +263,6 @@ const Sellers = () => {
                                             <td>{seller?.email}</td>
                                             <td>{seller?.phone_number}</td>
                                             <td>{helper.trancateString(seller?.address)}</td>
-                                            <td>{helper?.getFormattedDate(seller?.created_at)}</td>
                                             <td>
                                                 <div className="flex">
                                                     <button
@@ -277,7 +288,7 @@ const Sellers = () => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={6}>No data is available.</td>
+                                    <td colSpan={5}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -361,6 +372,7 @@ const Sellers = () => {
                         </div>
                     </div>
                 </CommonSideModal>
+                <Import ref={importModal} refresh={refresh} type="sellers" csvPath="/csv/sample_sellers.csv" />
             </div>
         </div>
     );

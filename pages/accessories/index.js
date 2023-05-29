@@ -22,6 +22,7 @@ import AddBrand from '@/components/AddBrand';
 import AddUser from '@/components/AddUser';
 import { useSelector } from 'react-redux';
 import Import from '@/components/Import';
+import IconHistory from '@/components/Icon/IconHistory';
 
 const Accessories = () => {
     const { user } = useSelector((state) => state.auth);
@@ -227,7 +228,7 @@ const Accessories = () => {
         <div>
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Accessories</h1>
-                <div className="mb-5 flex flex-wrap justify-between">
+                <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
                     <div className="flex space-x-2">
                         <button
                             type="button"
@@ -242,13 +243,16 @@ const Accessories = () => {
                             Export
                         </button>
                     </div>
-                    <div className="flex flex-1 flex-wrap justify-end space-x-2">
+                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div>
                             <Flatpickr
                                 name="purchased_at"
                                 value={purchasedDate}
                                 className="form-input rounded-l-none"
                                 placeholder="Purchase Date"
+                                options={{
+                                    disableMobile: 'true',
+                                }}
                                 onChange={(date) => {
                                     setPurchasedDate(helper.getFormattedDate2(date[0]));
                                 }}
@@ -260,6 +264,9 @@ const Accessories = () => {
                                 value={expiryDate}
                                 className="form-input rounded-l-none"
                                 placeholder="Warranty Expiry Date"
+                                options={{
+                                    disableMobile: 'true',
+                                }}
                                 onChange={(date) => {
                                     setExpiryDate(helper.getFormattedDate2(date[0]));
                                 }}
@@ -347,7 +354,7 @@ const Accessories = () => {
                             <tr>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'serial_number' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('serial_number')}
@@ -364,7 +371,7 @@ const Accessories = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
@@ -380,13 +387,13 @@ const Accessories = () => {
                                     </div>
                                 </th>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div className="flex cursor-pointer ">
                                         <span>Description</span>
                                     </div>
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'purchased_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('purchased_at')}
@@ -404,7 +411,7 @@ const Accessories = () => {
 
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'purchased_cost' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('purchased_cost')}
@@ -421,7 +428,7 @@ const Accessories = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'warranty_expired_at' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('warranty_expired_at')}
@@ -439,7 +446,7 @@ const Accessories = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'seller_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('seller_name')}
@@ -456,7 +463,7 @@ const Accessories = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'model_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('model_name')}
@@ -473,7 +480,7 @@ const Accessories = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'brand_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('brand_name')}
@@ -490,7 +497,7 @@ const Accessories = () => {
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'user_name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('user_name')}
@@ -537,7 +544,7 @@ const Accessories = () => {
                                                                 handleModalData(accessory?.id, accessory?.user_id);
                                                             }}
                                                         >
-                                                            history
+                                                            <IconHistory />
                                                         </button>
                                                         <button
                                                             type="button"
@@ -667,6 +674,7 @@ const Accessories = () => {
                                                             defaultDate: [
                                                                 helper.getFormattedDate2(params.purchased_at),
                                                             ],
+                                                            disableMobile: 'true',
                                                         }}
                                                         onChange={(date) =>
                                                             setFieldValue(
@@ -681,6 +689,9 @@ const Accessories = () => {
                                                         type="text"
                                                         className="form-input rounded-l-none"
                                                         placeholder="YYYY-MM-DD"
+                                                        options={{
+                                                            disableMobile: 'true',
+                                                        }}
                                                         onChange={(date) =>
                                                             setFieldValue(
                                                                 'purchased_at',
@@ -717,6 +728,7 @@ const Accessories = () => {
                                                             defaultDate: [
                                                                 helper.getFormattedDate2(params.warranty_expired_at),
                                                             ],
+                                                            disableMobile: 'true',
                                                         }}
                                                         onChange={(date) => {
                                                             setFieldValue(
@@ -731,6 +743,9 @@ const Accessories = () => {
                                                         type="text"
                                                         className="form-input rounded-l-none"
                                                         placeholder="YYYY-MM-DD"
+                                                        options={{
+                                                            disableMobile: 'true',
+                                                        }}
                                                         onChange={(date) => {
                                                             setFieldValue(
                                                                 'warranty_expired_at',

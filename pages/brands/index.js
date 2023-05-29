@@ -13,9 +13,11 @@ import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
 import Image from 'next/image';
+import Import from '@/components/Import';
 
 const Brands = () => {
     const SideModal = useRef();
+    const importModal = useRef();
 
     const [brands, setBrands] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -106,6 +108,20 @@ const Brands = () => {
             refresh();
         }
     };
+
+    const exportdata = async () => {
+        try {
+            const response = await axios.get(`/brands/file/export`);
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', `brands.csv`);
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            return true;
+        } catch {}
+    };
+
     useEffect(() => {
         getBrands(currentPage, pageLimit);
     }, [getBrands, currentPage, pageLimit]);
@@ -114,8 +130,22 @@ const Brands = () => {
         <div>
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Brands</h1>
-                <div className="mb-5 text-right">
-                    <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+                <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
+                    <div className="flex space-x-2">
+                        <button
+                            type="button"
+                            className="btn-secondary mb-0 mt-2"
+                            onClick={() => {
+                                importModal?.current?.open();
+                            }}
+                        >
+                            Import
+                        </button>
+                        <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
+                            Export
+                        </button>
+                    </div>
+                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
                                 <input
@@ -166,13 +196,13 @@ const Brands = () => {
                         <thead className="bg-lightblue1">
                             <tr>
                                 <th>
-                                    <div className="flex cursor-pointer justify-between">
+                                    <div className="flex cursor-pointer ">
                                         <span>Brand Logo</span>
                                     </div>
                                 </th>
                                 <th>
                                     <div
-                                        className={`flex cursor-pointer justify-between ${
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
@@ -188,30 +218,12 @@ const Brands = () => {
                                     </div>
                                 </th>
 
-                                <th>
-                                    <div
-                                        className={`flex cursor-pointer justify-between ${
-                                            order.order_field === 'created_at' ? 'text-darkprimary' : ''
-                                        }`}
-                                        onClick={() => sortByField('created_at')}
-                                    >
-                                        <span>Date</span>
-                                        <IconUpDownArrow
-                                            className={`${
-                                                order.order_field === 'created_at' && order.sort_order === 'desc'
-                                                    ? 'rotate-180'
-                                                    : ''
-                                            }`}
-                                        />
-                                    </div>
-                                </th>
-
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={4} totalTd={4} tdWidth={60} />
+                                <TableLoadnig totalTr={3} totalTd={3} tdWidth={60} />
                             ) : brands?.length !== 0 ? (
                                 brands?.map((brand) => {
                                     return (
@@ -221,7 +233,6 @@ const Brands = () => {
                                             </td>
                                             <td className="capitalize">{brand?.name}</td>
 
-                                            <td>{helper?.getFormattedDate(brand?.created_at)}</td>
                                             <td>
                                                 <div className="flex">
                                                     <button
@@ -247,7 +258,7 @@ const Brands = () => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={4}>No data is available.</td>
+                                    <td colSpan={3}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -288,7 +299,7 @@ const Brands = () => {
                                                 {params?.image_url && (
                                                     <img
                                                         src={params?.image_url}
-                                                        className="my-2 w-40 rounded-xl border p-1"
+                                                        className="my-2 w-40 rounded-xl"
                                                         alt=""
                                                     />
                                                 )}
@@ -322,6 +333,7 @@ const Brands = () => {
                         </div>
                     </div>
                 </CommonSideModal>
+                <Import ref={importModal} refresh={refresh} type="brands" csvPath="/csv/sample_brands.csv" />
             </div>
         </div>
     );

@@ -115,6 +115,9 @@
     .main-nav span.icon {
         @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/50 text-darkblue dark:bg-white/20 dark:text-white;
     }
+    .main-nav span.icon.active{
+        @apply text-black;
+    }
     .main-nav .nav-item:hover ,
     .main-nav .nav-item.active  {
         @apply bg-primary text-darkblue;

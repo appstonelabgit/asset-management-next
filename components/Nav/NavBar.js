@@ -54,11 +54,6 @@ const NavBar = () => {
                     <NavLink href="/brands" icon={<IconBrand />} label="Brands" />
                 </li>
             )}
-            {/* {user?.role === 2 && (
-                <li>
-                    <NavLink href="/requests/send-request" icon={<IconChain />} label="Send Request" />
-                </li>
-            )} */}
 
             <li>
                 <NavLink href="/requests" icon={<IconStatus />} label="Requests" />

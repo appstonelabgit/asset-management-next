@@ -7,40 +7,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWorkspace } from '@/hooks/useWorkspace';
 import { fetchUser } from '@/store/authSlice';
 
-const EditCompany = (props, forwardedRef) => {
-    const SideModal = useRef();
-    const defaultParams = { name: '' };
-    const [params, setParams] = useState(defaultParams);
-    const { workspace } = useWorkspace();
-    const dispatch = useDispatch();
+const EditProfile = (props, forwardedRef) => {
+    const { user } = useSelector((state) => state.auth);
 
-    const handleEdit = (id) => {
-        try {
-            axios.get(`/companies/${id}`).then(({ data }) => {
-                setParams({ ...params, name: data?.name, logo_url: '', image_url: data?.image_url });
-                SideModal?.current?.open();
-            });
-        } catch (error) {}
-    };
+    const SideModal = useRef();
+    const defaultParams = { name: '', email: '' };
+    const [params, setParams] = useState(defaultParams);
+
+    const dispatch = useDispatch();
 
     useImperativeHandle(forwardedRef, () => ({
         open() {
-            handleEdit(workspace?.id);
+            setParams({ ...params, name: user?.name, email: user?.email });
+            SideModal?.current?.open();
         },
         close() {
             SideModal?.current.close();
         },
     }));
-
     const formHandler = async (values) => {
         try {
-            const formData = new FormData();
-            formData.append('logo_url', values?.logo_url);
-            formData.append('company_name', values?.name);
-            await axios.post(`/companies/${workspace?.id}`, formData);
+            await axios.post(`/auth/${user?.id}`, values);
             SideModal?.current.close();
             dispatch(fetchUser());
-
         } catch {}
     };
 
@@ -50,39 +39,30 @@ const EditCompany = (props, forwardedRef) => {
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
-                            {({ isSubmitting, setFieldValue }) => (
+                            {({ isSubmitting }) => (
                                 <Form className="w-full space-y-5  bg-white py-[25px]">
                                     <div className="space-y-5">
                                         <div>
-                                            <label className="form-label">Company name</label>
+                                            <label className="form-label">Name</label>
 
                                             <Field
                                                 name="name"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="Company name..."
+                                                placeholder="Name"
                                             />
                                         </div>
+                                    </div>
+                                    <div className="space-y-5">
                                         <div>
-                                            <label className="form-label">Company logo</label>
-                                            {params?.image_url && (
-                                                <img
-                                                    src={params?.image_url}
-                                                    className="my-2 w-40 rounded-xl"
-                                                    alt=""
-                                                />
-                                            )}
-                                            <input
-                                                name="logo_url"
-                                                type="file"
-                                                className="form-input rounded-l-none"
-                                                onChange={(e) => {
-                                                    setParams({
-                                                        ...params,
-                                                        image_url: URL.createObjectURL(e.target.files[0]),
-                                                    });
-                                                    setFieldValue('logo_url', e.target.files[0]);
-                                                }}
+                                            <label className="form-label">Email</label>
+
+                                            <Field
+                                                name="email"
+                                                type="text"
+                                                className="form-input rounded-l-none opacity-60"
+                                                placeholder="Email"
+                                                readOnly
                                             />
                                         </div>
                                     </div>
@@ -101,4 +81,4 @@ const EditCompany = (props, forwardedRef) => {
     );
 };
 
-export default forwardRef(EditCompany);
+export default forwardRef(EditProfile);

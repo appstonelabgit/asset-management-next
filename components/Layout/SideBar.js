@@ -15,6 +15,7 @@ import CompanyDropdown from '../Company/CompanyDropdown';
 import CommonSideModal from '../CommonSideModal';
 import { Field, Form, Formik } from 'formik';
 import EditCompany from '../EditCompany';
+import EditProfile from '../EditProfile';
 
 const SideBar = () => {
     const { logout } = useAuth();
@@ -23,6 +24,7 @@ const SideBar = () => {
 
     const profileDropdownRef = useRef();
     const EditCompanyModal = useRef();
+    const EditProfileModal = useRef();
 
     const [expanded, setExpanded] = useState(true);
 
@@ -30,7 +32,6 @@ const SideBar = () => {
         setExpanded(value);
         localStorage.setItem('sidebar.__expanded', value.toString());
     };
-
 
     useEffect(() => {
         dispatch(setHasMenuExpanded(expanded));
@@ -128,12 +129,15 @@ const SideBar = () => {
                     }
                 >
                     <div className="w-full text-xs" onClick={() => profileDropdownRef.current.close()}>
-                        <Link
-                            href="/my-account"
-                            className="hidden w-full cursor-pointer truncate py-2.5 px-5 text-left text-black hover:bg-lightblue1"
-                        >
-                            Profile
-                        </Link>
+                        {user?.role === 1 && (
+                            <button
+                                type="button"
+                                className="block w-full cursor-pointer truncate py-2.5 px-5 text-left text-black hover:bg-lightblue1"
+                                onClick={() => EditProfileModal?.current?.open()}
+                            >
+                                Edit Profile
+                            </button>
+                        )}
                         {user?.role === 1 && (
                             <button
                                 type="button"
@@ -160,7 +164,7 @@ const SideBar = () => {
                 )}
             </div>
             <EditCompany ref={EditCompanyModal} />
-
+            <EditProfile ref={EditProfileModal} />
         </div>
     );
 };

@@ -77,7 +77,7 @@
         @apply space-x-2;
     }
     .main-table table tbody tr {
-        @apply border-t border-lightblue hover:bg-[#F5F7FA];
+        @apply border-t border-lightblue hover:bg-[#F5F7FA] whitespace-nowrap;
     }
     .main-table table tbody tr td {
         @apply py-2  px-5 ;

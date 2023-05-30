@@ -20,9 +20,9 @@ const NavBar = () => {
 
     return (
         <ul className="main-nav">
-            <li>
+            {/* <li>
                 <NavLink href="/" icon={<IconHome />} label="Dashboard" />
-            </li>
+            </li> */}
             <li>
                 <NavLink href="/assets" icon={<IconCrawl />} label="Assets" />
             </li>

@@ -22,6 +22,8 @@ const AddUser = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/users', values);
+            props.refresh();
+            SideModal?.current.close();
         } catch {}
     };
 

@@ -494,7 +494,7 @@ const Request = () => {
                                         {statusParams?.status === 'Rejected' && (
                                             <div className="space-y-5">
                                                 <div>
-                                                    <label className="form-label">Reject reason</label>
+                                                    <label className="form-label">Reject Reason</label>
 
                                                     <Field
                                                         as="textarea"
@@ -509,7 +509,7 @@ const Request = () => {
                                         {statusParams?.status === 'Onhold' && (
                                             <div className="space-y-5">
                                                 <div>
-                                                    <label className="form-label">Onhold reason</label>
+                                                    <label className="form-label">Onhold Reason</label>
 
                                                     <Field
                                                         as="textarea"
@@ -528,7 +528,7 @@ const Request = () => {
                                                     loading={isSubmitting}
                                                     className="btn block w-full"
                                                 >
-                                                    submit
+                                                    Submit
                                                 </ButtonField>
                                             </div>
                                         )}

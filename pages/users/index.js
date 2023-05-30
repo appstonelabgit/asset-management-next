@@ -79,11 +79,11 @@ const Users = () => {
         try {
             if (params?.id) {
                 await axios.post(`/users/${params?.id}`, values);
-                SideModal?.current.close();
-                refresh();
             } else {
                 await axios.post('/users', values);
             }
+            SideModal?.current.close();
+            refresh();
         } catch {}
     };
 

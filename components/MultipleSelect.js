@@ -38,7 +38,7 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
                     usePortal={false}
                     strategy="absolute"
                     ref={box}
-                    btnClassName="btn-secondary inline-flex items-center justify-between gap-[9px] ml-auto font-normal w-52"
+                    btnClassName="btn-secondary inline-flex items-center justify-between gap-[9px] ml-auto font-normal w-56"
                     button={
                         <>
                             {selectedoptions.length === 0

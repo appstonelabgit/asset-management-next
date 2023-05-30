@@ -42,7 +42,7 @@ const AddModel = (props, forwardedRef) => {
                                                 name="name"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="name"
+                                                placeholder="Name"
                                             />
                                         </div>
 

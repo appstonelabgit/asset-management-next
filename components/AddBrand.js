@@ -6,11 +6,12 @@ import ButtonField from './Field/ButtonField';
 
 const AddBrand = (props, forwardedRef) => {
     const SideModal = useRef();
-    const defaultParams = { id: '', name: '' };
+    const defaultParams = { id: '', name: '', image_url: '' };
     const [params, setParams] = useState(defaultParams);
 
     useImperativeHandle(forwardedRef, () => ({
         open() {
+            setParams({ id: '', name: '', image_url: '' });
             SideModal?.current.open();
         },
         close() {
@@ -52,11 +53,7 @@ const AddBrand = (props, forwardedRef) => {
                                             <label className="form-label">Brand logo</label>
 
                                             {params?.image_url && (
-                                                <img
-                                                    src={params?.image_url}
-                                                    className="my-2 w-40 rounded-xl border p-1"
-                                                    alt=""
-                                                />
+                                                <img src={params?.image_url} className="my-2 w-40 rounded-xl" alt="" />
                                             )}
 
                                             <input

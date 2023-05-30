@@ -391,7 +391,7 @@ const Request = () => {
                                                 </span>
                                             </td>
 
-                                            <td>{helper.trancateString(request?.reject_reason || '')}</td>
+                                            <td>{helper.trancateString(request?.reject_reason || '-')}</td>
 
                                             <td>{helper?.getFormattedDate(request?.created_at)}</td>
 

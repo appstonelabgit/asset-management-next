@@ -30,25 +30,25 @@ const Register = () => {
                         {({ isSubmitting }) => (
                             <Form className="space-y-4">
                                 <div>
-                                    <label className="form-label">Full name</label>
+                                    <label className="form-label">Full Name</label>
                                     <div>
                                         <Field
                                             name="name"
                                             type="text"
                                             className="form-input"
-                                            placeholder="Full name..."
+                                            placeholder="Full Name..."
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="form-label">Email address</label>
+                                    <label className="form-label">Email Address</label>
                                     <div>
                                         <Field
                                             name="email"
                                             type="text"
                                             className="form-input"
-                                            placeholder="Email address..."
+                                            placeholder="Email Address..."
                                         />
                                     </div>
                                 </div>

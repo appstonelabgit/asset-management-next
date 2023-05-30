@@ -471,9 +471,9 @@ const Components = () => {
                                         <td>{helper?.getFormattedDate(component?.purchased_at)}</td>
                                         <td>{helper.formatIndianCurrency(component?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(component?.warranty_expired_at)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(component?.asset_name)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(component?.model_name)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(component?.brand_name)}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(component?.asset_name) || '-'}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(component?.model_name) || '-'}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(component?.brand_name) || '-'}</td>
 
                                         {user?.role === 1 && (
                                             <td>

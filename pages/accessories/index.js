@@ -529,10 +529,18 @@ const Accessories = () => {
                                             <td>{helper?.getFormattedDate(accessory?.purchased_at)}</td>
                                             <td>{helper.formatIndianCurrency(accessory?.purchased_cost)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.warranty_expired_at)}</td>
-                                            <td className="capitalize">{helper.trancateSmallString(accessory?.seller_name)}</td>
-                                            <td className="capitalize">{helper.trancateSmallString(accessory?.model_name)}</td>
-                                            <td className="capitalize">{helper.trancateSmallString(accessory?.brand_name)}</td>
-                                            <td className="capitalize">{helper.trancateSmallString(accessory?.user_name)}</td>
+                                            <td className="capitalize">
+                                                {helper.trancateSmallString(accessory?.seller_name || '-')}
+                                            </td>
+                                            <td className="capitalize">
+                                                {helper.trancateSmallString(accessory?.model_name || '-')}
+                                            </td>
+                                            <td className="capitalize">
+                                                {helper.trancateSmallString(accessory?.brand_name || '-')}
+                                            </td>
+                                            <td className="capitalize">
+                                                {helper.trancateSmallString(accessory?.user_name || '-')}
+                                            </td>
 
                                             {user?.role === 1 && (
                                                 <td>

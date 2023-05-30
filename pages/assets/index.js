@@ -627,10 +627,10 @@ const Assets = () => {
                                         <td>{helper?.getFormattedDate(asset?.purchased_at)}</td>
                                         <td>{helper.formatIndianCurrency(asset?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(asset?.warranty_expired_at)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.seller_name)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.model_name)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.brand_name)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.user_name)}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.seller_name) || '-'}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.model_name) || '-'}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.brand_name) || '-'}</td>
+                                        <td className="capitalize">{helper.trancateSmallString(asset?.user_name) || '-'}</td>
 
                                         {user?.role === 1 && (
                                             <td>
@@ -984,7 +984,7 @@ const Assets = () => {
                                                     button={
                                                         <>
                                                             {selectedComponent.length === 0
-                                                                ? 'components'
+                                                                ? 'Components'
                                                                 : helper.trancateString(
                                                                       getNamesByIds(selectedComponent).join(',')
                                                                   )}

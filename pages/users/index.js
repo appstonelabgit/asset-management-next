@@ -366,11 +366,19 @@ const Users = () => {
                                             return (
                                                 <tr key={modeldata.id} className="bg-white">
                                                     <td>{modeldata?.serial_number}</td>
-                                                    <td className="capitalize">{helper.trancateString(modeldata?.name)}</td>
+                                                    <td className="capitalize">
+                                                        {helper.trancateString(modeldata?.name)}
+                                                    </td>
                                                     <td>{helper.formatIndianCurrency(modeldata?.purchased_cost)}</td>
-                                                    <td className="capitalize">{helper.trancateSmallString(modeldata?.seller_name)}</td>
-                                                    <td className="capitalize">{helper.trancateSmallString(modeldata?.model_name)}</td>
-                                                    <td className="capitalize">{helper.trancateSmallString(modeldata?.brand_name)}</td>
+                                                    <td className="capitalize">
+                                                        {helper.trancateSmallString(modeldata?.seller_name) || '-'}
+                                                    </td>
+                                                    <td className="capitalize">
+                                                        {helper.trancateSmallString(modeldata?.model_name) || '-'}
+                                                    </td>
+                                                    <td className="capitalize">
+                                                        {helper.trancateSmallString(modeldata?.brand_name) || '-'}
+                                                    </td>
                                                     <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
                                                 </tr>
                                             );

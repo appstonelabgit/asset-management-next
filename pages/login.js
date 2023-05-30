@@ -26,13 +26,13 @@ const Login = () => {
                         {({ isSubmitting }) => (
                             <Form className="space-y-4">
                                 <div className="relative">
-                                    <label className="form-label">Email address</label>
+                                    <label className="form-label">Email Address</label>
                                     <div>
                                         <Field
                                             name="email"
                                             type="text"
                                             className="form-input"
-                                            placeholder="Email address..."
+                                            placeholder="Email Address..."
                                         />
                                     </div>
                                 </div>

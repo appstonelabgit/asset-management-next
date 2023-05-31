@@ -35,7 +35,7 @@ const EditProfile = (props, forwardedRef) => {
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title="Edit Company Details">
+            <CommonSideModal ref={SideModal} title="Edit Profile">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>

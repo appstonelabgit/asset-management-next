@@ -59,7 +59,7 @@ const CommonSideModal = (
                             ref={modalPanelRef}
                             className={`${
                                 (isOpen && '!right-0') || ''
-                            } fixed top-0 bottom-0  z-[52] w-full overflow-y-auto bg-white p-5 pt-10 shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-[right] md:px-[43px] md:pb-[46px] md:pt-[25px]`}
+                            } fixed top-0 bottom-0  z-[52] w-full overflow-y-auto bg-white px-5 pt-10 shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-[right] md:pt-[25px]`}
                             style={{
                                 right: isOpen ? `-${width}` : '-546px',
                                 transition: 'right 0.3s ease-in-out',

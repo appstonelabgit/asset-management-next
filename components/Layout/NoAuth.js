@@ -8,7 +8,7 @@ const NoAuth = ({ children }) => {
 
     useEffect(() => {
         if (status === 'authenticated') {
-            router.push('/');
+            router.push('/assets');
         }
     }, [status, router]);
 

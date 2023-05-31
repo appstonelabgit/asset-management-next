@@ -106,7 +106,7 @@ const SideBar = () => {
                 <NavBar />
             </div>
 
-            <div className="relative mx-4 mt-auto flex shrink-0 items-center justify-between pt-4">
+            <div className="relative w-[183px] mx-4 mt-auto flex shrink-0 items-center justify-between pt-4">
                 <Dropdown
                     usePortal={false}
                     strategy="absolute"

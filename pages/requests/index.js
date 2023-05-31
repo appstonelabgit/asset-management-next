@@ -383,7 +383,9 @@ const Request = () => {
                                             {user?.role === 1 && <td className="capitalize">{request?.user_name}</td>}
                                             <td className="capitalize">{request?.request_type}</td>
                                             <td className="capitalize">{request?.type}</td>
-                                            <td className="capitalize">{helper.trancateSmallString(request?.sub_type)}</td>
+                                            <td className="capitalize">
+                                                {helper.trancateSmallString(request?.sub_type)}
+                                            </td>
                                             <td>{helper.trancateString(request?.description)}</td>
                                             <td className="flex cursor-pointer items-center space-x-2 capitalize">
                                                 <span className={`status status-${request?.status}`}>
@@ -391,7 +393,17 @@ const Request = () => {
                                                 </span>
                                             </td>
 
-                                            <td>{helper.trancateString(request?.reject_reason || '-')}</td>
+                                            <td>
+                                                {request?.reject_reason ? (
+                                                    <Tippy content={request?.reject_reason}>
+                                                        <span className="cursor-pointer">
+                                                            {helper.trancateString(request?.reject_reason || '-')}
+                                                        </span>
+                                                    </Tippy>
+                                                ) : (
+                                                    <span>{helper.trancateString(request?.reject_reason || '-')}</span>
+                                                )}
+                                            </td>
 
                                             <td>{helper?.getFormattedDate(request?.created_at)}</td>
 
@@ -543,7 +555,7 @@ const Request = () => {
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting, setFieldValue }) => (
-                                    <Form className="w-full space-y-5  bg-white py-[25px]">
+                                    <Form className="w-full space-y-5  bg-white pt-[25px]">
                                         <div className="space-y-5">
                                             <div>
                                                 <label className="form-label">Request type</label>
@@ -610,7 +622,7 @@ const Request = () => {
                                                 </>
                                             )}
                                         </div>
-                                        <div>
+                                        <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
                                             <ButtonField
                                                 type="submit"
                                                 loading={isSubmitting}

@@ -525,7 +525,7 @@ const Components = () => {
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white py-[25px]">
+                                <Form className="w-full space-y-5  bg-white pt-[25px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Component Name</label>
@@ -734,7 +734,7 @@ const Components = () => {
                                             </Field>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div className='sticky bottom-0 bg-white py-[25px] !mt-0'>
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
                                             {params?.id ? 'Edit' : 'Add'}
                                         </ButtonField>
@@ -748,7 +748,7 @@ const Components = () => {
             <AddModel ref={addModelModal} refresh={getDependentInformation} />
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddAsset ref={addAssetModal} refresh={getDependentInformation} />
-            <Import ref={importModal} refresh={refresh} type="components" csvPath="/csv/sample_components.csv" />
+            <Import ref={importModal} refresh={refresh} type="components" csvPath="/csv/Sample Components.csv" />
         </div>
     );
 };

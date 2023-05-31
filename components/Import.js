@@ -49,7 +49,7 @@ const Import = (props, forwardedRef) => {
                                                 setFieldValue('data', e.target.files[0]);
                                             }}
                                         />
-                                        <Link href={props.csvPath} className="btn-secondary block mt-2">
+                                        <Link href={props.csvPath} className="btn-secondary text-sm block mt-2">
                                             Download Sample csv
                                         </Link>
                                     </div>

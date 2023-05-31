@@ -51,7 +51,7 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
                     <div className=" h-full max-h-[150px] overflow-y-auto text-sm">
                         {list.map((option) => {
                             return (
-                                <label key={option.id} className="my-3 flex px-5 capitalize">
+                                <label key={option.id} className="my-3 flex px-5 capitalize items-center">
                                     <input
                                         type="checkbox"
                                         className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"

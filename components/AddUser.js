@@ -34,7 +34,7 @@ const AddUser = (props, forwardedRef) => {
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting }) => (
-                                <Form className="w-full space-y-5  bg-white py-[25px]">
+                                <Form className="w-full space-y-5  bg-white pt-[25px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">User Name</label>
@@ -69,7 +69,7 @@ const AddUser = (props, forwardedRef) => {
                                             />
                                         </div>
                                     </div>
-                                    <div>
+                                    <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
                                             Add
                                         </ButtonField>

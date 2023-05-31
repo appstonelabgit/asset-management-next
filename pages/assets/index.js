@@ -627,10 +627,18 @@ const Assets = () => {
                                         <td>{helper?.getFormattedDate(asset?.purchased_at)}</td>
                                         <td>{helper.formatIndianCurrency(asset?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(asset?.warranty_expired_at)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.seller_name) || '-'}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.model_name) || '-'}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.brand_name) || '-'}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(asset?.user_name) || '-'}</td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(asset?.seller_name) || '-'}
+                                        </td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(asset?.model_name) || '-'}
+                                        </td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(asset?.brand_name) || '-'}
+                                        </td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(asset?.user_name) || '-'}
+                                        </td>
 
                                         {user?.role === 1 && (
                                             <td>
@@ -725,7 +733,7 @@ const Assets = () => {
                     <div className="border-gray-900/10">
                         <Formik innerRef={formRef} initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white py-[25px]">
+                                <Form className="w-full space-y-5  bg-white pt-[25px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Asset Name</label>
@@ -1020,8 +1028,8 @@ const Assets = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
+                                    <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
+                                        <ButtonField type="submit" loading={isSubmitting} className=" btn block w-full">
                                             {params?.id ? 'Edit' : 'Add'}
                                         </ButtonField>
                                     </div>
@@ -1036,7 +1044,7 @@ const Assets = () => {
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddUser ref={addUserModal} refresh={getDependentInformation} />
             <AddComponent ref={addComponentModal} refresh={getDependentComponent} />
-            <Import ref={importModal} refresh={refresh} type="assets" csvPath="/csv/sample_assets.csv" />
+            <Import ref={importModal} refresh={refresh} type="assets" csvPath="/csv/Sample Assets.csv" />
         </div>
     );
 };

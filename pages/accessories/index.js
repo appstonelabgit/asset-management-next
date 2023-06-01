@@ -229,20 +229,22 @@ const Accessories = () => {
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Accessories</h1>
                 <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
-                    <div className="flex space-x-2">
-                        <button
-                            type="button"
-                            className="btn-secondary mb-0 mt-2"
-                            onClick={() => {
-                                importModal?.current?.open();
-                            }}
-                        >
-                            Import
-                        </button>
-                        <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
-                            Export
-                        </button>
-                    </div>
+                    {user?.role === 1 && (
+                        <div className="flex space-x-2">
+                            <button
+                                type="button"
+                                className="btn-secondary mb-0 mt-2"
+                                onClick={() => {
+                                    importModal?.current?.open();
+                                }}
+                            >
+                                Import
+                            </button>
+                            <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
+                                Export
+                            </button>
+                        </div>
+                    )}
                     <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div>
                             <Flatpickr
@@ -386,11 +388,7 @@ const Accessories = () => {
                                         />
                                     </div>
                                 </th>
-                                <th>
-                                    <div className="flex cursor-pointer ">
-                                        <span>Description</span>
-                                    </div>
-                                </th>
+
                                 <th>
                                     <div
                                         className={`flex cursor-pointer  ${
@@ -518,14 +516,24 @@ const Accessories = () => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={11} totalTd={11} tdWidth={60} />
+                                <TableLoadnig totalTr={10} totalTd={10} tdWidth={60} />
                             ) : accessorys?.length !== 0 ? (
                                 accessorys?.map((accessory) => {
                                     return (
-                                        <tr key={accessory.id} className="bg-white">
-                                            <td>{accessory?.serial_number}</td>
+                                        <tr key={accessory?.id} className="bg-white">
+                                            {user?.role === 1 ? (
+                                                <td
+                                                    className="cursor-pointer text-[#1A68D4] hover:text-black"
+                                                    onClick={() => {
+                                                        handleEdit(accessory?.id);
+                                                    }}
+                                                >
+                                                    {accessory?.serial_number}
+                                                </td>
+                                            ) : (
+                                                <td>{accessory?.serial_number}</td>
+                                            )}
                                             <td className="capitalize">{helper.trancateString(accessory?.name)}</td>
-                                            <td>{helper.trancateString(accessory?.description)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.purchased_at)}</td>
                                             <td>{helper.formatIndianCurrency(accessory?.purchased_cost)}</td>
                                             <td>{helper?.getFormattedDate(accessory?.warranty_expired_at)}</td>
@@ -578,7 +586,7 @@ const Accessories = () => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={11}>No data is available.</td>
+                                    <td colSpan={10}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -627,7 +635,7 @@ const Accessories = () => {
                             </div>
                         )}
                         {selectedModelData?.data?.length === 0 && (
-                            <div className="text-center">data not available.</div>
+                            <div className="text-center mb-5">data not available.</div>
                         )}
                     </div>
                 </Modal>

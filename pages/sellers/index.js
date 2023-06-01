@@ -259,7 +259,14 @@ const Sellers = () => {
                                 sellers?.map((seller) => {
                                     return (
                                         <tr key={seller.id} className="bg-white">
-                                            <td className="capitalize">{helper.trancateString(seller?.name)}</td>
+                                            <td
+                                                className="cursor-pointer capitalize text-[#1A68D4] hover:text-black"
+                                                onClick={() => {
+                                                    handleEdit(seller?.id);
+                                                }}
+                                            >
+                                                {helper.trancateString(seller?.name)}
+                                            </td>
                                             <td>{seller?.email}</td>
                                             <td>{seller?.phone_number}</td>
                                             <td>{helper.trancateString(seller?.address)}</td>

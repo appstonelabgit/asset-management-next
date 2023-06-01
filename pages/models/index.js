@@ -225,25 +225,27 @@ const Models = () => {
                                     </div>
                                 </th>
 
-                                <th>
-                                    <div className="flex cursor-pointer ">
-                                        <span>Description</span>
-                                    </div>
-                                </th>
+
 
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={4} totalTd={4} tdWidth={60} />
+                                <TableLoadnig totalTr={3} totalTd={3} tdWidth={60} />
                             ) : models?.length !== 0 ? (
                                 models?.map((model) => {
                                     return (
                                         <tr key={model.id} className="bg-white">
-                                            <td>{model?.serial_number}</td>
+                                            <td
+                                                className="cursor-pointer text-[#1A68D4] hover:text-black"
+                                                onClick={() => {
+                                                    handleEdit(model?.id);
+                                                }}
+                                            >
+                                                {model?.serial_number}
+                                            </td>
                                             <td className="capitalize">{helper.trancateString(model?.name)}</td>
-                                            <td>{helper.trancateString(model?.description)}</td>
 
                                             <td>
                                                 <div className="flex">
@@ -270,7 +272,7 @@ const Models = () => {
                                 })
                             ) : (
                                 <tr className="text-center">
-                                    <td colSpan={4}>No data is available.</td>
+                                    <td colSpan={3}>No data is available.</td>
                                 </tr>
                             )}
                         </tbody>

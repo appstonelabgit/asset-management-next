@@ -328,20 +328,22 @@ const Assets = () => {
         <div className="p-5">
             <h2 className="text-xl font-bold text-darkprimary">Assets</h2>
             <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
-                <div className="flex space-x-2">
-                    <button
-                        type="button"
-                        className="btn-secondary mb-0 mt-2"
-                        onClick={() => {
-                            importModal?.current?.open();
-                        }}
-                    >
-                        Import
-                    </button>
-                    <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
-                        Export
-                    </button>
-                </div>
+                {user?.role === 1 && (
+                    <div className="flex space-x-2">
+                        <button
+                            type="button"
+                            className="btn-secondary mb-0 mt-2"
+                            onClick={() => {
+                                importModal?.current?.open();
+                            }}
+                        >
+                            Import
+                        </button>
+                        <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
+                            Export
+                        </button>
+                    </div>
+                )}
                 <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                     <div>
                         <Flatpickr
@@ -485,11 +487,7 @@ const Assets = () => {
                                     />
                                 </div>
                             </th>
-                            <th>
-                                <div className="flex cursor-pointer ">
-                                    <span>Description</span>
-                                </div>
-                            </th>
+
                             <th>
                                 <div
                                     className={`flex cursor-pointer  ${
@@ -616,14 +614,24 @@ const Assets = () => {
                     </thead>
                     <tbody>
                         {isLoading ? (
-                            <TableLoadnig totalTr={11} totalTd={11} tdWidth={60} />
+                            <TableLoadnig totalTr={10} totalTd={10} tdWidth={60} />
                         ) : assets?.length !== 0 ? (
                             assets?.map((asset) => {
                                 return (
                                     <tr key={asset.id} className="bg-white">
-                                        <td>{asset?.serial_number}</td>
+                                        {user?.role === 1 ? (
+                                            <td
+                                                className="cursor-pointer text-[#1A68D4] hover:text-black"
+                                                onClick={() => {
+                                                    handleEdit(asset?.id);
+                                                }}
+                                            >
+                                                {asset?.serial_number}
+                                            </td>
+                                        ) : (
+                                            <td>{asset?.serial_number}</td>
+                                        )}
                                         <td className="capitalize">{helper.trancateString(asset?.name)}</td>
-                                        <td>{helper.trancateString(asset?.description)}</td>
                                         <td>{helper?.getFormattedDate(asset?.purchased_at)}</td>
                                         <td>{helper.formatIndianCurrency(asset?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(asset?.warranty_expired_at)}</td>
@@ -676,7 +684,7 @@ const Assets = () => {
                             })
                         ) : (
                             <tr className="text-center">
-                                <td colSpan={11}>No data is available.</td>
+                                <td colSpan={10}>No data is available.</td>
                             </tr>
                         )}
                     </tbody>
@@ -724,7 +732,9 @@ const Assets = () => {
                             </table>
                         </div>
                     )}
-                    {selectedModelData?.data?.length === 0 && <div className="text-center">data not available.</div>}
+                    {selectedModelData?.data?.length === 0 && (
+                        <div className="mb-5 text-center">data not available.</div>
+                    )}
                 </div>
             </Modal>
 

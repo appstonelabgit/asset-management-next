@@ -15,7 +15,7 @@ const Auth = ({ children, verify: verificationRequired, companyRequired, isAdmin
         } else if (status === 'authenticated' && verificationRequired === true && !isVerified) {
             router.push('/account/verify');
         } else if (status === 'authenticated' && verificationRequired === false && isVerified) {
-            router.push('/assets');
+            router.push('/');
         } else if (status === 'authenticated' && !hasCompany && companyRequired !== false) {
             router.push('/add-company');
         } else if (status === 'authenticated' && hasCompany && user?.role !== 1 && isAdmin === false) {

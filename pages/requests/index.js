@@ -194,7 +194,7 @@ const Request = () => {
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Requests</h1>
                 <div className="mb-5 text-right">
-                    <div className="ml-auto grid grid-cols-3 justify-end gap-5 md:flex">
+                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div className="w-[200px]">
                             <select
                                 name="status"
@@ -298,7 +298,13 @@ const Request = () => {
                                             onClick={() => sortByField('user_name')}
                                         >
                                             <span>User Name</span>
-                                            <IconUpDownArrow />
+                                            <IconUpDownArrow
+                                                className={`${
+                                                    order.order_field === 'user_name' && order.sort_order === 'desc'
+                                                        ? 'rotate-180'
+                                                        : ''
+                                                }`}
+                                            />
                                         </div>
                                     </th>
                                 )}
@@ -310,7 +316,13 @@ const Request = () => {
                                         onClick={() => sortByField('request_type')}
                                     >
                                         <span>Request Type</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'request_type' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 
@@ -322,7 +334,13 @@ const Request = () => {
                                         onClick={() => sortByField('type')}
                                     >
                                         <span>Type</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'type' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
                                 <th>
@@ -333,7 +351,13 @@ const Request = () => {
                                         onClick={() => sortByField('sub_type')}
                                     >
                                         <span>Item</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'sub_type' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 
@@ -350,7 +374,13 @@ const Request = () => {
                                         onClick={() => sortByField('status')}
                                     >
                                         <span>Status</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'status' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
                                 <th>
@@ -366,7 +396,13 @@ const Request = () => {
                                         onClick={() => sortByField('created_at')}
                                     >
                                         <span>Date</span>
-                                        <IconUpDownArrow />
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'created_at' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
                                     </div>
                                 </th>
 

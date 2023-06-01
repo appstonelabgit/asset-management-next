@@ -14,10 +14,12 @@ import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
 import Image from 'next/image';
 import Import from '@/components/Import';
+import Modal from '@/components/Modal';
 
 const Brands = () => {
     const SideModal = useRef();
     const importModal = useRef();
+    const ImageModal = useRef();
 
     const [brands, setBrands] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -120,6 +122,13 @@ const Brands = () => {
             fileLink.click();
             return true;
         } catch {}
+    };
+
+    const [selectedImageUrl, setSelectedImageUrl] = useState('');
+
+    const openImageModal = (url) => {
+        setSelectedImageUrl(url);
+        ImageModal?.current?.open();
     };
 
     useEffect(() => {
@@ -232,12 +241,21 @@ const Brands = () => {
                                                 <img
                                                     src={brand?.image_url}
                                                     alt="image"
-                                                    className="h-10 w-16"
+                                                    className="h-10 w-16 cursor-pointer"
                                                     width={50}
                                                     height={50}
+                                                    onClick={() => openImageModal(brand?.image_url)}
+                                                    onError={(e) => (e.target.src = '/img/alt-image.png')}
                                                 />
                                             </td>
-                                            <td className="capitalize">{helper.trancateString(brand?.name)}</td>
+                                            <td
+                                                className="cursor-pointer capitalize text-[#1A68D4] hover:text-black"
+                                                onClick={() => {
+                                                    handleEdit(brand?.id);
+                                                }}
+                                            >
+                                                {helper.trancateString(brand?.name)}
+                                            </td>
 
                                             <td>
                                                 <div className="flex">
@@ -307,6 +325,7 @@ const Brands = () => {
                                                         src={params?.image_url}
                                                         className="my-2 w-40 rounded-xl"
                                                         alt=""
+                                                        onError={(e) => (e.target.src = '/img/alt-image.png')}
                                                     />
                                                 )}
 
@@ -340,6 +359,16 @@ const Brands = () => {
                     </div>
                 </CommonSideModal>
                 <Import ref={importModal} refresh={refresh} type="brands" csvPath="/csv/Sample Brands.csv" />
+                <Modal ref={ImageModal} width={'800px'}>
+                    <div className="flex items-center justify-center">
+                        <img
+                            src={selectedImageUrl}
+                            alt="image"
+                            className="w-full cursor-pointer"
+                            onError={(e) => (e.target.src = '/img/alt-image.png')}
+                        />
+                    </div>
+                </Modal>
             </div>
         </div>
     );

@@ -347,11 +347,6 @@ const Components = () => {
                                 </div>
                             </th>
                             <th>
-                                <div className="flex cursor-pointer ">
-                                    <span>Description</span>
-                                </div>
-                            </th>
-                            <th>
                                 <div
                                     className={`flex cursor-pointer  ${
                                         order.order_field === 'purchased_at' ? 'text-darkprimary' : ''
@@ -460,20 +455,32 @@ const Components = () => {
                     </thead>
                     <tbody>
                         {isLoading ? (
-                            <TableLoadnig totalTr={10} totalTd={10} tdWidth={60} />
+                            <TableLoadnig totalTr={9} totalTd={9} tdWidth={60} />
                         ) : Components?.length !== 0 ? (
                             Components?.map((component) => {
                                 return (
                                     <tr key={component.id} className="bg-white">
-                                        <td>{component?.serial_number}</td>
+                                        <td
+                                            className="cursor-pointer text-[#1A68D4] hover:text-black"
+                                            onClick={() => {
+                                                handleEdit(component?.id);
+                                            }}
+                                        >
+                                            {component?.serial_number}
+                                        </td>
                                         <td className="capitalize">{helper.trancateString(component?.name)}</td>
-                                        <td>{helper.trancateString(component?.description)}</td>
                                         <td>{helper?.getFormattedDate(component?.purchased_at)}</td>
                                         <td>{helper.formatIndianCurrency(component?.purchased_cost)}</td>
                                         <td>{helper?.getFormattedDate(component?.warranty_expired_at)}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(component?.asset_name) || '-'}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(component?.model_name) || '-'}</td>
-                                        <td className="capitalize">{helper.trancateSmallString(component?.brand_name) || '-'}</td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(component?.asset_name) || '-'}
+                                        </td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(component?.model_name) || '-'}
+                                        </td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(component?.brand_name) || '-'}
+                                        </td>
 
                                         {user?.role === 1 && (
                                             <td>
@@ -502,7 +509,7 @@ const Components = () => {
                             })
                         ) : (
                             <tr className="text-center">
-                                <td colSpan={10}>No data is available.</td>
+                                <td colSpan={9}>No data is available.</td>
                             </tr>
                         )}
                     </tbody>
@@ -734,7 +741,7 @@ const Components = () => {
                                             </Field>
                                         </div>
                                     </div>
-                                    <div className='sticky bottom-0 bg-white py-[25px] !mt-0'>
+                                    <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
                                             {params?.id ? 'Edit' : 'Add'}
                                         </ButtonField>

@@ -260,7 +260,14 @@ const Users = () => {
                                 users?.map((user) => {
                                     return (
                                         <tr key={user.id} className="bg-white">
-                                            <td className="capitalize">{helper.trancateString(user?.name)}</td>
+                                            <td
+                                                className="cursor-pointer capitalize text-[#1A68D4] hover:text-black"
+                                                onClick={() => {
+                                                    handleEdit(user?.id);
+                                                }}
+                                            >
+                                                {helper.trancateString(user?.name)}
+                                            </td>
                                             <td>{user?.email}</td>
                                             <td className="capitalize">{helper.trancateString(user?.designation)}</td>
                                             {user?.total_assets === 0 ? (

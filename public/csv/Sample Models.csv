@@ -1,4 +1,4 @@
-Name,Serial Number,Description
-DDR4,56789,ram
-DDR5,23456,ram
-GTX123,POI098765,graphics
+Serial Number,Model Name,Description
+56789,DDR4,ram
+890754,GTX123,graphics
+23456,DDR5,ram

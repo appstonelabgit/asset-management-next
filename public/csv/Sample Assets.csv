@@ -1,4 +1,4 @@
 Serial Number,Asset Name,Description,Purchase Date,Purchase Cost,Warranty Expiry,Seller,Model,Brand,User
-123456,PC1,Computer,2023/05/23,1,2025/03/24,2,1,1,1
-1234567,PC2,Computer,2023/05/23,21999,2025/03/24,3,3,2,4
-12345678,PC3,Computer,2023/05/23,29999,2025/03/24,5,5,6,2
+12345678,PC3,Hardware,2022-07-13,12333,2025-05-20,jay,,,Raj
+1234567,PC2,Computer,2022-08-10,21999,2024-05-14,kishan,DDR4,,Yash
+123456,PC1,Computer,2022-09-20,1999,2026-05-13,jay,,,Raj

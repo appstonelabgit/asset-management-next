@@ -1,4 +1,4 @@
-Serial Number,Component Name,Description,Purchase Date,Purchase Cost,Warranty Expiry,Seller,Model,Brand
-123456,RAM,8 GB,2023/05/23,9999,2025/03/24,1,2,1
-1234567,SSD,256 GB,2023/05/23,6999,2025/03/24,2,1,2
-12345678,Graphics Card,4 GB,2023/05/23,4999,2025/03/24,3,2,3
+Serial Number,Component Name,Description,Purchase Date,Purchase Cost,Warranty Expiry,Asset,Model,Brand
+1234567,SSD,256 GB,2023-02-15,6999,2023-02-15,PC1,,
+12345678,Graphics Card,4 GB,2023-01-04,4999,2024-01-04,PC3,DDR5,
+12345678,HDD,1 TB,2022-01-01,4999,2023-01-01,PC3,DDR5,

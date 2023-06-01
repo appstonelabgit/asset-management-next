@@ -379,7 +379,7 @@ const Sellers = () => {
                         </div>
                     </div>
                 </CommonSideModal>
-                <Import ref={importModal} refresh={refresh} type="sellers" csvPath="/csv/sample_sellers.csv" />
+                <Import ref={importModal} refresh={refresh} type="sellers" csvPath="/csv/Sample Sellers.csv" />
             </div>
         </div>
     );

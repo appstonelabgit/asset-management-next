@@ -461,7 +461,7 @@ const Components = () => {
                                 return (
                                     <tr key={component.id} className="bg-white">
                                         <td
-                                            className="cursor-pointer text-[#1A68D4] hover:text-black"
+                                            className="cursor-pointer hover:text-[#1A68D4]"
                                             onClick={() => {
                                                 handleEdit(component?.id);
                                             }}

@@ -422,7 +422,13 @@ const Request = () => {
                                             <td className="capitalize">
                                                 {helper.trancateSmallString(request?.sub_type)}
                                             </td>
-                                            <td>{helper.trancateString(request?.description)}</td>
+                                            <td>
+                                                <Tippy content={request?.description}>
+                                                    <span className="cursor-pointer">
+                                                        {helper.trancateString(request?.description)}
+                                                    </span>
+                                                </Tippy>
+                                            </td>
                                             <td className="flex cursor-pointer items-center space-x-2 capitalize">
                                                 <span className={`status status-${request?.status}`}>
                                                     {request?.status}

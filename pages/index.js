@@ -39,7 +39,7 @@ const Home = () => {
         series: [
             {
                 name: 'Total Purchase Cost',
-                data: dashboard?.cost,
+                data: dashboard?.totalCost,
             },
         ],
         options: {
@@ -173,7 +173,10 @@ const Home = () => {
                 </div>
                 {user?.role === 1 && (
                     <div className="w-full px-3 pt-3 md:w-1/3 md:pl-2 xl:w-1/3">
-                        <Link href={'/components'} className={`block rounded border bg-[#ec4899] p-5 text-white shadow`}>
+                        <Link
+                            href={'/components'}
+                            className={`block rounded border bg-[#ec4899] p-5 text-white shadow`}
+                        >
                             <div className="flex flex-row items-center">
                                 <div className="flex-1 text-right">
                                     <h5 className="">Total Components</h5>
@@ -189,8 +192,9 @@ const Home = () => {
                     </div>
                 )}
             </div>
-            {user?.role === 1 && (
-                <div className="mx-5 mt-5 flex flex-col lg:flex-row lg:space-x-5">
+
+            <div className="mx-5 mt-5 flex flex-col lg:flex-row lg:space-x-5">
+                {user?.role === 1 && (
                     <div className="mt-2 w-full lg:w-2/3">
                         <p className="font-bold text-darkprimary">Last Year Purchases</p>
                         {isLoading ? (
@@ -207,24 +211,24 @@ const Home = () => {
                             />
                         )}
                     </div>
-                    <div className="mt-2 w-full lg:w-1/3">
-                        <p className="font-bold text-darkprimary">Request Status</p>
-                        {isLoading ? (
-                            <div className="flex items-center justify-center">
-                                <span className="m-auto mb-10 inline-block h-12 w-12 animate-spin rounded-full border-4 border-darkprimary border-l-transparent align-middle"></span>
-                            </div>
-                        ) : (
-                            <ReactApexChart
-                                series={donutChart.series}
-                                options={donutChart.options}
-                                className=" bg-white shadow-md"
-                                type="donut"
-                                height={350}
-                            />
-                        )}
-                    </div>
+                )}
+                <div className="mt-2 w-full lg:w-1/3">
+                    <p className="font-bold text-darkprimary">Request Status</p>
+                    {isLoading ? (
+                        <div className="flex items-center justify-center">
+                            <span className="m-auto mb-10 inline-block h-12 w-12 animate-spin rounded-full border-4 border-darkprimary border-l-transparent align-middle"></span>
+                        </div>
+                    ) : (
+                        <ReactApexChart
+                            series={donutChart.series}
+                            options={donutChart.options}
+                            className=" bg-white shadow-md"
+                            type="donut"
+                            height={350}
+                        />
+                    )}
                 </div>
-            )}
+            </div>
 
             {user?.role === 1 && (
                 <div className="mx-5 flex flex-col lg:flex-row lg:space-x-5">

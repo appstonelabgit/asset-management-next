@@ -621,7 +621,7 @@ const Assets = () => {
                                     <tr key={asset.id} className="bg-white">
                                         {user?.role === 1 ? (
                                             <td
-                                                className="cursor-pointer text-[#1A68D4] hover:text-black"
+                                                className="cursor-pointer hover:text-[#1A68D4]"
                                                 onClick={() => {
                                                     handleEdit(asset?.id);
                                                 }}

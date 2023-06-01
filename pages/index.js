@@ -12,6 +12,7 @@ import IconUser from '@/components/Icon/IconUser';
 import IconSeller from '@/components/Icon/IconSeller';
 import IconModel from '@/components/Icon/IconModel';
 import IconBrand from '@/components/Icon/IconBrand';
+import IconStatus from '@/components/Icon/IconStatus';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
 });
@@ -158,6 +159,24 @@ const Home = () => {
                                         </span>
                                     </h3>
                                     <h5 className="whitespace-nowrap">Total Brands</h5>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                )}
+                {user?.role === 1 && (
+                    <div className="">
+                        <Link href={'/requests'} className={`block rounded border bg-[#0c8a6f] p-5 text-white shadow`}>
+                            <div className="flex flex-row items-center justify-between">
+                                <IconStatus className="h-16 w-16" />
+                                <div className="text-right">
+                                    <h3 className="text-5xl">
+                                        {dashboard?.request}
+                                        <span className="text-blue-400">
+                                            <i className="fas fa-caret-up"></i>
+                                        </span>
+                                    </h3>
+                                    <h5 className="whitespace-nowrap">Total Requests</h5>
                                 </div>
                             </div>
                         </Link>

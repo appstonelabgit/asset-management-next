@@ -715,16 +715,12 @@ const Assets = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {selectedModelData?.data?.map((modeldata) => {
+                                    {selectedModelData?.data?.map((modeldata, i) => {
                                         return (
                                             <tr key={modeldata?.id} className="bg-white">
                                                 <td className="capitalize">{modeldata?.users?.name}</td>
                                                 <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
-                                                <td>
-                                                    {modeldata?.user_id === selectedModelData?.user_id
-                                                        ? 'Current'
-                                                        : null}
-                                                </td>
+                                                <td>{selectedModelData?.user_id && i === 0 ? 'Current' : null}</td>
                                             </tr>
                                         );
                                     })}

@@ -318,7 +318,7 @@ const Brands = () => {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="form-label">Brand logo</label>
+                                                <label className="form-label">Brand Logo</label>
 
                                                 {params?.image_url && (
                                                     <img

@@ -50,7 +50,7 @@ const AddBrand = (props, forwardedRef) => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Brand logo</label>
+                                            <label className="form-label">Brand Logo</label>
 
                                             {params?.image_url && (
                                                 <img src={params?.image_url} className="my-2 w-40 rounded-xl" alt="" />

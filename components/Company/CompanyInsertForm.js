@@ -21,23 +21,23 @@ const CompanyInsertForm = ({ redirect }) => {
 
     return (
         <div className="mt-5 w-full space-y-6">
-            <h3 className="w-full text-center text-[22px] font-semibold leading-7">Add a company</h3>
+            <h3 className="w-full text-center text-[22px] font-semibold leading-7">Add a Company</h3>
             <Formik initialValues={params} onSubmit={formHandler}>
                 {({ isSubmitting, setFieldValue }) => (
                     <Form className="w-full space-y-5 border border-lightblue bg-white p-[25px]">
                         <div className='space-y-5'>
                             <div>
-                                <label className="form-label">Company name</label>
+                                <label className="form-label">Company Name</label>
 
                                 <Field
                                     name="name"
                                     type="text"
                                     className="form-input rounded-l-none"
-                                    placeholder="Company name..."
+                                    placeholder="Company Name..."
                                 />
                             </div>
                             <div>
-                                <label className="form-label">Company logo</label>
+                                <label className="form-label">Company Logo</label>
 
                                 <input
                                     name="logo_url"

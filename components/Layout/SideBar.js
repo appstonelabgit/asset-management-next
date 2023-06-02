@@ -106,7 +106,7 @@ const SideBar = () => {
                 <NavBar />
             </div>
 
-            <div className="relative w-[183px] mx-4 mt-auto flex shrink-0 items-center justify-between pt-4">
+            <div className="relative mx-4 mt-auto flex w-[183px] shrink-0 items-center justify-between pt-4">
                 <Dropdown
                     usePortal={false}
                     strategy="absolute"
@@ -129,15 +129,14 @@ const SideBar = () => {
                     }
                 >
                     <div className="w-full text-xs" onClick={() => profileDropdownRef.current.close()}>
-                        {user?.role === 1 && (
-                            <button
-                                type="button"
-                                className="block w-full cursor-pointer truncate py-2.5 px-5 text-left text-black hover:bg-lightblue1"
-                                onClick={() => EditProfileModal?.current?.open()}
-                            >
-                                Edit Profile
-                            </button>
-                        )}
+                        <button
+                            type="button"
+                            className="block w-full cursor-pointer truncate py-2.5 px-5 text-left text-black hover:bg-lightblue1"
+                            onClick={() => EditProfileModal?.current?.open()}
+                        >
+                            Edit Profile
+                        </button>
+
                         {user?.role === 1 && (
                             <button
                                 type="button"

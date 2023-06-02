@@ -38,12 +38,14 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
                     usePortal={false}
                     strategy="absolute"
                     ref={box}
-                    btnClassName="btn-secondary inline-flex items-center justify-between gap-[9px] ml-auto font-normal w-[200px] md:w-56"
+                    btnClassName="btn-secondary inline-flex items-center justify-between gap-[9px] ml-auto font-normal w-[200px] md:w-56 "
                     button={
                         <>
-                            {selectedoptions.length === 0
-                                ? name
-                                : helper.trancateString(getNamesByIds(selectedoptions).join(','))}
+                            <div className='truncate'>
+                                {selectedoptions.length === 0
+                                    ? name
+                                    : helper.trancateString(getNamesByIds(selectedoptions).join(','))}
+                            </div>
                             <IconDownArrow />
                         </>
                     }
@@ -51,7 +53,7 @@ const MultipleSelect = ({ list, name, keyName, selectedoptions, setSelectedoptio
                     <div className=" h-full max-h-[150px] overflow-y-auto text-sm">
                         {list.map((option) => {
                             return (
-                                <label key={option.id} className="my-3 flex px-5 capitalize items-center">
+                                <label key={option.id} className="my-3 flex items-center px-5 capitalize">
                                     <input
                                         type="checkbox"
                                         className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"

@@ -38,7 +38,7 @@ const Home = () => {
     }, [getDashboardData]);
     return (
         <div className="">
-            <div className="mx-5 mt-5 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <div className="mx-5 mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <div className="">
                     <Link href={'/assets'} className={`block rounded border bg-[#f59e0b] p-5 text-white shadow`}>
                         <div className="flex flex-row items-center justify-between">

@@ -30,7 +30,7 @@ const Users = () => {
     const [totalPages, setTotalPages] = useState(5);
 
     const [searchWord, setSearchWord] = useState('');
-    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'name' });
+    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const getUsers = useCallback(
         (page = 1, limit = 10, searchWord = '') => {

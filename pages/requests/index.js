@@ -42,7 +42,7 @@ const Request = () => {
         { id: 'accessory', type: 'Accessory' },
         { id: 'component', type: 'Component' },
     ]);
-    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'user_name' });
+    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const getRequests = useCallback(
         (page = 1, limit = 10, searchWord = '') => {

@@ -25,7 +25,7 @@ const Models = () => {
     const [totalRecords, setTotalRecords] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [searchWord, setSearchWord] = useState('');
-    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'serial_number' });
+    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const getModels = useCallback(
         (page = 1, limit = 10, searchWord = '') => {

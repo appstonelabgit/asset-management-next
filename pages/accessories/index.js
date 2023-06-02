@@ -53,7 +53,7 @@ const Accessories = () => {
     const [expiryDate, setExpiryDate] = useState('');
     const [purchasedDate, setPurchasedDate] = useState('');
 
-    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'serial_number' });
+    const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const [selectedBrand, setSelectedBrand] = useState([]);
     const [selectedModel, setSelectedModel] = useState([]);

@@ -54,17 +54,17 @@ const EditCompany = (props, forwardedRef) => {
                                 <Form className="w-full space-y-5  bg-white pt-[25px]">
                                     <div className="space-y-5">
                                         <div>
-                                            <label className="form-label">Company name</label>
+                                            <label className="form-label">Company Name</label>
 
                                             <Field
                                                 name="name"
                                                 type="text"
                                                 className="form-input rounded-l-none"
-                                                placeholder="Company name..."
+                                                placeholder="Company Name..."
                                             />
                                         </div>
                                         <div>
-                                            <label className="form-label">Company logo</label>
+                                            <label className="form-label">Company Logo</label>
                                             {params?.image_url && (
                                                 <img
                                                     src={params?.image_url}

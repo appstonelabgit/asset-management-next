@@ -2,9 +2,7 @@ import IconDelete from '@/components/Icon/IconDelete';
 import IconEdit from '@/components/Icon/IconEdit';
 import IconSearch from '@/components/Icon/IconSearch';
 import IconUpDownArrow from '@/components/Icon/IconUpDownArrow';
-import IconView from '@/components/Icon/IconView';
 import Pagination from '@/components/Pagination';
-import Link from 'next/link';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from '@/libs/axios';
 import TableLoadnig from '@/components/TableLoadnig';
@@ -12,13 +10,11 @@ import CommonSideModal from '@/components/CommonSideModal';
 import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
-import Image from 'next/image';
 import Import from '@/components/Import';
 import Modal from '@/components/Modal';
 
 const Brands = () => {
     const SideModal = useRef();
-    const importModal = useRef();
     const ImageModal = useRef();
 
     const [brands, setBrands] = useState([]);
@@ -140,20 +136,6 @@ const Brands = () => {
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Brands</h1>
                 <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
-                    <div className="flex space-x-2">
-                        <button
-                            type="button"
-                            className="btn-secondary mb-0 mt-2"
-                            onClick={() => {
-                                importModal?.current?.open();
-                            }}
-                        >
-                            Import
-                        </button>
-                        <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
-                            Export
-                        </button>
-                    </div>
                     <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
@@ -358,7 +340,7 @@ const Brands = () => {
                         </div>
                     </div>
                 </CommonSideModal>
-                <Import ref={importModal} refresh={refresh} type="brands" csvPath="/csv/Sample Brands.csv" />
+
                 <Modal ref={ImageModal} width={'800px'}>
                     <div className="flex items-center justify-center">
                         <img

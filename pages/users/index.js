@@ -237,7 +237,7 @@ const Users = () => {
                                         }`}
                                         onClick={() => sortByField('total_assets')}
                                     >
-                                        <span>Assets</span>
+                                        <span>Components</span>
                                     </div>
                                 </th>
                                 <th>
@@ -280,7 +280,7 @@ const Users = () => {
                                                 >
                                                     <div className="flex space-x-2">
                                                         <span>{user?.total_assets}</span>
-                                                        <Tippy content="Click here to view assets">
+                                                        <Tippy content="Click here to view components">
                                                             <span>
                                                                 <IconView />
                                                             </span>
@@ -353,7 +353,9 @@ const Users = () => {
                 <Modal ref={Popup} width={1200}>
                     <div className="mx-5">
                         <h3 className="mb-5 text-xl font-bold capitalize text-darkprimary">
-                            {selectedModelData?.name}
+                            {selectedModelData?.name.toLowerCase() === 'assets'
+                                ? 'components'
+                                : selectedModelData?.name}
                         </h3>
                         {selectedModelData?.data?.length !== 0 && (
                             <div className="main-table w-full overflow-x-auto">
@@ -363,14 +365,13 @@ const Users = () => {
                                             <th>Serial Number</th>
                                             <th className="capitalize">{selectedModelData?.name} Name</th>
                                             <th>Purchase Cost</th>
-                                            <th>Seller</th>
                                             <th>Model</th>
                                             <th>Brand</th>
                                             <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {selectedModelData?.data?.map((modeldata) => {
+                                        {selectedModelData?.data?.components?.map((modeldata) => {
                                             return (
                                                 <tr key={modeldata.id} className="bg-white">
                                                     <td>{modeldata?.serial_number}</td>
@@ -379,13 +380,10 @@ const Users = () => {
                                                     </td>
                                                     <td>{helper.formatIndianCurrency(modeldata?.purchased_cost)}</td>
                                                     <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.seller_name) || '-'}
+                                                        {helper.trancateSmallString(modeldata?.model?.name) || '-'}
                                                     </td>
                                                     <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.model_name) || '-'}
-                                                    </td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.brand_name) || '-'}
+                                                        {helper.trancateSmallString(modeldata?.brand?.name) || '-'}
                                                     </td>
                                                     <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
                                                 </tr>

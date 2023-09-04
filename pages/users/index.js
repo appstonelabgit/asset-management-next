@@ -55,7 +55,7 @@ const Users = () => {
         [order]
     );
 
-    const defaultParams = { id: '', name: '', email: '', designation: '' };
+    const defaultParams = { id: '', name: '', email: '', designation: '', employee_id: '' };
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
@@ -95,6 +95,7 @@ const Users = () => {
                     name: data.name,
                     email: data.email,
                     designation: data.designation,
+                    employee_id: data.employee_id,
                 });
                 SideModal?.current?.open();
             });
@@ -360,7 +361,7 @@ const Users = () => {
                                     <thead className="bg-lightblue1">
                                         <tr>
                                             <th>Serial Number</th>
-                                            <th className='capitalize'>{selectedModelData?.name} Name</th>
+                                            <th className="capitalize">{selectedModelData?.name} Name</th>
                                             <th>Purchase Cost</th>
                                             <th>Seller</th>
                                             <th>Model</th>
@@ -426,6 +427,17 @@ const Users = () => {
                                                     type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="example@mail.com"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="form-label">Employee Id</label>
+
+                                                <Field
+                                                    name="employee_id"
+                                                    type="text"
+                                                    className="form-input rounded-l-none"
+                                                    placeholder="Employee Id"
                                                 />
                                             </div>
 

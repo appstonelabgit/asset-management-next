@@ -357,18 +357,60 @@ const Users = () => {
                                 ? 'components'
                                 : selectedModelData?.name}
                         </h3>
-                        {selectedModelData?.data?.length !== 0 && (
+                        {selectedModelData?.name.toLowerCase() === 'assets' ? (
+                            selectedModelData?.data?.components?.length !== 0 ? (
+                                <div className="main-table w-full overflow-x-auto">
+                                    <table className="w-full table-auto">
+                                        <thead className="bg-lightblue1">
+                                            <tr>
+                                                <th>Serial Number</th>
+                                                <th className="capitalize">
+                                                    {selectedModelData?.name.toLowerCase() === 'assets'
+                                                        ? 'components'
+                                                        : selectedModelData?.name}{' '}
+                                                    Name
+                                                </th>
+                                                <th>Purchase Cost</th>
+                                                <th>Model</th>
+                                                <th>Brand</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {selectedModelData?.data?.components?.map((modeldata) => {
+                                                return (
+                                                    <tr key={modeldata.id} className="bg-white">
+                                                        <td>{modeldata?.serial_number}</td>
+                                                        <td className="capitalize">
+                                                            {helper.trancateString(modeldata?.name)}
+                                                        </td>
+                                                        <td>
+                                                            {helper.formatIndianCurrency(modeldata?.purchased_cost)}
+                                                        </td>
+                                                        <td className="capitalize">
+                                                            {helper.trancateSmallString(modeldata?.model?.name) || '-'}
+                                                        </td>
+                                                        <td className="capitalize">
+                                                            {helper.trancateSmallString(modeldata?.brand?.name) || '-'}
+                                                        </td>
+                                                        <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div className="text-center">Data not available.</div>
+                            )
+                        ) : selectedModelData?.data?.length !== 0 ? (
                             <div className="main-table w-full overflow-x-auto">
                                 <table className="w-full table-auto">
                                     <thead className="bg-lightblue1">
                                         <tr>
                                             <th>Serial Number</th>
-                                            <th className="capitalize">
-                                                {selectedModelData?.name.toLowerCase() === 'assets'
-                                                    ? 'components'
-                                                    : selectedModelData?.name}{' '}
-                                                Name
-                                            </th>
+                                            <th className="capitalize">{selectedModelData?.name} Name</th>
+                                            <th>Seller</th>
                                             <th>Purchase Cost</th>
                                             <th>Model</th>
                                             <th>Brand</th>
@@ -376,19 +418,22 @@ const Users = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {selectedModelData?.data?.components?.map((modeldata) => {
+                                        {selectedModelData?.data?.map((modeldata) => {
                                             return (
                                                 <tr key={modeldata.id} className="bg-white">
                                                     <td>{modeldata?.serial_number}</td>
                                                     <td className="capitalize">
                                                         {helper.trancateString(modeldata?.name)}
                                                     </td>
+                                                    <td className="capitalize">
+                                                        {helper.trancateSmallString(modeldata?.seller_name) || '-'}
+                                                    </td>
                                                     <td>{helper.formatIndianCurrency(modeldata?.purchased_cost)}</td>
                                                     <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.model?.name) || '-'}
+                                                        {helper.trancateSmallString(modeldata?.model_name) || '-'}
                                                     </td>
                                                     <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.brand?.name) || '-'}
+                                                        {helper.trancateSmallString(modeldata?.brand_name) || '-'}
                                                     </td>
                                                     <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
                                                 </tr>
@@ -397,8 +442,7 @@ const Users = () => {
                                     </tbody>
                                 </table>
                             </div>
-                        )}
-                        {selectedModelData?.data?.length === 0 && (
+                        ) : (
                             <div className="text-center">Data not available.</div>
                         )}
                     </div>

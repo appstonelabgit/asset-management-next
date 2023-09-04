@@ -729,7 +729,7 @@ const Assets = () => {
                         </div>
                     )}
                     {selectedModelData?.data?.length === 0 && (
-                        <div className="mb-5 text-center">data not available.</div>
+                        <div className="mb-5 text-center">Data not available.</div>
                     )}
                 </div>
             </Modal>

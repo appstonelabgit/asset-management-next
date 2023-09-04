@@ -396,7 +396,7 @@ const Users = () => {
                             </div>
                         )}
                         {selectedModelData?.data?.length === 0 && (
-                            <div className="text-center">data not available.</div>
+                            <div className="text-center">Data not available.</div>
                         )}
                     </div>
                 </Modal>

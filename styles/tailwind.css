@@ -58,10 +58,10 @@
 
     /* Buttons */
     .btn {
-        @apply  inline-block rounded  bg-primary py-[9px] px-3 text-center font-semibold text-darkblue shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:bg-darkblue hover:text-white;
+        @apply inline-block rounded  bg-primary py-[9px] px-3 text-center font-semibold text-darkblue shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:bg-darkblue hover:text-white;
     }
     .btn-secondary {
-        @apply  rounded border border-lightblue bg-white py-[9px] px-[11px] font-semibold text-black shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:border-primary/10 hover:bg-primary/10;
+        @apply rounded border border-lightblue bg-white py-[9px] px-[11px] font-semibold text-black shadow-[0px_4px_4px_rgba(41,41,41,0.05)] drop-shadow-[0_4px_4px_rgba(41_41_41_0.05)] transition-all duration-300 hover:border-primary/10 hover:bg-primary/10;
     }
     .tab-menu {
         @apply inline-block bg-white py-[10px] px-3 transition-all duration-300 before:invisible before:block before:h-0 before:overflow-hidden before:font-semibold before:content-[attr(data-text)] hover:bg-primary/10 hover:font-semibold;
@@ -70,17 +70,25 @@
         @apply pointer-events-none opacity-50;
     }
 
+    .main-table {
+        @apply max-h-[calc(100vh_-_345px)] min-h-[200px];
+    }
+
+    .main-table table thead {
+        @apply sticky top-0;
+    }
+
     .main-table table thead tr th {
-        @apply py-[10px] px-5 text-left font-semibold text-[16px] whitespace-nowrap;
+        @apply whitespace-nowrap py-[10px] px-5 text-left text-[16px] font-semibold;
     }
     .main-table table thead tr th div {
         @apply space-x-2;
     }
     .main-table table tbody tr {
-        @apply border-t border-lightblue hover:bg-[#F5F7FA] whitespace-nowrap;
+        @apply whitespace-nowrap border-t border-lightblue hover:bg-[#F5F7FA];
     }
     .main-table table tbody tr td {
-        @apply py-2  px-5 ;
+        @apply py-2  px-5;
     }
     .main-table table thead tr th:first-child {
         @apply rounded-tl-[3px];
@@ -96,7 +104,7 @@
     }
 
     .main-sidebar {
-        @apply fixed top-0 left-0 z-10 flex h-screen flex-none w-[215px] flex-col bg-white pt-5 pb-4 text-black transition-[width] dark:bg-darkblue dark:text-white;
+        @apply fixed top-0 left-0 z-10 flex h-screen w-[215px] flex-none flex-col bg-white pt-5 pb-4 text-black transition-[width] dark:bg-darkblue dark:text-white;
     }
     .main-sidebar.collapsed {
         @apply w-[60px];
@@ -106,7 +114,7 @@
         @apply space-y-1;
     }
     .main-nav .nav-item {
-        @apply flex items-center space-x-2 whitespace-nowrap py-2 px-2 rounded mx-2;
+        @apply mx-2 flex items-center space-x-2 whitespace-nowrap rounded py-2 px-2;
     }
     .main-nav .nav-item:hover,
     .main-nav .nav-item.active {
@@ -115,11 +123,11 @@
     .main-nav span.icon {
         @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/50 text-darkblue dark:bg-white/20 dark:text-white;
     }
-    .main-nav span.icon.active{
+    .main-nav span.icon.active {
         @apply text-black;
     }
-    .main-nav .nav-item:hover ,
-    .main-nav .nav-item.active  {
+    .main-nav .nav-item:hover,
+    .main-nav .nav-item.active {
         @apply bg-primary text-darkblue;
     }
     .main-nav ul {
@@ -197,7 +205,7 @@ input:checked + .on-off-btn {
 }
 
 label:not(.on-off-label) input[type='checkbox'] {
-    @apply h-4 w-4 font-normal text-[#E8FE79]  p-1 rounded-sm border border-black;
+    @apply h-4 w-4 rounded-sm border  border-black p-1 font-normal text-[#E8FE79];
 }
 
 .form-checkbox:checked {
@@ -205,11 +213,11 @@ label:not(.on-off-label) input[type='checkbox'] {
     background-size: 10px 8px;
     border-color: #99f6e4;
 }
-.main-contain{
+.main-contain {
     @apply ml-[215px];
 }
 
-.main-sidebar.collapsed + .main-contain{
+.main-sidebar.collapsed + .main-contain {
     @apply ml-[60px];
 }
 
@@ -217,15 +225,15 @@ label:not(.on-off-label) input[type='checkbox'] {
     @apply rounded-[3px] bg-primary/10 px-[7px] py-[5px] text-sm font-semibold text-primary duration-300;
 }
 
-.status-Pending{
-    @apply bg-[#bfdbfe] text-[#1967d3]
+.status-Pending {
+    @apply bg-[#bfdbfe] text-[#1967d3];
 }
-.status-Approved{
-    @apply bg-[#c9f5cd] text-[#179401]
+.status-Approved {
+    @apply bg-[#c9f5cd] text-[#179401];
 }
-.status-Onhold{
-    @apply bg-[#fef08a] text-[#a16207]
+.status-Onhold {
+    @apply bg-[#fef08a] text-[#a16207];
 }
-.status-Rejected{
-    @apply bg-[#f5c9c9] text-red
+.status-Rejected {
+    @apply bg-[#f5c9c9] text-red;
 }

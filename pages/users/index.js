@@ -363,7 +363,12 @@ const Users = () => {
                                     <thead className="bg-lightblue1">
                                         <tr>
                                             <th>Serial Number</th>
-                                            <th className="capitalize">{selectedModelData?.name} Name</th>
+                                            <th className="capitalize">
+                                                {selectedModelData?.name.toLowerCase() === 'assets'
+                                                    ? 'components'
+                                                    : selectedModelData?.name}{' '}
+                                                Name
+                                            </th>
                                             <th>Purchase Cost</th>
                                             <th>Model</th>
                                             <th>Brand</th>

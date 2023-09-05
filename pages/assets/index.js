@@ -47,6 +47,8 @@ const Assets = () => {
     const [brands, setBrands] = useState([]);
     const [users, setUsers] = useState([]);
     const [components, setComponents] = useState([]);
+    const [filteredComponents, setFilteredComponents] = useState([]);
+    const [searchAssetCopmonent, setSearchAssetCopmonent] = useState('');
 
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -325,6 +327,16 @@ const Assets = () => {
     useEffect(() => {
         getAssets();
     }, []);
+
+    useEffect(() => {
+        const list = components?.filter((d) => d.name.toLowerCase().includes(searchAssetCopmonent.toLowerCase())) || [];
+        list.sort((a, b) => {
+            {
+                return selectedComponent.includes(b.id.toString()) - selectedComponent.includes(a.id.toString());
+            }
+        });
+        setFilteredComponents(list);
+    }, [components, searchAssetCopmonent]);
 
     return (
         <div className="p-5">
@@ -1008,9 +1020,18 @@ const Assets = () => {
                                                         </>
                                                     }
                                                 >
-                                                    <div className=" h-full max-h-[150px] overflow-y-auto text-sm">
-                                                        {components?.length !== 0 ? (
-                                                            components.map((option) => {
+                                                    <div className="sticky top-0 bg-white px-5 py-3">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Search component..."
+                                                            className="form-input"
+                                                            value={searchAssetCopmonent}
+                                                            onChange={(e) => setSearchAssetCopmonent(e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="h-full max-h-[150px] overflow-y-auto text-sm">
+                                                        {filteredComponents?.length !== 0 ? (
+                                                            filteredComponents.map((option) => {
                                                                 return (
                                                                     <label key={option.id} className="my-3 flex px-5">
                                                                         <input

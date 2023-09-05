@@ -85,6 +85,7 @@ const Assets = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
                     setAssets(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -111,7 +112,7 @@ const Assets = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getAssets(currentPage, pageLimit, searchWord);
+        getAssets(1, pageLimit, searchWord);
     };
 
     const resetFilter = () => {
@@ -321,8 +322,8 @@ const Assets = () => {
     }, [getDependentInformation]);
 
     useEffect(() => {
-        getAssets(currentPage, pageLimit);
-    }, [getAssets, currentPage, pageLimit]);
+        getAssets(1, pageLimit);
+    }, [getAssets, pageLimit]);
 
     return (
         <div className="p-5">
@@ -699,7 +700,7 @@ const Assets = () => {
                     totalRecords={totalRecords}
                     isLoading={isLoading}
                     setPageLimit={setPageLimit}
-                    setCurrentPage={setCurrentPage}
+                    setCurrentPage={getAssets}
                 />
             </div>
             <Modal ref={Popup} width={500}>

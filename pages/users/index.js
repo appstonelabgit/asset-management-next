@@ -181,6 +181,23 @@ const Users = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer  ${
+                                            order.order_field === 'employee_id' ? 'text-darkprimary' : ''
+                                        }`}
+                                        onClick={() => sortByField('employee_id')}
+                                    >
+                                        <span>Employee Id</span>
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'employee_id' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div
+                                        className={`flex cursor-pointer  ${
                                             order.order_field === 'name' ? 'text-darkprimary' : ''
                                         }`}
                                         onClick={() => sortByField('name')}
@@ -261,6 +278,7 @@ const Users = () => {
                                 users?.map((user) => {
                                     return (
                                         <tr key={user.id} className="bg-white">
+                                            <td>{user?.employee_id}</td>
                                             <td
                                                 className="cursor-pointer capitalize hover:text-[#1A68D4]"
                                                 onClick={() => {

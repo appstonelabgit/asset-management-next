@@ -252,9 +252,9 @@ const Users = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer  ${
-                                            order.order_field === 'total_assets' ? 'text-darkprimary' : ''
+                                            order.order_field === 'components' ? 'text-darkprimary' : ''
                                         }`}
-                                        onClick={() => sortByField('total_assets')}
+                                        onClick={() => sortByField('components')}
                                     >
                                         <span>Components</span>
                                     </div>
@@ -291,15 +291,15 @@ const Users = () => {
                                             </td>
                                             <td>{user?.email}</td>
                                             <td className="capitalize">{helper.trancateString(user?.designation)}</td>
-                                            {user?.total_assets === 0 ? (
-                                                <td>{user?.total_assets}</td>
+                                            {user?.components?.length === 0 ? (
+                                                <td>{user?.components?.length}</td>
                                             ) : (
                                                 <td
                                                     className="cursor-pointer"
                                                     onClick={() => handleModalData(user?.id, 'assets')}
                                                 >
                                                     <div className="flex space-x-2">
-                                                        <span>{user?.total_assets}</span>
+                                                        <span>{user?.components?.length}</span>
                                                         <Tippy content="Click here to view components">
                                                             <span>
                                                                 <IconView />

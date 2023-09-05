@@ -468,12 +468,12 @@ const Users = () => {
                     </div>
                 </Modal>
 
-                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit User' : 'Add User'}>
+                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit User' : 'Add User'} width="400px">
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting }) => (
-                                    <Form className="w-full space-y-5  bg-white pt-[25px]">
+                                    <Form className="w-full space-y-5 bg-white pt-[25px] pb-[88px]">
                                         <div className="space-y-5">
                                             <div>
                                                 <label className="form-label">Name</label>
@@ -519,7 +519,7 @@ const Users = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
+                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
                                             <ButtonField
                                                 type="submit"
                                                 loading={isSubmitting}

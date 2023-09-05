@@ -48,39 +48,38 @@ const CommonSideModal = (
         <>
             {mounted &&
                 ReactDOM.createPortal(
-                    <>
-                        <div
-                            className={`${
-                                (isOpen && '!block') || ''
-                            } fixed inset-0 z-[51] hidden bg-[black]/60 px-4 transition-[display]`}
-                            onClick={() => closeByBackdrop()}
-                        ></div>
-                        <div
-                            ref={modalPanelRef}
-                            className={`${
-                                (isOpen && '!right-0') || ''
-                            } fixed top-0 bottom-0  z-[52] w-full overflow-y-auto bg-white px-5 pt-10 shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-[right] md:pt-[25px]`}
-                            style={{
-                                right: isOpen ? `-${width}` : '-546px',
-                                transition: 'right 0.3s ease-in-out',
-                                maxWidth: width || '546px',
-                            }}
-                        >
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-bold text-darkprimary">{title}</h2>
-
-                                {closeButoon && (
+                    isOpen && (
+                        <>
+                            <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70">
+                                <div
+                                    className="z-50 flex min-h-full items-center justify-center p-4"
+                                    onClick={() => closeByBackdrop()}
+                                >
                                     <div
-                                        className="cursor-pointer rounded-full bg-lightblue p-2"
-                                        onClick={() => setIsOpen(false)}
+                                        ref={modalPanelRef}
+                                        className="relative min-h-[500px] w-full min-w-full rounded-md bg-white px-5 pt-7 text-left align-middle shadow-xl transition-all sm:min-w-[400px]"
+                                        style={{ maxWidth: width || '1024px' }}
+                                        onClick={(event) => event.stopPropagation()}
                                     >
-                                        <IconClose />
+                                        <div className="flex items-center justify-between">
+                                            <h2 className="text-lg font-bold text-darkprimary">{title}</h2>
+
+                                            {closeButoon && (
+                                                <div
+                                                    className="cursor-pointer rounded-full bg-lightblue p-2 hover:opacity-70"
+                                                    onClick={() => setIsOpen(false)}
+                                                >
+                                                    <IconClose className="h-3 w-3" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        {isOpen && children}
                                     </div>
-                                )}
+                                </div>
                             </div>
-                            {isOpen && children}
-                        </div>
-                    </>,
+                        </>
+                    ),
+
                     document?.querySelector('#offsetright-portal')
                 )}
         </>

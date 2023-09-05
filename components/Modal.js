@@ -59,8 +59,8 @@ const Modal = ({ children, width }, forwardedRef) => {
                                 <div className=" z-50 flex min-h-full items-center justify-center p-4 text-center">
                                     <div
                                         ref={modalPanelRef}
-                                        className="relative w-full rounded-md bg-white p-7 text-left align-middle shadow-xl transition-all"
-                                        style={{ maxWidth: width || '400px' }}
+                                        className="relative w-full rounded-md bg-white p-7 text-left align-middle shadow-xl transition-all sm:min-w-[400px] min-w-full"
+                                        style={{ maxWidth: width || 'max-content' }}
                                     >
                                         <button
                                             tabIndex="-1"

@@ -6,7 +6,6 @@ import ButtonField from './Field/ButtonField';
 import Flatpickr from 'react-flatpickr';
 import helper from '@/libs/helper';
 
-
 const AddSeller = (props, forwardedRef) => {
     const SideModal = useRef();
     const defaultParams = {
@@ -39,13 +38,12 @@ const AddSeller = (props, forwardedRef) => {
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title='Add Asset'>
+            <CommonSideModal ref={SideModal} title="Add Asset" width="400px">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
-
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white pt-[25px]">
+                                <Form className="w-full space-y-5  bg-white pt-[25px] pb-[88px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Asset Name</label>
@@ -96,7 +94,9 @@ const AddSeller = (props, forwardedRef) => {
                                         </div>
 
                                         <div>
-                                            <label className="form-label">Purchase Cost <span className='text-black/30'>( In rupee (₹) )</span></label>
+                                            <label className="form-label">
+                                                Purchase Cost <span className="text-black/30">( In rupee (₹) )</span>
+                                            </label>
 
                                             <Field
                                                 name="purchased_cost"
@@ -125,7 +125,7 @@ const AddSeller = (props, forwardedRef) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className='sticky bottom-0 bg-white py-[25px] !mt-0'>
+                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
                                             Add
                                         </ButtonField>

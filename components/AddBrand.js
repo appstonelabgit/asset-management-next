@@ -32,12 +32,12 @@ const AddBrand = (props, forwardedRef) => {
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title="Add brand">
+            <CommonSideModal ref={SideModal} title="Add Brand" width="400px">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white pt-[25px]">
+                                <Form className="w-full space-y-5  bg-white pt-[25px] pb-[88px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Brand Name</label>
@@ -70,7 +70,7 @@ const AddBrand = (props, forwardedRef) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
+                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
                                             Add
                                         </ButtonField>

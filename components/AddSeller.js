@@ -28,12 +28,12 @@ const AddSeller = (props, forwardedRef) => {
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title="Add Seller">
+            <CommonSideModal ref={SideModal} title="Add Seller" width="400px">
                 <div className="space-y-12">
                     <div className="border-gray-900/10">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting }) => (
-                                <Form className="w-full space-y-5  bg-white pt-[25px]">
+                                <Form className="w-full space-y-5  bg-white pt-[25px] pb-[88px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Seller Name</label>
@@ -45,27 +45,25 @@ const AddSeller = (props, forwardedRef) => {
                                                 placeholder="Name"
                                             />
                                         </div>
-                                        <div className="flex space-x-5">
-                                            <div className="w-1/2">
-                                                <label className="form-label">Email</label>
+                                        <div>
+                                            <label className="form-label">Email</label>
 
-                                                <Field
-                                                    name="email"
-                                                    type="text"
-                                                    className="form-input rounded-l-none"
-                                                    placeholder="example@mail.com"
-                                                />
-                                            </div>
-                                            <div className="w-1/2">
-                                                <label className="form-label">Phone</label>
+                                            <Field
+                                                name="email"
+                                                type="text"
+                                                className="form-input rounded-l-none"
+                                                placeholder="example@mail.com"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="form-label">Phone</label>
 
-                                                <Field
-                                                    name="phone_number"
-                                                    type="text"
-                                                    className="form-input rounded-l-none"
-                                                    placeholder="Phone"
-                                                />
-                                            </div>
+                                            <Field
+                                                name="phone_number"
+                                                type="text"
+                                                className="form-input rounded-l-none"
+                                                placeholder="Phone"
+                                            />
                                         </div>
                                         <div>
                                             <label className="form-label">Address</label>
@@ -79,7 +77,7 @@ const AddSeller = (props, forwardedRef) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
+                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
                                             Add
                                         </ButtonField>

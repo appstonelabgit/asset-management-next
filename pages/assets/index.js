@@ -741,8 +741,8 @@ const Assets = () => {
                     <div className="border-gray-900/10">
                         <Formik innerRef={formRef} initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white pt-[25px]">
-                                    <div className="space-y-5">
+                                <Form className="w-full bg-white pt-[25px] pb-[88px]">
+                                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                                         <div>
                                             <label className="form-label">Asset Name</label>
 
@@ -1036,8 +1036,8 @@ const Assets = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="sticky bottom-0 !mt-0 bg-white py-[25px]">
-                                        <ButtonField type="submit" loading={isSubmitting} className=" btn block w-full">
+                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
+                                        <ButtonField type="submit" loading={isSubmitting} className=" btn px-4">
                                             {params?.id ? 'Edit' : 'Add'}
                                         </ButtonField>
                                     </div>

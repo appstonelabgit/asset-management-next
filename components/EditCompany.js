@@ -40,18 +40,17 @@ const EditCompany = (props, forwardedRef) => {
             await axios.post(`/companies/${workspace?.id}`, formData);
             SideModal?.current.close();
             dispatch(fetchUser());
-
         } catch {}
     };
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title="Edit Company Details">
+            <CommonSideModal ref={SideModal} title="Edit Company Details" width="400px">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full space-y-5  bg-white pt-[25px]">
+                                <Form className="w-full space-y-5  bg-white pt-[25px] pb-[88px]">
                                     <div className="space-y-5">
                                         <div>
                                             <label className="form-label">Company Name</label>
@@ -66,11 +65,7 @@ const EditCompany = (props, forwardedRef) => {
                                         <div>
                                             <label className="form-label">Company Logo</label>
                                             {params?.image_url && (
-                                                <img
-                                                    src={params?.image_url}
-                                                    className="my-2 w-40 rounded-xl"
-                                                    alt=""
-                                                />
+                                                <img src={params?.image_url} className="my-2 w-40 rounded-xl" alt="" />
                                             )}
                                             <input
                                                 name="logo_url"
@@ -86,7 +81,7 @@ const EditCompany = (props, forwardedRef) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className='sticky bottom-0 bg-white py-[25px] !mt-0'>
+                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
                                             Edit
                                         </ButtonField>

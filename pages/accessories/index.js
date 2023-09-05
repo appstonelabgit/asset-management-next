@@ -81,6 +81,8 @@ const Accessories = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setAccessorys(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -106,7 +108,7 @@ const Accessories = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getAccessories(currentPage, pageLimit, searchWord);
+        getAccessories(1, pageLimit, searchWord);
     };
     const resetFilter = () => {
         setSearchWord('');
@@ -221,8 +223,8 @@ const Accessories = () => {
     }, [getDependentInformation]);
 
     useEffect(() => {
-        getAccessories(currentPage, pageLimit);
-    }, [getAccessories, currentPage, pageLimit]);
+        getAccessories();
+    }, []);
 
     return (
         <div>
@@ -600,8 +602,8 @@ const Accessories = () => {
                         data={accessorys}
                         totalRecords={totalRecords}
                         isLoading={isLoading}
-                        setPageLimit={setPageLimit}
-                        setCurrentPage={setCurrentPage}
+                        setPageLimit={(i) => getAccessories(1,i)}
+                        setCurrentPage={(i) => getAccessories(i,pageLimit)}
                     />
                 </div>
                 <Modal ref={Popup} width={500}>

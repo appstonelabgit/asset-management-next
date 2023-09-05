@@ -46,6 +46,8 @@ const Users = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setUsers(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -59,12 +61,12 @@ const Users = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getUsers(currentPage, pageLimit, searchWord);
+        getUsers(1, pageLimit, searchWord);
     };
 
     const resetFilter = () => {
         setSearchWord('');
-        getUsers(currentPage, pageLimit);
+        getUsers(1, pageLimit);
     };
 
     const sortByField = (field) => {
@@ -119,8 +121,8 @@ const Users = () => {
     };
 
     useEffect(() => {
-        getUsers(currentPage, pageLimit);
-    }, [getUsers, currentPage, pageLimit]);
+        getUsers();
+    }, []);
 
     return (
         <div>
@@ -363,8 +365,8 @@ const Users = () => {
                         data={users}
                         totalRecords={totalRecords}
                         isLoading={isLoading}
-                        setPageLimit={setPageLimit}
-                        setCurrentPage={setCurrentPage}
+                        setPageLimit={(i) => getUsers(1, i)}
+                        setCurrentPage={(i) => getUsers(i, pageLimit)}
                     />
                 </div>
 

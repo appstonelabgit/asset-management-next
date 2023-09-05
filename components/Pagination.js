@@ -64,7 +64,6 @@ const Pagination = ({
                                     className="block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
                                     onClick={() => {
                                         setPageLimit(option);
-                                        setCurrentPage(1);
                                         pageLimitRef.current.close();
                                     }}
                                 >

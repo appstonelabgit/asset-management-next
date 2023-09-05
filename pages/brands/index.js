@@ -41,6 +41,8 @@ const Brands = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setBrands(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -54,12 +56,12 @@ const Brands = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getBrands(currentPage, pageLimit, searchWord);
+        getBrands(1, pageLimit, searchWord);
     };
 
     const resetFilter = () => {
         setSearchWord('');
-        getBrands(currentPage, pageLimit);
+        getBrands(1, pageLimit);
     };
 
     const sortByField = (field) => {
@@ -128,8 +130,8 @@ const Brands = () => {
     };
 
     useEffect(() => {
-        getBrands(currentPage, pageLimit);
-    }, [getBrands, currentPage, pageLimit]);
+        getBrands();
+    }, []);
 
     return (
         <div>
@@ -278,8 +280,8 @@ const Brands = () => {
                         data={brands}
                         totalRecords={totalRecords}
                         isLoading={isLoading}
-                        setPageLimit={setPageLimit}
-                        setCurrentPage={setCurrentPage}
+                        setPageLimit={(i) => getBrands(1, i)}
+                        setCurrentPage={(i) => getBrands(i, pageLimit)}
                     />
                 </div>
                 <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Brand' : 'Add Brand'}>

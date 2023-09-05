@@ -86,6 +86,7 @@ const Assets = () => {
                 })
                 .then(({ data }) => {
                     setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setAssets(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -322,8 +323,8 @@ const Assets = () => {
     }, [getDependentInformation]);
 
     useEffect(() => {
-        getAssets(1, pageLimit);
-    }, [getAssets, pageLimit]);
+        getAssets();
+    }, []);
 
     return (
         <div className="p-5">
@@ -699,8 +700,8 @@ const Assets = () => {
                     data={assets}
                     totalRecords={totalRecords}
                     isLoading={isLoading}
-                    setPageLimit={setPageLimit}
-                    setCurrentPage={getAssets}
+                    setPageLimit={(i) => getAssets(1, i)}
+                    setCurrentPage={(i) => getAssets(i, pageLimit)}
                 />
             </div>
             <Modal ref={Popup} width={500}>

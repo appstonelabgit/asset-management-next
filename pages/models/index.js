@@ -41,6 +41,8 @@ const Models = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setModels(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -54,12 +56,12 @@ const Models = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getModels(currentPage, pageLimit, searchWord);
+        getModels(1, pageLimit, searchWord);
     };
 
     const resetFilter = () => {
         setSearchWord('');
-        getModels(currentPage, pageLimit);
+        getModels(1, pageLimit);
     };
 
     const sortByField = (field) => {
@@ -118,8 +120,8 @@ const Models = () => {
     };
 
     useEffect(() => {
-        getModels(currentPage, pageLimit);
-    }, [getModels, currentPage, pageLimit]);
+        getModels();
+    }, []);
 
     return (
         <div>
@@ -225,8 +227,6 @@ const Models = () => {
                                     </div>
                                 </th>
 
-
-
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -286,8 +286,8 @@ const Models = () => {
                         data={models}
                         totalRecords={totalRecords}
                         isLoading={isLoading}
-                        setPageLimit={setPageLimit}
-                        setCurrentPage={setCurrentPage}
+                        setPageLimit={(i) => getModels(1, i)}
+                        setCurrentPage={(i) => getModels(i, pageLimit)}
                     />
                 </div>
                 <CommonSideModal ref={SideModal} title={params?.id ? 'Edit model' : 'Add model'}>

@@ -42,6 +42,8 @@ const Sellers = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setSellers(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -55,12 +57,12 @@ const Sellers = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getSellers(currentPage, pageLimit, searchWord);
+        getSellers(1, pageLimit, searchWord);
     };
 
     const resetFilter = () => {
         setSearchWord('');
-        getSellers(currentPage, pageLimit);
+        getSellers(1, pageLimit);
     };
 
     const sortByField = (field) => {
@@ -119,8 +121,8 @@ const Sellers = () => {
     };
 
     useEffect(() => {
-        getSellers(currentPage, pageLimit);
-    }, [getSellers, currentPage, pageLimit]);
+        getSellers();
+    }, []);
 
     return (
         <div>
@@ -309,8 +311,8 @@ const Sellers = () => {
                         data={sellers}
                         totalRecords={totalRecords}
                         isLoading={isLoading}
-                        setPageLimit={setPageLimit}
-                        setCurrentPage={setCurrentPage}
+                        setPageLimit={(i) => getSellers(1, i)}
+                        setCurrentPage={(i) => getSellers(i, pageLimit)}
                     />
                 </div>
                 <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Seller' : 'Add Seller'}>

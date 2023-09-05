@@ -72,6 +72,8 @@ const Components = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setComponents(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -96,7 +98,7 @@ const Components = () => {
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
-        getComponents(currentPage, pageLimit, searchWord);
+        getComponents(1, pageLimit, searchWord);
     };
 
     const resetFilter = () => {
@@ -182,8 +184,8 @@ const Components = () => {
     }, [getDependentInformation]);
 
     useEffect(() => {
-        getComponents(currentPage, pageLimit);
-    }, [getComponents, currentPage, pageLimit]);
+        getComponents();
+    }, []);
 
     return (
         <div className="p-5">
@@ -523,8 +525,8 @@ const Components = () => {
                     data={Components}
                     totalRecords={totalRecords}
                     isLoading={isLoading}
-                    setPageLimit={setPageLimit}
-                    setCurrentPage={setCurrentPage}
+                    setPageLimit={(i) => getComponents(1, i)}
+                    setCurrentPage={(i) => getComponents(i, pageLimit)}
                 />
             </div>
             <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Component' : 'Add Component'}>

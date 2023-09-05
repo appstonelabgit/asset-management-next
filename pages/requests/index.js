@@ -61,6 +61,8 @@ const Request = () => {
                     },
                 })
                 .then(({ data }) => {
+                    setCurrentPage(data.meta.current_page);
+                    setPageLimit(data.meta.per_page);
                     setRequests(data.data);
                     setTotalRecords(data.meta.total);
                     setTotalPages(data.meta.last_page);
@@ -74,7 +76,7 @@ const Request = () => {
     const [statusParams, setStatusParams] = useState(defaultStatusParams);
 
     const refresh = () => {
-        getRequests(currentPage, pageLimit, searchWord);
+        getRequests(1, pageLimit, searchWord);
     };
 
     const resetFilter = () => {
@@ -186,8 +188,8 @@ const Request = () => {
     }, []);
 
     useEffect(() => {
-        getRequests(currentPage, pageLimit);
-    }, [getRequests, currentPage, pageLimit]);
+        getRequests();
+    }, []);
 
     return (
         <div>
@@ -503,8 +505,8 @@ const Request = () => {
                         data={requests}
                         totalRecords={totalRecords}
                         isLoading={isLoading}
-                        setPageLimit={setPageLimit}
-                        setCurrentPage={setCurrentPage}
+                        setPageLimit={(i) => getRequests(1, i)}
+                        setCurrentPage={(i) => getRequests(i, pageLimit)}
                     />
                 </div>
                 <Modal ref={popup} title={'Update Status'}>

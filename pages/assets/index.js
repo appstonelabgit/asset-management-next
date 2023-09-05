@@ -1008,7 +1008,8 @@ const Assets = () => {
                                                     strategy="absolute"
                                                     zindex="z-[60]"
                                                     ref={box}
-                                                    btnClassName="btn-secondary inline-flex items-center gap-[9px] w-full justify-between font-normal"
+                                                    showBorder={true}
+                                                    btnClassName={`btn-secondary inline-flex items-center gap-[9px] w-full justify-between font-normal`}
                                                     button={
                                                         <>
                                                             {selectedComponent.length === 0
@@ -1020,11 +1021,11 @@ const Assets = () => {
                                                         </>
                                                     }
                                                 >
-                                                    <div className="sticky top-0 bg-white px-5 py-3">
+                                                    <div className="sticky top-0 bg-white px-5 py-3 shadow-md">
                                                         <input
                                                             type="text"
                                                             placeholder="Search component..."
-                                                            className="form-input"
+                                                            className="form-input mt-0"
                                                             value={searchAssetCopmonent}
                                                             onChange={(e) => setSearchAssetCopmonent(e.target.value)}
                                                         />

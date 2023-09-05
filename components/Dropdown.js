@@ -69,7 +69,7 @@ const Dropdown = (props, forwardedRef) => {
                     <button
                         ref={referenceRef}
                         type="button"
-                        className={props.btnClassName}
+                        className={`${props.btnClassName} ${visibility && props.showBorder && '!border-black'}`}
                         onClick={handleEvents}
                         onMouseEnter={handleEvents}
                         onMouseLeave={handleEvents}
@@ -82,7 +82,11 @@ const Dropdown = (props, forwardedRef) => {
                             ref={popperRef}
                             style={styles.popper}
                             {...attributes.popper}
-                            className={`${props.zindex || 'z-10'} w-full overflow-hidden rounded bg-white p-0 shadow-lg`}
+                            className={`${
+                                props.zindex || 'z-10'
+                            } w-full overflow-hidden rounded bg-white p-0 shadow-lg ${
+                                visibility && props.showBorder && 'border'
+                            }`}
                         >
                             {visibility && props.children}
                         </div>

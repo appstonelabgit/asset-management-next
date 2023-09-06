@@ -20,6 +20,7 @@ import AddBrand from '@/components/AddBrand';
 import AddModel from '@/components/AddModel';
 import { useSelector } from 'react-redux';
 import Import from '@/components/Import';
+import AddUser from '@/components/AddUser';
 
 const Components = () => {
     const { user } = useSelector((state) => state.auth);
@@ -29,6 +30,7 @@ const Components = () => {
     const addBrandModal = useRef();
     const addAssetModal = useRef();
     const importModal = useRef();
+    const addUserModal = useRef();
 
     const [Components, setComponents] = useState([]);
 
@@ -51,6 +53,7 @@ const Components = () => {
     const [selectedBrand, setSelectedBrand] = useState([]);
     const [selectedModel, setSelectedModel] = useState([]);
     const [selectedAsset, setSelectedAsset] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const getComponents = useCallback(
         (page = 1, limit = 10, searchWord = '') => {
@@ -94,6 +97,7 @@ const Components = () => {
         warranty_expired_at: '',
         model_id: '',
         brand_id: '',
+        user_id: '',
     };
     const [params, setParams] = useState(defaultParams);
 
@@ -144,6 +148,7 @@ const Components = () => {
                     warranty_expired_at: helper.getFormattedDate2(data.warranty_expired_at),
                     model_id: data.model_id || '',
                     brand_id: data.brand_id || '',
+                    user_id: data.user_id || '',
                 });
                 SideModal?.current?.open();
             });
@@ -163,6 +168,7 @@ const Components = () => {
             setAssets(data.assets);
             setModels(data.models);
             setBrands(data.brands);
+            setUsers(data.users);
         });
     }, []);
 
@@ -176,6 +182,13 @@ const Components = () => {
             document.body.appendChild(fileLink);
             fileLink.click();
             return true;
+        } catch {}
+    };
+
+    const unAssignUser = async (id) => {
+        try {
+            await axios.post(`/components/${id}`, { ...params, user_id: null });
+            SideModal?.current.close();
         } catch {}
     };
 
@@ -742,6 +755,45 @@ const Components = () => {
                                                 })}
                                             </Field>
                                         </div>
+                                        <div>
+                                            <div className="flex items-end justify-between">
+                                                <label className="form-label">User Name</label>
+                                                <div>
+                                                    {params?.id && params?.user_id ? (
+                                                        <button
+                                                            type="button"
+                                                            className="btn-secondary mb-0 mr-2 py-1 text-xs"
+                                                            onClick={() => unAssignUser(params?.id)}
+                                                        >
+                                                            Unassign
+                                                        </button>
+                                                    ) : null}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addUserModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs"
+                                                    >
+                                                        Add User
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <Field
+                                                as="select"
+                                                name="user_id"
+                                                className="form-select rounded-l-none"
+                                                placeholder=""
+                                            >
+                                                <option value="">Select User</option>
+                                                {users?.map((user) => {
+                                                    return (
+                                                        <option key={user.id} value={user.id}>
+                                                            {helper.trancateString(user.name)}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </Field>
+                                        </div>
                                     </div>
                                     <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
                                         <ButtonField type="submit" loading={isSubmitting} className="btn px-4">
@@ -757,6 +809,7 @@ const Components = () => {
             <AddModel ref={addModelModal} refresh={getDependentInformation} />
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddAsset ref={addAssetModal} refresh={getDependentInformation} />
+            <AddUser ref={addUserModal} refresh={getDependentInformation} />
             <Import ref={importModal} refresh={refresh} type="components" csvPath="/csv/Sample Components.csv" />
         </div>
     );

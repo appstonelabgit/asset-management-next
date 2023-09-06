@@ -224,7 +224,7 @@ const Accessories = () => {
 
     useEffect(() => {
         getAccessories();
-    }, []);
+    }, [getAccessories]);
 
     return (
         <div>

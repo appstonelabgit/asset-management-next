@@ -121,7 +121,7 @@ const Models = () => {
 
     useEffect(() => {
         getModels();
-    }, []);
+    }, [getModels]);
 
     return (
         <div>

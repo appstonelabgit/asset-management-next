@@ -131,7 +131,7 @@ const Brands = () => {
 
     useEffect(() => {
         getBrands();
-    }, []);
+    }, [getBrands]);
 
     return (
         <div>

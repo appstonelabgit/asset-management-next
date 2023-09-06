@@ -122,7 +122,7 @@ const Sellers = () => {
 
     useEffect(() => {
         getSellers();
-    }, []);
+    }, [getSellers]);
 
     return (
         <div>

@@ -326,7 +326,7 @@ const Assets = () => {
 
     useEffect(() => {
         getAssets();
-    }, []);
+    }, [getAssets]);
 
     useEffect(() => {
         const list = components?.filter((d) => d.name.toLowerCase().includes(searchAssetCopmonent.toLowerCase())) || [];

@@ -21,6 +21,8 @@ import AddModel from '@/components/AddModel';
 import { useSelector } from 'react-redux';
 import Import from '@/components/Import';
 import AddUser from '@/components/AddUser';
+import IconHistory from '@/components/Icon/IconHistory';
+import Modal from '@/components/Modal';
 
 const Components = () => {
     const { user } = useSelector((state) => state.auth);
@@ -31,6 +33,7 @@ const Components = () => {
     const addAssetModal = useRef();
     const importModal = useRef();
     const addUserModal = useRef();
+    const Popup = useRef();
 
     const [Components, setComponents] = useState([]);
 
@@ -54,6 +57,8 @@ const Components = () => {
     const [selectedModel, setSelectedModel] = useState([]);
     const [selectedAsset, setSelectedAsset] = useState([]);
     const [users, setUsers] = useState([]);
+
+    const [selectedModelData, setSelectedModelData] = useState({ user_id: '', data: [] });
 
     const getComponents = useCallback(
         (page = 1, limit = 10, searchWord = '') => {
@@ -163,6 +168,13 @@ const Components = () => {
         }
     };
 
+    const handleModalData = (id, user_id) => {
+        axios.get(`/components/${id}/assign-history`).then(({ data }) => {
+            setSelectedModelData({ ...selectedModelData, user_id: user_id, data: data });
+        });
+        Popup?.current?.open();
+    };
+
     const getDependentInformation = useCallback(() => {
         axios.get(`/components/dependent/information`).then(({ data }) => {
             setAssets(data.assets);
@@ -198,7 +210,7 @@ const Components = () => {
 
     useEffect(() => {
         getComponents();
-    }, []);
+    }, [getComponents]);
 
     return (
         <div className="p-5">
@@ -464,7 +476,23 @@ const Components = () => {
                                     />
                                 </div>
                             </th>
-
+                            <th>
+                                <div
+                                    className={`flex cursor-pointer  ${
+                                        order.order_field === 'user_name' ? 'text-darkprimary' : ''
+                                    }`}
+                                    onClick={() => sortByField('user_name')}
+                                >
+                                    <span>User</span>
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'user_name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
+                                </div>
+                            </th>
                             {user?.role === 1 && <th>Action</th>}
                         </tr>
                     </thead>
@@ -496,10 +524,22 @@ const Components = () => {
                                         <td className="capitalize">
                                             {helper.trancateSmallString(component?.brand_name) || '-'}
                                         </td>
+                                        <td className="capitalize">
+                                            {helper.trancateSmallString(component?.user_name) || '-'}
+                                        </td>
 
                                         {user?.role === 1 && (
                                             <td>
                                                 <div className="flex">
+                                                    <button
+                                                        type="button"
+                                                        className="mx-0.5 rounded-md border border-[#fcd34d] bg-[#fcd34d] p-2 hover:bg-transparent"
+                                                        onClick={() => {
+                                                            handleModalData(component?.id, component?.user_id);
+                                                        }}
+                                                    >
+                                                        <IconHistory />
+                                                    </button>
                                                     <button
                                                         type="button"
                                                         className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -542,6 +582,37 @@ const Components = () => {
                     setCurrentPage={(i) => getComponents(i, pageLimit)}
                 />
             </div>
+            <Modal ref={Popup} width={500}>
+                <div className="mx-5">
+                    <h3 className="mb-5 text-lg font-bold text-darkprimary">History</h3>
+                    {selectedModelData?.data?.length !== 0 && (
+                        <div className="main-table w-full overflow-x-auto">
+                            <table className="w-full table-auto">
+                                <thead className="bg-lightblue1">
+                                    <tr>
+                                        <th>Component Name</th>
+                                        <th colSpan={2}>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedModelData?.data?.map((modeldata, i) => {
+                                        return (
+                                            <tr key={modeldata?.id} className="bg-white">
+                                                <td className="capitalize">{modeldata?.users?.name}</td>
+                                                <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
+                                                <td>{selectedModelData?.user_id && i === 0 ? 'Current' : null}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                    {selectedModelData?.data?.length === 0 && (
+                        <div className="mb-5 text-center">Data not available.</div>
+                    )}
+                </div>
+            </Modal>
             <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Component' : 'Add Component'}>
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">

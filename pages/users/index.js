@@ -122,7 +122,7 @@ const Users = () => {
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [getUsers]);
 
     return (
         <div>

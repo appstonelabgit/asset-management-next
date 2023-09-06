@@ -189,7 +189,7 @@ const Request = () => {
 
     useEffect(() => {
         getRequests();
-    }, []);
+    }, [getRequests]);
 
     return (
         <div>

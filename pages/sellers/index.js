@@ -21,7 +21,7 @@ const Sellers = () => {
     const [sellers, setSellers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageLimit, setPageLimit] = useState(10);
+    const [pageLimit, setPageLimit] = useState(50);
     const [totalRecords, setTotalRecords] = useState(50);
     const [totalPages, setTotalPages] = useState(5);
 
@@ -29,7 +29,7 @@ const Sellers = () => {
     const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const getSellers = useCallback(
-        (page = 1, limit = 10, searchWord = '') => {
+        (page = 1, limit = 50, searchWord = '') => {
             setIsLoading(true);
             axios
                 .get(`/sellers`, {

@@ -14,7 +14,7 @@ const Pagination = ({
 }) => {
     const pageLimitRef = useRef();
 
-    const perPageOption = [10, 50, 100];
+    const perPageOption = [50, 100, 200];
 
     return (
         <div className="flex items-center justify-between">

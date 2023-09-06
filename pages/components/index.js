@@ -43,7 +43,7 @@ const Components = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageLimit, setPageLimit] = useState(10);
+    const [pageLimit, setPageLimit] = useState(50);
     const [totalRecords, setTotalRecords] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
@@ -61,7 +61,7 @@ const Components = () => {
     const [selectedModelData, setSelectedModelData] = useState({ user_id: '', data: [] });
 
     const getComponents = useCallback(
-        (page = 1, limit = 10, searchWord = '') => {
+        (page = 1, limit = 50, searchWord = '') => {
             setIsLoading(true);
 
             axios

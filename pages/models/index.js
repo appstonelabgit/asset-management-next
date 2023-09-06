@@ -21,14 +21,14 @@ const Models = () => {
     const [models, setModels] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageLimit, setPageLimit] = useState(10);
+    const [pageLimit, setPageLimit] = useState(50);
     const [totalRecords, setTotalRecords] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [searchWord, setSearchWord] = useState('');
     const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const getModels = useCallback(
-        (page = 1, limit = 10, searchWord = '') => {
+        (page = 1, limit = 50, searchWord = '') => {
             setIsLoading(true);
             axios
                 .get(`/models`, {

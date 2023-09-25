@@ -26,6 +26,8 @@ import AddComponent from '@/components/AddComponent';
 import { useSelector } from 'react-redux';
 import Import from '@/components/Import';
 import IconHistory from '@/components/Icon/IconHistory';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 const Assets = () => {
     const { user } = useSelector((state) => state.auth);
@@ -470,135 +472,14 @@ const Assets = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer  ${
-                                        order.order_field === 'serial_number' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('serial_number')}
-                                >
-                                    <span>Serial Number</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'serial_number' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('name')}
                                 >
-                                    <span>Asset Name</span>
+                                    <span>Name</span>
                                     <IconUpDownArrow
                                         className={`${
                                             order.order_field === 'name' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'purchased_at' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('purchased_at')}
-                                >
-                                    <span>Purchase Date</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'purchased_at' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'purchased_cost' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('purchased_cost')}
-                                >
-                                    <span>Purchase Cost</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'purchased_cost' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'warranty_expired_at' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('warranty_expired_at')}
-                                >
-                                    <span>Warranty Expiry</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'warranty_expired_at' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'seller_name' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('seller_name')}
-                                >
-                                    <span>Seller</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'seller_name' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'model_name' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('model_name')}
-                                >
-                                    <span>Model</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'model_name' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'brand_name' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('brand_name')}
-                                >
-                                    <span>Brand</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'brand_name' && order.sort_order === 'desc'
                                                 ? 'rotate-180'
                                                 : ''
                                         }`}
@@ -622,8 +503,43 @@ const Assets = () => {
                                     />
                                 </div>
                             </th>
+                            <th className="w-1">
+                                <div
+                                    className={`flex cursor-pointer  ${
+                                        order.order_field === 'serial_number' ? 'text-darkprimary' : ''
+                                    }`}
+                                    onClick={() => sortByField('serial_number')}
+                                >
+                                    <span>Serial Number</span>
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'serial_number' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
+                                </div>
+                            </th>
 
-                            {user?.role === 1 && <th>Action</th>}
+                            <th>
+                                <div
+                                    className={`flex cursor-pointer  ${
+                                        order.order_field === 'brand_name' ? 'text-darkprimary' : ''
+                                    }`}
+                                    onClick={() => sortByField('brand_name')}
+                                >
+                                    <span>Brand</span>
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'brand_name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
+                                </div>
+                            </th>
+
+                            {user?.role === 1 && <th className="w-1">Action</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -633,6 +549,20 @@ const Assets = () => {
                             assets?.map((asset) => {
                                 return (
                                     <tr key={asset.id} className="bg-white">
+                                        <td className="max-w-[160px] truncate capitalize">
+                                            <Tippy content={asset?.name}>
+                                                <span>{asset?.name}</span>
+                                            </Tippy>
+                                        </td>
+                                        <td className="max-w-[160px] truncate capitalize">
+                                            {asset?.user_name ? (
+                                                <Tippy content={asset?.user_name}>
+                                                    <span>{asset?.user_name}</span>
+                                                </Tippy>
+                                            ) : (
+                                                '-'
+                                            )}
+                                        </td>
                                         {user?.role === 1 ? (
                                             <td
                                                 className="cursor-pointer hover:text-[#1A68D4]"
@@ -645,21 +575,15 @@ const Assets = () => {
                                         ) : (
                                             <td>{asset?.serial_number}</td>
                                         )}
-                                        <td className="capitalize">{helper.trancateString(asset?.name)}</td>
-                                        <td>{helper?.getFormattedDate(asset?.purchased_at)}</td>
-                                        <td>{helper.formatIndianCurrency(asset?.purchased_cost)}</td>
-                                        <td>{helper?.getFormattedDate(asset?.warranty_expired_at)}</td>
-                                        <td className="capitalize">
-                                            {helper.trancateSmallString(asset?.seller_name) || '-'}
-                                        </td>
-                                        <td className="capitalize">
-                                            {helper.trancateSmallString(asset?.model_name) || '-'}
-                                        </td>
-                                        <td className="capitalize">
-                                            {helper.trancateSmallString(asset?.brand_name) || '-'}
-                                        </td>
-                                        <td className="capitalize">
-                                            {helper.trancateSmallString(asset?.user_name) || '-'}
+
+                                        <td className="max-w-[160px] truncate capitalize">
+                                            {asset?.brand_name ? (
+                                                <Tippy content={asset?.brand_name}>
+                                                    <span>{asset?.brand_name}</span>
+                                                </Tippy>
+                                            ) : (
+                                                '-'
+                                            )}
                                         </td>
 
                                         {user?.role === 1 && (
@@ -698,7 +622,7 @@ const Assets = () => {
                             })
                         ) : (
                             <tr className="text-center">
-                                <td colSpan={10}>No data is available.</td>
+                                <td colSpan={5}>No data is available.</td>
                             </tr>
                         )}
                     </tbody>

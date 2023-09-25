@@ -23,6 +23,8 @@ import Import from '@/components/Import';
 import AddUser from '@/components/AddUser';
 import IconHistory from '@/components/Icon/IconHistory';
 import Modal from '@/components/Modal';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 const Components = () => {
     const { user } = useSelector((state) => state.auth);
@@ -342,134 +344,14 @@ const Components = () => {
                             <th>
                                 <div
                                     className={`flex cursor-pointer  ${
-                                        order.order_field === 'serial_number' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('serial_number')}
-                                >
-                                    <span>Serial Number</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'serial_number' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
                                         order.order_field === 'name' ? 'text-darkprimary' : ''
                                     }`}
                                     onClick={() => sortByField('name')}
                                 >
-                                    <span>Component Name</span>
+                                    <span>Name</span>
                                     <IconUpDownArrow
                                         className={`${
                                             order.order_field === 'name' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'purchased_at' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('purchased_at')}
-                                >
-                                    <span>Purchase Date</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'purchased_at' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'purchased_cost' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('purchased_cost')}
-                                >
-                                    <span>Purchase Cost</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'purchased_cost' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'warranty_expired_at' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('warranty_expired_at')}
-                                >
-                                    <span>Warranty Expiry</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'warranty_expired_at' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'asset_name' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('asset_name')}
-                                >
-                                    <span>Asset</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'asset_name' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'model_name' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('model_name')}
-                                >
-                                    <span>Model</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'model_name' && order.sort_order === 'desc'
-                                                ? 'rotate-180'
-                                                : ''
-                                        }`}
-                                    />
-                                </div>
-                            </th>
-                            <th>
-                                <div
-                                    className={`flex cursor-pointer  ${
-                                        order.order_field === 'brand_name' ? 'text-darkprimary' : ''
-                                    }`}
-                                    onClick={() => sortByField('brand_name')}
-                                >
-                                    <span>Brand</span>
-                                    <IconUpDownArrow
-                                        className={`${
-                                            order.order_field === 'brand_name' && order.sort_order === 'desc'
                                                 ? 'rotate-180'
                                                 : ''
                                         }`}
@@ -493,7 +375,58 @@ const Components = () => {
                                     />
                                 </div>
                             </th>
-                            {user?.role === 1 && <th>Action</th>}
+                            <th>
+                                <div
+                                    className={`flex cursor-pointer  ${
+                                        order.order_field === 'asset_name' ? 'text-darkprimary' : ''
+                                    }`}
+                                    onClick={() => sortByField('asset_name')}
+                                >
+                                    <span>Asset</span>
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'asset_name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
+                                </div>
+                            </th>
+                            <th className="w-1">
+                                <div
+                                    className={`flex cursor-pointer  ${
+                                        order.order_field === 'serial_number' ? 'text-darkprimary' : ''
+                                    }`}
+                                    onClick={() => sortByField('serial_number')}
+                                >
+                                    <span>Serial Number</span>
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'serial_number' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
+                                </div>
+                            </th>
+                            <th className="w-1">
+                                <div
+                                    className={`flex cursor-pointer  ${
+                                        order.order_field === 'brand_name' ? 'text-darkprimary' : ''
+                                    }`}
+                                    onClick={() => sortByField('brand_name')}
+                                >
+                                    <span>Brand</span>
+                                    <IconUpDownArrow
+                                        className={`${
+                                            order.order_field === 'brand_name' && order.sort_order === 'desc'
+                                                ? 'rotate-180'
+                                                : ''
+                                        }`}
+                                    />
+                                </div>
+                            </th>
+                            {user?.role === 1 && <th className="w-1">Action</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -503,6 +436,29 @@ const Components = () => {
                             Components?.map((component) => {
                                 return (
                                     <tr key={component.id} className="bg-white">
+                                        <td className="max-w-[160px] truncate capitalize">
+                                            <Tippy content={component?.name}>
+                                                <span>{component?.name}</span>
+                                            </Tippy>
+                                        </td>
+                                        <td className="max-w-[160px] truncate capitalize">
+                                            {component?.user_name ? (
+                                                <Tippy content={component?.user_name}>
+                                                    <span>{component?.user_name}</span>
+                                                </Tippy>
+                                            ) : (
+                                                '-'
+                                            )}
+                                        </td>
+                                        <td className="max-w-[160px] truncate capitalize">
+                                            {component?.asset_name ? (
+                                                <Tippy content={component?.asset_name}>
+                                                    <span>{component?.asset_name}</span>
+                                                </Tippy>
+                                            ) : (
+                                                '-'
+                                            )}
+                                        </td>
                                         <td
                                             className="cursor-pointer hover:text-[#1A68D4]"
                                             onClick={() => {
@@ -511,21 +467,14 @@ const Components = () => {
                                         >
                                             {component?.serial_number}
                                         </td>
-                                        <td className="capitalize">{helper.trancateString(component?.name)}</td>
-                                        <td>{helper?.getFormattedDate(component?.purchased_at)}</td>
-                                        <td>{helper.formatIndianCurrency(component?.purchased_cost)}</td>
-                                        <td>{helper?.getFormattedDate(component?.warranty_expired_at)}</td>
                                         <td className="capitalize">
-                                            {helper.trancateSmallString(component?.asset_name) || '-'}
-                                        </td>
-                                        <td className="capitalize">
-                                            {helper.trancateSmallString(component?.model_name) || '-'}
-                                        </td>
-                                        <td className="capitalize">
-                                            {helper.trancateSmallString(component?.brand_name) || '-'}
-                                        </td>
-                                        <td className="capitalize">
-                                            {helper.trancateSmallString(component?.user_name) || '-'}
+                                            {component?.brand_name ? (
+                                                <Tippy content={component?.brand_name}>
+                                                    <span>{helper.trancateSmallString(component?.brand_name)}</span>
+                                                </Tippy>
+                                            ) : (
+                                                '-'
+                                            )}
                                         </td>
 
                                         {user?.role === 1 && (
@@ -564,7 +513,7 @@ const Components = () => {
                             })
                         ) : (
                             <tr className="text-center">
-                                <td colSpan={9}>No data is available.</td>
+                                <td colSpan={6}>No data is available.</td>
                             </tr>
                         )}
                     </tbody>

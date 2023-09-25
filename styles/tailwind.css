@@ -70,13 +70,13 @@
         @apply pointer-events-none opacity-50;
     }
 
-    .main-table {
+    /* .main-table {
         @apply max-h-[calc(100vh_-_345px)] min-h-[200px];
     }
 
     .main-table table thead {
         @apply sticky top-0;
-    }
+    } */
 
     .main-table table thead tr th {
         @apply whitespace-nowrap py-[10px] px-5 text-left text-[16px] font-semibold;

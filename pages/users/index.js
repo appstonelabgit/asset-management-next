@@ -57,7 +57,15 @@ const Users = () => {
         [order]
     );
 
-    const defaultParams = { id: '', name: '', email: '', designation: '', employee_id: '' };
+    const defaultParams = {
+        id: '',
+        name: '',
+        email: '',
+        designation: '',
+        employee_id: '',
+        password: '',
+        confirm_password: '',
+    };
     const [params, setParams] = useState(defaultParams);
 
     const refresh = () => {
@@ -98,6 +106,8 @@ const Users = () => {
                     email: data.email,
                     designation: data.designation,
                     employee_id: data.employee_id,
+                    password: '',
+                    confirm_password: '',
                 });
                 SideModal?.current?.open();
             });
@@ -516,6 +526,28 @@ const Users = () => {
                                                     type="text"
                                                     className="form-input rounded-l-none"
                                                     placeholder="Designation"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="form-label">Password</label>
+
+                                                <Field
+                                                    name="password"
+                                                    type="password"
+                                                    className="form-input rounded-l-none"
+                                                    placeholder="Password"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="form-label">Confirm Password</label>
+
+                                                <Field
+                                                    name="confirm_password"
+                                                    type="password"
+                                                    className="form-input rounded-l-none"
+                                                    placeholder="Confirm Password"
                                                 />
                                             </div>
                                         </div>

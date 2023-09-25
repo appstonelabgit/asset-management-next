@@ -392,7 +392,7 @@ const Accessories = () => {
                                         />
                                     </div>
                                 </th>
-                                <th className="w-1">
+                                <th>
                                     <div
                                         className={`flex cursor-pointer  ${
                                             order.order_field === 'serial_number' ? 'text-darkprimary' : ''
@@ -409,7 +409,7 @@ const Accessories = () => {
                                         />
                                     </div>
                                 </th>
-                                <th className="w-1">
+                                <th>
                                     <div
                                         className={`flex cursor-pointer  ${
                                             order.order_field === 'brand_name' ? 'text-darkprimary' : ''
@@ -451,18 +451,20 @@ const Accessories = () => {
                                                     '-'
                                                 )}
                                             </td>
-                                            {user?.role === 1 ? (
-                                                <td
-                                                    className="cursor-pointer hover:text-[#1A68D4]"
-                                                    onClick={() => {
+                                            <td
+                                                className={`max-w-[160px] truncate ${
+                                                    user?.role === 1 && 'cursor-pointer hover:text-[#1A68D4]'
+                                                }`}
+                                                onClick={() => {
+                                                    if (user?.role === 1) {
                                                         handleEdit(accessory?.id);
-                                                    }}
-                                                >
-                                                    {accessory?.serial_number}
-                                                </td>
-                                            ) : (
-                                                <td>{accessory?.serial_number}</td>
-                                            )}
+                                                    }
+                                                }}
+                                            >
+                                                <Tippy content={accessory?.serial_number}>
+                                                    <span> {accessory?.serial_number}</span>
+                                                </Tippy>
+                                            </td>
                                             <td className="capitalize">
                                                 {accessory?.brand_name ? (
                                                     <Tippy content={accessory?.brand_name}>

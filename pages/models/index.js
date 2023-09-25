@@ -13,6 +13,8 @@ import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
 import Import from '@/components/Import';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 const Models = () => {
     const SideModal = useRef();
@@ -238,12 +240,14 @@ const Models = () => {
                                     return (
                                         <tr key={model.id} className="bg-white">
                                             <td
-                                                className="cursor-pointer hover:text-[#1A68D4]"
+                                                className="max-w-[160px] cursor-pointer truncate hover:text-[#1A68D4]"
                                                 onClick={() => {
                                                     handleEdit(model?.id);
                                                 }}
                                             >
-                                                {model?.serial_number}
+                                                <Tippy content={model?.serial_number}>
+                                                    <span>{model?.serial_number}</span>
+                                                </Tippy>
                                             </td>
                                             <td className="capitalize">{helper.trancateString(model?.name)}</td>
 

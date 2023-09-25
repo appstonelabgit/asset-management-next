@@ -421,14 +421,14 @@ const Request = () => {
                                             {user?.role === 1 && <td className="capitalize">{request?.user_name}</td>}
                                             <td className="capitalize">{request?.request_type}</td>
                                             <td className="capitalize">{request?.type}</td>
-                                            <td className="capitalize">
-                                                {helper.trancateSmallString(request?.sub_type)}
+                                            <td className="max-w-[160px] truncate capitalize">
+                                                <Tippy content={request?.sub_type}>
+                                                    <span>{request?.sub_type}</span>
+                                                </Tippy>
                                             </td>
-                                            <td>
+                                            <td className="max-w-[160px] truncate">
                                                 <Tippy content={request?.description}>
-                                                    <span className="cursor-pointer">
-                                                        {helper.trancateString(request?.description)}
-                                                    </span>
+                                                    <span>{request?.description}</span>
                                                 </Tippy>
                                             </td>
                                             <td className="flex cursor-pointer items-center space-x-2 capitalize">
@@ -437,15 +437,13 @@ const Request = () => {
                                                 </span>
                                             </td>
 
-                                            <td>
+                                            <td className="max-w-[160px] truncate">
                                                 {request?.reject_reason ? (
                                                     <Tippy content={request?.reject_reason}>
-                                                        <span className="cursor-pointer">
-                                                            {helper.trancateString(request?.reject_reason || '-')}
-                                                        </span>
+                                                        <span>{request?.reject_reason}</span>
                                                     </Tippy>
                                                 ) : (
-                                                    <span>{helper.trancateString(request?.reject_reason || '-')}</span>
+                                                    <span>-</span>
                                                 )}
                                             </td>
 
@@ -453,7 +451,7 @@ const Request = () => {
 
                                             <td>
                                                 <div className="flex items-center justify-end">
-                                                    {user?.role === 1 && request?.status === 'Pending' && (
+                                                    {user?.role === 1 && (
                                                         <button
                                                             type="button"
                                                             className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
@@ -477,13 +475,16 @@ const Request = () => {
                                                         </button>
                                                     )}
 
-                                                    <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
-                                                        onClick={() => handleDelete(request?.id)}
-                                                    >
-                                                        <IconDelete />
-                                                    </button>
+                                                    {(user?.role === 1 ||
+                                                        (user?.role === 2 && request?.status === 'Pending')) && (
+                                                        <button
+                                                            type="button"
+                                                            className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
+                                                            onClick={() => handleDelete(request?.id)}
+                                                        >
+                                                            <IconDelete />
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </td>
                                         </tr>

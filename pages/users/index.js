@@ -12,9 +12,9 @@ import Modal from '@/components/Modal';
 import { Field, Form, Formik } from 'formik';
 import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
+import { useSelector } from 'react-redux';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import { useSelector } from 'react-redux';
 
 const Users = () => {
     const { user } = useSelector((state) => state.auth);
@@ -292,15 +292,21 @@ const Users = () => {
                                         <tr key={user.id} className="bg-white">
                                             <td>{user?.employee_id}</td>
                                             <td
-                                                className="cursor-pointer capitalize hover:text-[#1A68D4]"
+                                                className="max-w-[160px] cursor-pointer truncate capitalize hover:text-[#1A68D4]"
                                                 onClick={() => {
                                                     handleEdit(user?.id);
                                                 }}
                                             >
-                                                {helper.trancateString(user?.name)}
+                                                <Tippy content={user?.name}>
+                                                    <span>{user?.name}</span>
+                                                </Tippy>
                                             </td>
                                             <td>{user?.email}</td>
-                                            <td className="capitalize">{helper.trancateString(user?.designation)}</td>
+                                            <td className="max-w-[160px] truncate capitalize">
+                                                <Tippy content={user?.name}>
+                                                    <span>{user?.designation}</span>
+                                                </Tippy>
+                                            </td>
                                             {user?.components?.length === 0 ? (
                                                 <td>{user?.components?.length}</td>
                                             ) : (

@@ -392,7 +392,7 @@ const Components = () => {
                                     />
                                 </div>
                             </th>
-                            <th className="w-1">
+                            <th>
                                 <div
                                     className={`flex cursor-pointer  ${
                                         order.order_field === 'serial_number' ? 'text-darkprimary' : ''
@@ -409,7 +409,7 @@ const Components = () => {
                                     />
                                 </div>
                             </th>
-                            <th className="w-1">
+                            <th>
                                 <div
                                     className={`flex cursor-pointer  ${
                                         order.order_field === 'brand_name' ? 'text-darkprimary' : ''
@@ -460,12 +460,14 @@ const Components = () => {
                                             )}
                                         </td>
                                         <td
-                                            className="cursor-pointer hover:text-[#1A68D4]"
+                                            className="max-w-[160px] cursor-pointer truncate hover:text-[#1A68D4]"
                                             onClick={() => {
                                                 handleEdit(component?.id);
                                             }}
                                         >
-                                            {component?.serial_number}
+                                            <Tippy content={component?.serial_number}>
+                                                <span>{component?.serial_number}</span>
+                                            </Tippy>
                                         </td>
                                         <td className="capitalize">
                                             {component?.brand_name ? (

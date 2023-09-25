@@ -503,7 +503,7 @@ const Assets = () => {
                                     />
                                 </div>
                             </th>
-                            <th className="w-1">
+                            <th>
                                 <div
                                     className={`flex cursor-pointer  ${
                                         order.order_field === 'serial_number' ? 'text-darkprimary' : ''
@@ -563,18 +563,20 @@ const Assets = () => {
                                                 '-'
                                             )}
                                         </td>
-                                        {user?.role === 1 ? (
-                                            <td
-                                                className="cursor-pointer hover:text-[#1A68D4]"
-                                                onClick={() => {
+                                        <td
+                                            className={`max-w-[160px] truncate ${
+                                                user?.role === 1 && 'cursor-pointer hover:text-[#1A68D4]'
+                                            }`}
+                                            onClick={() => {
+                                                if (user?.role === 1) {
                                                     handleEdit(asset?.id);
-                                                }}
-                                            >
-                                                {asset?.serial_number}
-                                            </td>
-                                        ) : (
-                                            <td>{asset?.serial_number}</td>
-                                        )}
+                                                }
+                                            }}
+                                        >
+                                            <Tippy content={asset?.serial_number}>
+                                                <span> {asset?.serial_number}</span>
+                                            </Tippy>
+                                        </td>
 
                                         <td className="max-w-[160px] truncate capitalize">
                                             {asset?.brand_name ? (

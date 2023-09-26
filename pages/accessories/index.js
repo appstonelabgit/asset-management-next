@@ -43,6 +43,7 @@ const Accessories = () => {
     const [models, setModels] = useState([]);
     const [brands, setBrands] = useState([]);
     const [users, setUsers] = useState([]);
+    const [isFree, setIsFree] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -80,6 +81,7 @@ const Accessories = () => {
                         brand_id: selectedBrand.length === 0 ? '' : selectedBrand,
                         model_id: selectedModel.length === 0 ? '' : selectedModel,
                         seller_id: selectedSeller.length === 0 ? '' : selectedSeller,
+                        is_free: isFree,
                     },
                 })
                 .then(({ data }) => {
@@ -91,7 +93,7 @@ const Accessories = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedSeller, order, expiryDate, user?.role, purchasedDate]
+        [selectedBrand, selectedModel, selectedSeller, order, expiryDate, user?.role, purchasedDate, isFree]
     );
 
     const defaultParams = {
@@ -119,6 +121,7 @@ const Accessories = () => {
         setSelectedBrand([]);
         setSelectedModel([]);
         setSelectedSeller([]);
+        setIsFree(false);
     };
 
     const sortByField = (field) => {
@@ -230,129 +233,131 @@ const Accessories = () => {
 
     return (
         <div>
-            <div className="mx-5">
-                <h1 className="mt-5 text-xl font-bold text-darkprimary">Accessories</h1>
-                <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
+            <div className="p-5">
+                <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
+                    <h1 className=" text-xl font-bold text-darkprimary">Accessories</h1>
                     {user?.role === 1 && (
                         <div className="flex space-x-2">
                             <button
                                 type="button"
-                                className="btn-secondary mb-0 mt-2"
+                                className="btn-secondary"
                                 onClick={() => {
                                     importModal?.current?.open();
                                 }}
                             >
                                 Import
                             </button>
-                            <button type="button" onClick={exportdata} className="btn-secondary mb-0 mt-2">
+                            <button type="button" onClick={exportdata} className="btn-secondary">
                                 Export
                             </button>
                         </div>
                     )}
-                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
-                        <div>
-                            <Flatpickr
-                                name="purchased_at"
-                                value={purchasedDate}
-                                className="form-input rounded-l-none"
-                                placeholder="Purchase Date"
-                                options={{
-                                    disableMobile: 'true',
+                </div>
+                <div className="mb-5 flex flex-wrap justify-end gap-2">
+                    <div className="mr-auto flex items-center">
+                        <label htmlFor="isFree" className="relative h-6 w-12">
+                            <input
+                                type="checkbox"
+                                id="isFree"
+                                name="isFree"
+                                className="custom_switch peer absolute z-10 h-full w-full cursor-pointer opacity-0"
+                                checked={isFree}
+                                onChange={(e) => setIsFree(e.target.checked ? true : false)}
+                            />
+                            <span className=" block h-full rounded-full bg-lightblue before:absolute before:left-1 before:bottom-1 before:h-4 before:w-4 before:rounded-full before:bg-white before:transition-all before:duration-300 peer-checked:bg-primary peer-checked:before:left-7 "></span>
+                        </label>
+                        <label htmlFor="isFree" className="pl-2 font-semibold">
+                            Is Free
+                        </label>
+                    </div>
+                    <div className="w-full flex-none md:max-w-[240px]">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="form-input mt-0 pr-10"
+                                placeholder="Search..."
+                                value={searchWord}
+                                onChange={(event) => setSearchWord(event.target.value)}
+                                onKeyUp={(e) => {
+                                    if (e.key === 'Enter') {
+                                        refresh();
+                                    }
+                                    if (searchWord.length === 0) {
+                                        refresh();
+                                    }
                                 }}
-                                onChange={(date) => {
-                                    setPurchasedDate(helper.getFormattedDate2(date[0]));
-                                }}
                             />
+                            <button
+                                type="button"
+                                className="text-black-dark absolute top-1/2 right-0 my-auto inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center hover:opacity-70"
+                                onClick={refresh}
+                            >
+                                <IconSearch />
+                            </button>
                         </div>
-                        <div className="">
-                            <Flatpickr
-                                name="warranty_expired_at"
-                                value={expiryDate}
-                                className="form-input rounded-l-none"
-                                placeholder="Warranty Expiry Date"
-                                options={{
-                                    disableMobile: 'true',
-                                }}
-                                onChange={(date) => {
-                                    setExpiryDate(helper.getFormattedDate2(date[0]));
-                                }}
-                            />
-                        </div>
-                        <div className="mb-0 mt-2">
-                            <MultipleSelect
-                                list={brands}
-                                name="Brand"
-                                keyName="name"
-                                selectedoptions={selectedBrand}
-                                setSelectedoptions={setSelectedBrand}
-                            />
-                        </div>
-                        <div className="mb-0 mt-2">
-                            <MultipleSelect
-                                list={models}
-                                name="Model"
-                                keyName="name"
-                                selectedoptions={selectedModel}
-                                setSelectedoptions={setSelectedModel}
-                            />
-                        </div>
-                        <div className="mb-0 mt-2">
-                            <MultipleSelect
-                                list={sellers}
-                                name="Seller"
-                                keyName="name"
-                                selectedoptions={selectedSeller}
-                                setSelectedoptions={setSelectedSeller}
-                            />
-                        </div>
+                    </div>
+                    <div className="">
+                        <Flatpickr
+                            name="warranty_expired_at"
+                            value={expiryDate}
+                            className="form-input mt-0 rounded-l-none"
+                            placeholder="Warranty Expiry Date"
+                            options={{
+                                disableMobile: 'true',
+                            }}
+                            onChange={(date) => {
+                                setExpiryDate(helper.getFormattedDate2(date[0]));
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <MultipleSelect
+                            list={brands}
+                            name="Brand"
+                            keyName="name"
+                            selectedoptions={selectedBrand}
+                            setSelectedoptions={setSelectedBrand}
+                        />
+                    </div>
+                    <div>
+                        <MultipleSelect
+                            list={models}
+                            name="Model"
+                            keyName="name"
+                            selectedoptions={selectedModel}
+                            setSelectedoptions={setSelectedModel}
+                        />
+                    </div>
+                    <div>
+                        <MultipleSelect
+                            list={sellers}
+                            name="Seller"
+                            keyName="name"
+                            selectedoptions={selectedSeller}
+                            setSelectedoptions={setSelectedSeller}
+                        />
+                    </div>
 
-                        <div className="w-full flex-none md:max-w-[240px]">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    className="form-input pr-10"
-                                    placeholder="Search..."
-                                    value={searchWord}
-                                    onChange={(event) => setSearchWord(event.target.value)}
-                                    onKeyUp={(e) => {
-                                        if (e.key === 'Enter') {
-                                            refresh();
-                                        }
-                                        if (searchWord.length === 0) {
-                                            refresh();
-                                        }
-                                    }}
-                                />
-                                <button
-                                    type="button"
-                                    className="text-black-dark absolute top-2 right-0 my-auto inline-flex h-10 w-10 items-center justify-center hover:opacity-70"
-                                    onClick={refresh}
-                                >
-                                    <IconSearch />
-                                </button>
-                            </div>
-                        </div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            resetFilter();
+                        }}
+                        className="btn-secondary"
+                    >
+                        Reset Filter
+                    </button>
+                    {user?.role === 1 && (
                         <button
                             type="button"
                             onClick={() => {
-                                resetFilter();
+                                setParams(defaultParams), SideModal?.current?.open();
                             }}
-                            className="btn-secondary mb-0 mt-2"
+                            className="btn"
                         >
-                            Reset Filter
+                            Add Accessory
                         </button>
-                        {user?.role === 1 && (
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setParams(defaultParams), SideModal?.current?.open();
-                                }}
-                                className="btn mb-0 mt-2"
-                            >
-                                Add Accessory
-                            </button>
-                        )}
-                    </div>
+                    )}
                 </div>
                 <div className="main-table w-full overflow-x-auto">
                     <table className="w-full table-auto">

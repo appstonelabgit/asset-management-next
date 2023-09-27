@@ -127,8 +127,8 @@ const Request = () => {
         id: '',
         request_type: '',
         type: '',
-        sub_type: '',
-        type_id: '',
+        old_id: '',
+        new_id: '',
         description: '',
     };
     const [params, setParams] = useState(defaultParams);
@@ -155,8 +155,8 @@ const Request = () => {
                     id: data.id,
                     request_type: data.request_type,
                     type: data.type,
-                    sub_type: data.sub_type,
-                    type_id: data.type_id,
+                    old_id: data.old_id,
+                    new_id: data.new_id,
                     description: data.description || '',
                 });
                 handleType(data.type);
@@ -699,7 +699,7 @@ const Request = () => {
                                                                 <label className="form-label">Old {Type?.name}</label>
                                                                 <Field
                                                                     as="select"
-                                                                    name="sub_type"
+                                                                    name="old_id"
                                                                     className="form-select rounded-l-none"
                                                                 >
                                                                     <option value="">Select {Type?.name} name</option>
@@ -721,7 +721,7 @@ const Request = () => {
 
                                                                 <Field
                                                                     as="select"
-                                                                    name="type_id"
+                                                                    name="new_id"
                                                                     className="form-select rounded-l-none"
                                                                 >
                                                                     <option value="">Select {Type?.name} name</option>

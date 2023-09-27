@@ -43,6 +43,7 @@ const Request = () => {
         { id: 'component', type: 'Component' },
     ]);
     const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
+    const [userData, setUserData] = useState({});
 
     const getRequests = useCallback(
         (page = 1, limit = 50, searchWord = '') => {
@@ -127,6 +128,7 @@ const Request = () => {
         request_type: '',
         type: '',
         sub_type: '',
+        old_thing: '',
         description: '',
     };
     const [params, setParams] = useState(defaultParams);
@@ -154,7 +156,7 @@ const Request = () => {
                     request_type: data.request_type,
                     type: data.type,
                     sub_type: data.sub_type,
-                    description: data.description,
+                    description: data.description || '',
                 });
                 handleType(data.type);
                 SideModal?.current?.open();
@@ -184,9 +186,21 @@ const Request = () => {
                     data: { Assets: data.asset, Accessories: data.accessory, Components: data.component },
                 });
             });
+            if (user?.role === 2) {
+                const usersData = { assets: [], components: [], accessories: [] };
+                axios.get(`/employees/assets`).then(({ data }) => {
+                    usersData['assets'] = data.data;
+                });
+                axios.get(`/employees/components`).then(({ data }) => {
+                    usersData['components'] = data.data;
+                });
+                axios.get(`/employees/accessories`).then(({ data }) => {
+                    usersData['accessories'] = data.data;
+                });
+                setUserData(usersData);
+            }
         } catch (error) {}
     }, []);
-
     useEffect(() => {
         getRequests();
     }, [getRequests]);
@@ -599,60 +613,131 @@ const Request = () => {
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
-                                {({ isSubmitting, setFieldValue }) => (
+                                {({ values, isSubmitting, setFieldValue }) => (
                                     <Form className="w-full space-y-5  bg-white pt-[25px] pb-[88px]">
                                         <div className="space-y-5">
                                             <div>
-                                                <label className="form-label">Request type</label>
-
-                                                <Field
-                                                    as="select"
-                                                    name="request_type"
-                                                    className="form-select rounded-l-none"
-                                                >
-                                                    <option value="">Select Request</option>
-                                                    <option value="new">New</option>
-                                                    <option value="replace">Replace</option>
-                                                </Field>
+                                                <label className="form-label mb-2.5">Request type</label>
+                                                <label htmlFor="new" className="mr-5">
+                                                    <Field
+                                                        id="new"
+                                                        type="radio"
+                                                        name="request_type"
+                                                        value="new"
+                                                        className="form-radio h-5 w-5"
+                                                    />
+                                                    <span className="pl-2 align-middle">New</span>
+                                                </label>
+                                                <label htmlFor="replace">
+                                                    <Field
+                                                        id="replace"
+                                                        type="radio"
+                                                        name="request_type"
+                                                        value="replace"
+                                                        className="form-radio h-5 w-5"
+                                                    />
+                                                    <span className="pl-2 align-middle">Replace</span>
+                                                </label>
                                             </div>
                                             <div>
-                                                <label className="form-label">Type</label>
+                                                <label className="form-label mb-2.5">Type</label>
+                                                <label htmlFor="asset" className="mr-5">
+                                                    <Field
+                                                        id="asset"
+                                                        type="radio"
+                                                        name="type"
+                                                        value="asset"
+                                                        className="form-radio h-5 w-5"
+                                                        onClick={(e) => {
+                                                            if (e.target.checked) {
+                                                                setFieldValue('type', e.target.value);
+                                                                handleType(e.target.value);
+                                                            }
+                                                        }}
+                                                    />
+                                                    <span className="pl-2 align-middle">Asset</span>
+                                                </label>
 
-                                                <Field
-                                                    as="select"
-                                                    name="type"
-                                                    className="form-select rounded-l-none"
-                                                    onChange={(e) => {
-                                                        setFieldValue('type', e.target.value);
-                                                        handleType(e.target.value);
-                                                    }}
-                                                >
-                                                    <option value="">Select Type name</option>
-                                                    <option value="asset">Asset</option>
-                                                    <option value="accessory">Accessory</option>
-                                                    <option value="component">Component</option>
-                                                </Field>
+                                                <label htmlFor="component" className="mr-5">
+                                                    <Field
+                                                        id="component"
+                                                        type="radio"
+                                                        name="type"
+                                                        value="component"
+                                                        className="form-radio h-5 w-5"
+                                                        onClick={(e) => {
+                                                            if (e.target.checked) {
+                                                                setFieldValue('type', e.target.value);
+                                                                handleType(e.target.value);
+                                                            }
+                                                        }}
+                                                    />
+                                                    <span className="pl-2 align-middle">Component</span>
+                                                </label>
+
+                                                <label htmlFor="accessory" className="mr-5">
+                                                    <Field
+                                                        id="accessory"
+                                                        type="radio"
+                                                        name="type"
+                                                        value="accessory"
+                                                        className="form-radio h-5 w-5"
+                                                        onClick={(e) => {
+                                                            if (e.target.checked) {
+                                                                setFieldValue('type', e.target.value);
+                                                                handleType(e.target.value);
+                                                            }
+                                                        }}
+                                                    />
+                                                    <span className="pl-2 align-middle">Accessory</span>
+                                                </label>
                                             </div>
                                             {Type?.name && (
                                                 <>
-                                                    <div>
-                                                        <label className="form-label">{Type?.name}</label>
+                                                    {values.request_type === 'replace' && (
+                                                        <>
+                                                            <div>
+                                                                <label className="form-label">Old {Type?.name}</label>
+                                                                <Field
+                                                                    as="select"
+                                                                    name="old_thing"
+                                                                    className="form-select rounded-l-none"
+                                                                >
+                                                                    <option value="">Select {Type?.name} name</option>
 
-                                                        <Field
-                                                            as="select"
-                                                            name="sub_type"
-                                                            className="form-select rounded-l-none"
-                                                        >
-                                                            <option value="">Select {Type?.name} name</option>
-                                                            {Type?.data[Type?.name]?.map((data) => {
-                                                                return (
-                                                                    <option key={data.id} value={data.name}>
-                                                                        {data.name}
-                                                                    </option>
-                                                                );
-                                                            })}
-                                                        </Field>
-                                                    </div>
+                                                                    {userData[Type?.name.toLowerCase()]?.map((data) => {
+                                                                        return (
+                                                                            <option key={data.id} value={data.id}>
+                                                                                {data.name}
+                                                                            </option>
+                                                                        );
+                                                                    })}
+                                                                </Field>
+                                                            </div>
+
+                                                            <div>
+                                                                <label className="form-label">
+                                                                    New&nbsp;{Type?.name}
+                                                                </label>
+
+                                                                <Field
+                                                                    as="select"
+                                                                    name="sub_type"
+                                                                    className="form-select rounded-l-none"
+                                                                >
+                                                                    <option value="">Select {Type?.name} name</option>
+                                                                    {Type?.data[Type?.name]?.map((data) => {
+                                                                        return (
+                                                                            <option key={data.id} value={data.name}>
+                                                                                {data.name}
+                                                                            </option>
+                                                                        );
+                                                                    })}
+                                                                </Field>
+                                                            </div>
+                                                        </>
+                                                    )}
+
                                                     <div>
                                                         <label className="form-label">Description</label>
 

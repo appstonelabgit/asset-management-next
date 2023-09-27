@@ -365,22 +365,24 @@ const Assets = () => {
                 )}
             </div>
             <div className="mb-5 flex flex-wrap justify-end gap-2">
-                <div className="mr-auto flex items-center">
-                    <label htmlFor="isFree" className="relative h-6 w-12">
-                        <input
-                            type="checkbox"
-                            id="isFree"
-                            name="isFree"
-                            className="custom_switch peer absolute z-10 h-full w-full cursor-pointer opacity-0"
-                            checked={isFree}
-                            onChange={(e) => setIsFree(e.target.checked ? true : false)}
-                        />
-                        <span className=" block h-full rounded-full bg-lightblue before:absolute before:left-1 before:bottom-1 before:h-4 before:w-4 before:rounded-full before:bg-white before:transition-all before:duration-300 peer-checked:bg-primary peer-checked:before:left-7 "></span>
-                    </label>
-                    <label htmlFor="isFree" className="pl-2 font-semibold">
-                        Is Free
-                    </label>
-                </div>
+                {user?.role === 1 && (
+                    <div className="mr-auto flex items-center">
+                        <label htmlFor="isFree" className="relative h-6 w-12">
+                            <input
+                                type="checkbox"
+                                id="isFree"
+                                name="isFree"
+                                className="custom_switch peer absolute z-10 h-full w-full cursor-pointer opacity-0"
+                                checked={isFree}
+                                onChange={(e) => setIsFree(e.target.checked ? true : false)}
+                            />
+                            <span className=" block h-full rounded-full bg-lightblue before:absolute before:left-1 before:bottom-1 before:h-4 before:w-4 before:rounded-full before:bg-white before:transition-all before:duration-300 peer-checked:bg-primary peer-checked:before:left-7 "></span>
+                        </label>
+                        <label htmlFor="isFree" className="pl-2 font-semibold">
+                            Is Free
+                        </label>
+                    </div>
+                )}
                 <div className="w-full flex-none md:max-w-[240px]">
                     <div className="relative">
                         <input

@@ -52,8 +52,12 @@
     .form-select {
         @apply bg-[center_right_0.02rem] focus:!bg-white;
     }
-    .form-checkbox {
+    .form-checkbox,
+    .form-radio {
         @apply h-4 w-4 rounded-sm border-2 border-lightblue text-primary checked:border-primary focus:shadow-none focus:outline-0 focus:outline-offset-0 focus:ring-0 focus:ring-offset-0;
+    }
+    .form-radio {
+        @apply rounded-full;
     }
 
     /* Buttons */

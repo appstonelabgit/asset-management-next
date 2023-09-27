@@ -26,11 +26,9 @@ const NavBar = () => {
             <li>
                 <NavLink href="/assets" icon={<IconCrawl />} label="Assets" />
             </li>
-            {user?.role === 1 && (
-                <li>
-                    <NavLink href="/components" icon={<IconComponent />} label="Components" />
-                </li>
-            )}
+            <li>
+                <NavLink href="/components" icon={<IconComponent />} label="Components" />
+            </li>
             <li>
                 <NavLink href="/accessories" icon={<IconChain />} label="Accessories" />
             </li>

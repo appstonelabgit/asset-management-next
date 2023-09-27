@@ -727,7 +727,7 @@ const Request = () => {
                                                                     <option value="">Select {Type?.name} name</option>
                                                                     {Type?.data[Type?.name]?.map((data) => {
                                                                         return (
-                                                                            <option key={data.id} value={data.name}>
+                                                                            <option key={data.id} value={data.id}>
                                                                                 {data.name}
                                                                             </option>
                                                                         );

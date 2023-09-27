@@ -128,7 +128,7 @@ const Request = () => {
         request_type: '',
         type: '',
         sub_type: '',
-        old_thing: '',
+        type_id: '',
         description: '',
     };
     const [params, setParams] = useState(defaultParams);
@@ -156,6 +156,7 @@ const Request = () => {
                     request_type: data.request_type,
                     type: data.type,
                     sub_type: data.sub_type,
+                    type_id: data.type_id,
                     description: data.description || '',
                 });
                 handleType(data.type);
@@ -180,24 +181,22 @@ const Request = () => {
 
     useEffect(() => {
         try {
-            axios.get(`/employees/dependent/information`).then(({ data }) => {
-                setType({
-                    name: '',
-                    data: { Assets: data.asset, Accessories: data.accessory, Components: data.component },
-                });
-            });
             if (user?.role === 2) {
-                const usersData = { assets: [], components: [], accessories: [] };
-                axios.get(`/employees/assets`).then(({ data }) => {
-                    usersData['assets'] = data.data;
+                axios.get(`/employees/dependent/information`).then(({ data }) => {
+                    setType({
+                        name: '',
+                        data: {
+                            Assets: data.in_use.asset,
+                            Accessories: data.in_use.accessory,
+                            Components: data.in_use.component,
+                        },
+                    });
+                    setUserData({
+                        assets: data.free.asset,
+                        accessories: data.free.accessory,
+                        components: data.free.component,
+                    });
                 });
-                axios.get(`/employees/components`).then(({ data }) => {
-                    usersData['components'] = data.data;
-                });
-                axios.get(`/employees/accessories`).then(({ data }) => {
-                    usersData['accessories'] = data.data;
-                });
-                setUserData(usersData);
             }
         } catch (error) {}
     }, []);
@@ -700,7 +699,7 @@ const Request = () => {
                                                                 <label className="form-label">Old {Type?.name}</label>
                                                                 <Field
                                                                     as="select"
-                                                                    name="old_thing"
+                                                                    name="sub_type"
                                                                     className="form-select rounded-l-none"
                                                                 >
                                                                     <option value="">Select {Type?.name} name</option>
@@ -722,7 +721,7 @@ const Request = () => {
 
                                                                 <Field
                                                                     as="select"
-                                                                    name="sub_type"
+                                                                    name="type_id"
                                                                     className="form-select rounded-l-none"
                                                                 >
                                                                     <option value="">Select {Type?.name} name</option>

@@ -29,12 +29,12 @@ const Sellers = () => {
     const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const getSellers = useCallback(
-        (page = 1, limit = 50, searchWord = '') => {
+        (page = 1, limit = pageLimit, search = searchWord) => {
             setIsLoading(true);
             axios
                 .get(`/sellers`, {
                     params: {
-                        filter: searchWord,
+                        filter: search,
                         page: page,
                         limit: limit,
                         sort_column: order.order_field,

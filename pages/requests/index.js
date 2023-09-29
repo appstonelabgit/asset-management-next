@@ -46,12 +46,12 @@ const Request = () => {
     const [userData, setUserData] = useState({});
 
     const getRequests = useCallback(
-        (page = 1, limit = 50, searchWord = '') => {
+        (page = 1, limit = pageLimit, search = searchWord) => {
             setIsLoading(true);
             axios
                 .get(`/requests`, {
                     params: {
-                        filter: searchWord,
+                        filter: search,
                         page: page,
                         limit: limit,
                         sort_column: order.order_field,
@@ -186,15 +186,15 @@ const Request = () => {
                     setType({
                         name: '',
                         data: {
-                            Assets: data.in_use.asset,
-                            Accessories: data.in_use.accessory,
-                            Components: data.in_use.component,
+                            Assets: data.free.asset,
+                            Accessories: data.free.accessory,
+                            Components: data.free.component,
                         },
                     });
                     setUserData({
-                        assets: data.free.asset,
-                        accessories: data.free.accessory,
-                        components: data.free.component,
+                        assets: data.in_use.asset,
+                        accessories: data.in_use.accessory,
+                        components: data.in_use.component,
                     });
                 });
             }
@@ -206,14 +206,40 @@ const Request = () => {
 
     return (
         <div>
-            <div className="mx-5">
-                <h1 className="mt-5 text-xl font-bold text-darkprimary">Requests</h1>
+            <div className="p-5">
+                <h1 className="mb-5 text-xl font-bold text-darkprimary">Requests</h1>
                 <div className="mb-5 text-right">
-                    <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
+                    <div className="flex flex-wrap justify-end gap-2">
+                        <div className="w-full flex-none md:max-w-[240px]">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    className="form-input mt-0 pr-10"
+                                    placeholder="Search..."
+                                    value={searchWord}
+                                    onChange={(event) => setSearchWord(event.target.value)}
+                                    onKeyUp={(e) => {
+                                        if (e.key === 'Enter') {
+                                            refresh();
+                                        }
+                                        if (searchWord.length === 0) {
+                                            refresh();
+                                        }
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    className="text-black-dark absolute top-1/2 right-0 my-auto inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center hover:opacity-70"
+                                    onClick={refresh}
+                                >
+                                    <IconSearch />
+                                </button>
+                            </div>
+                        </div>
                         <div className="w-[200px]">
                             <select
                                 name="status"
-                                className="form-select"
+                                className="form-select mt-0"
                                 value={status}
                                 onChange={(e) => {
                                     setStatus(e.target.value);
@@ -229,7 +255,7 @@ const Request = () => {
                         <div className="w-[200px]">
                             <select
                                 name="request_type"
-                                className="form-select"
+                                className="form-select mt-0"
                                 value={request_type}
                                 onChange={(e) => {
                                     setRequest_type(e.target.value);
@@ -241,7 +267,7 @@ const Request = () => {
                             </select>
                         </div>
 
-                        <div className="mb-0 mt-2">
+                        <div>
                             <MultipleSelect
                                 list={typeData}
                                 name="Types"
@@ -250,38 +276,13 @@ const Request = () => {
                                 setSelectedoptions={setTypeSelected}
                             />
                         </div>
-                        <div className="w-full flex-none md:max-w-[240px]">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    className="form-input pr-10"
-                                    placeholder="Search..."
-                                    value={searchWord}
-                                    onChange={(event) => setSearchWord(event.target.value)}
-                                    onKeyUp={(e) => {
-                                        if (e.key === 'Enter') {
-                                            refresh();
-                                        }
-                                        if (searchWord.length === 0) {
-                                            refresh();
-                                        }
-                                    }}
-                                />
-                                <button
-                                    type="button"
-                                    className="text-black-dark absolute top-2 right-0 my-auto inline-flex h-10 w-10 items-center justify-center hover:opacity-70"
-                                    onClick={refresh}
-                                >
-                                    <IconSearch />
-                                </button>
-                            </div>
-                        </div>
+
                         <button
                             type="button"
                             onClick={() => {
                                 resetFilter();
                             }}
-                            className="btn-secondary mb-0 mt-2"
+                            className="btn-secondary"
                         >
                             Reset Filter
                         </button>
@@ -293,7 +294,7 @@ const Request = () => {
                                     setType({ ...Type, name: '' });
                                     SideModal?.current?.open();
                                 }}
-                                className="btn mb-0 mt-2"
+                                className="btn"
                             >
                                 Send Request
                             </button>
@@ -361,14 +362,31 @@ const Request = () => {
                                 <th>
                                     <div
                                         className={`flex cursor-pointer  ${
-                                            order.order_field === 'sub_type' ? 'text-darkprimary' : ''
+                                            order.order_field === 'old_name' ? 'text-darkprimary' : ''
                                         }`}
-                                        onClick={() => sortByField('sub_type')}
+                                        onClick={() => sortByField('old_name')}
                                     >
-                                        <span>Item</span>
+                                        <span>Old Item</span>
                                         <IconUpDownArrow
                                             className={`${
-                                                order.order_field === 'sub_type' && order.sort_order === 'desc'
+                                                order.order_field === 'old_name' && order.sort_order === 'desc'
+                                                    ? 'rotate-180'
+                                                    : ''
+                                            }`}
+                                        />
+                                    </div>
+                                </th>
+                                <th>
+                                    <div
+                                        className={`flex cursor-pointer  ${
+                                            order.order_field === 'new_name' ? 'text-darkprimary' : ''
+                                        }`}
+                                        onClick={() => sortByField('new_name')}
+                                    >
+                                        <span>New Item</span>
+                                        <IconUpDownArrow
+                                            className={`${
+                                                order.order_field === 'new_name' && order.sort_order === 'desc'
                                                     ? 'rotate-180'
                                                     : ''
                                             }`}
@@ -421,7 +439,7 @@ const Request = () => {
                                     </div>
                                 </th>
 
-                                <th className="!text-right">Action</th>
+                                <th className="w-1 !text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -435,9 +453,22 @@ const Request = () => {
                                             <td className="capitalize">{request?.request_type}</td>
                                             <td className="capitalize">{request?.type}</td>
                                             <td className="max-w-[160px] truncate capitalize">
-                                                <Tippy content={request?.sub_type}>
-                                                    <span>{request?.sub_type}</span>
-                                                </Tippy>
+                                                {request?.old_name ? (
+                                                    <Tippy content={request?.old_name}>
+                                                        <span>{request?.old_name}</span>
+                                                    </Tippy>
+                                                ) : (
+                                                    '-'
+                                                )}
+                                            </td>
+                                            <td className="max-w-[160px] truncate capitalize">
+                                                {request?.new_name ? (
+                                                    <Tippy content={request?.new_name}>
+                                                        <span>{request?.new_name}</span>
+                                                    </Tippy>
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="max-w-[160px] truncate">
                                                 <Tippy content={request?.description}>

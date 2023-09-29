@@ -72,12 +72,12 @@ const Assets = () => {
     const [selectedModelData, setSelectedModelData] = useState({ user_id: '', data: [] });
 
     const getAssets = useCallback(
-        (page = 1, limit = 50, searchWord = '') => {
+        (page = 1, limit = pageLimit, search = searchWord) => {
             setIsLoading(true);
             axios
                 .get(`/${user?.role === 1 ? 'assets' : 'employees/assets'}`, {
                     params: {
-                        filter: searchWord,
+                        filter: search,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',
                         purchased_at: purchasedDate !== 'NaN-NaN-NaN' ? purchasedDate : '',
                         page: page,

@@ -30,12 +30,12 @@ const Models = () => {
     const [order, setOrder] = useState({ sort_order: 'desc', order_field: 'id' });
 
     const getModels = useCallback(
-        (page = 1, limit = 50, searchWord = '') => {
+        (page = 1, limit = pageLimit, search = searchWord) => {
             setIsLoading(true);
             axios
                 .get(`/models`, {
                     params: {
-                        filter: searchWord,
+                        filter: search,
                         page: page,
                         limit: limit,
                         sort_column: order.order_field,

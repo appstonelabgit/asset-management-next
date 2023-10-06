@@ -13,6 +13,7 @@ import IconSeller from '../Icon/IconSeller';
 import IconBrand from '../Icon/IconBrand';
 import IconModel from '../Icon/IconModel';
 import IconStatus from '../Icon/IconStatus';
+import IconCategories from '../Icon/IconCategories';
 
 const NavBar = () => {
     const router = useRouter();
@@ -52,6 +53,10 @@ const NavBar = () => {
                     <NavLink href="/brands" icon={<IconBrand />} label="Brands" />
                 </li>
             )}
+
+            <li>
+                <NavLink href="/categories" icon={<IconCategories />} label="Categories" />
+            </li>
 
             <li>
                 <NavLink href="/requests" icon={<IconStatus />} label="Requests" />

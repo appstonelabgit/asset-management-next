@@ -38,7 +38,7 @@ const Pagination = ({
                     <li></li>
                 </ul>
                 <p>
-                    {data.length} of {totalRecords} records
+                    {data?.length} of {totalRecords} records
                 </p>
             </div>
             <div className="relative">

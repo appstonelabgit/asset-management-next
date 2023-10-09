@@ -25,6 +25,8 @@ import Import from '@/components/Import';
 import IconHistory from '@/components/Icon/IconHistory';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import MultipleSelectWithSearch from '@/components/MultiSelectWithSearch';
+import AddCategory from '@/components/AddCategory';
 
 const Accessories = () => {
     const { user } = useSelector((state) => state.auth);
@@ -36,6 +38,7 @@ const Accessories = () => {
     const addBrandModal = useRef();
     const addUserModal = useRef();
     const importModal = useRef();
+    const addCategoryModal = useRef();
 
     const [accessorys, setAccessorys] = useState([]);
 
@@ -61,6 +64,9 @@ const Accessories = () => {
     const [selectedBrand, setSelectedBrand] = useState([]);
     const [selectedModel, setSelectedModel] = useState([]);
     const [selectedSeller, setSelectedSeller] = useState([]);
+
+    const [category, setCategory] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState([]);
 
     const [selectedModelData, setSelectedModelData] = useState({ user_id: '', data: [] });
 
@@ -135,9 +141,15 @@ const Accessories = () => {
     const formHandler = async (values) => {
         try {
             if (params?.id) {
-                await axios.post(`/accessories/${params?.id}`, values);
+                await axios.post(`/accessories/${params?.id}`, {
+                    ...values,
+                    categories: selectedCategory.length !== 0 ? selectedCategory : '',
+                });
             } else {
-                await axios.post('/accessories', values);
+                await axios.post('/accessories', {
+                    ...values,
+                    categories: selectedCategory.length !== 0 ? selectedCategory : '',
+                });
             }
             SideModal?.current.close();
             refresh();
@@ -160,6 +172,11 @@ const Accessories = () => {
                     brand_id: data.brand_id || '',
                     user_id: data.user_id || '',
                 });
+                setSelectedCategory(
+                    data?.categories?.map((item) => {
+                        return item.id.toString();
+                    })
+                );
                 SideModal?.current?.open();
             });
         } catch (error) {}
@@ -207,6 +224,7 @@ const Accessories = () => {
             setModels(data.models);
             setBrands(data.brands);
             setUsers(data.users);
+            setCategory(data.categories);
         });
     }, []);
 
@@ -822,6 +840,29 @@ const Accessories = () => {
                                                     })}
                                                 </Field>
                                             </div>
+
+                                            <div>
+                                                <div className="flex items-center justify-between">
+                                                    <label className="form-label">Categories</label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addCategoryModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs "
+                                                    >
+                                                        Add Category
+                                                    </button>
+                                                </div>
+
+                                                <div className="relative mt-[9px]">
+                                                    <MultipleSelectWithSearch
+                                                        list={category}
+                                                        name="Category"
+                                                        keyName="name"
+                                                        selectedoptions={selectedCategory}
+                                                        setSelectedoptions={setSelectedCategory}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
                                             <ButtonField type="submit" loading={isSubmitting} className="btn px-4">
@@ -838,6 +879,7 @@ const Accessories = () => {
                 <AddModel ref={addModelModal} refresh={getDependentInformation} />
                 <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
                 <AddUser ref={addUserModal} refresh={getDependentInformation} />
+                <AddCategory ref={addCategoryModal} refresh={getDependentInformation} />
                 <Import ref={importModal} refresh={refresh} type="accessories" csvPath="/csv/Sample Accessories.csv" />
             </div>
         </div>

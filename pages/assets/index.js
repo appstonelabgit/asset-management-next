@@ -28,6 +28,8 @@ import Import from '@/components/Import';
 import IconHistory from '@/components/Icon/IconHistory';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import MultipleSelectWithSearch from '@/components/MultiSelectWithSearch';
+import AddCategory from '@/components/AddCategory';
 
 const Assets = () => {
     const { user } = useSelector((state) => state.auth);
@@ -41,6 +43,7 @@ const Assets = () => {
     const addBrandModal = useRef();
     const addUserModal = useRef();
     const addComponentModal = useRef();
+    const addCategoryModal = useRef();
 
     const [assets, setAssets] = useState([]);
 
@@ -68,6 +71,9 @@ const Assets = () => {
     const [selectedModel, setSelectedModel] = useState([]);
     const [selectedSeller, setSelectedSeller] = useState([]);
     const [selectedComponent, setSelectedComponent] = useState([]);
+
+    const [category, setCategory] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState([]);
 
     const [selectedModelData, setSelectedModelData] = useState({ user_id: '', data: [] });
 
@@ -156,6 +162,7 @@ const Assets = () => {
                     brand_id: values.brand_id,
                     user_id: values.user_id,
                     component_id: selectedComponent.length !== 0 ? selectedComponent : '',
+                    categories: selectedCategory.length !== 0 ? selectedCategory : '',
                 });
             } else {
                 await axios.post('/assets', {
@@ -171,6 +178,7 @@ const Assets = () => {
                     brand_id: values.brand_id,
                     user_id: values.user_id,
                     component_id: selectedComponent.length !== 0 ? selectedComponent : '',
+                    categories: selectedCategory.length !== 0 ? selectedCategory : '',
                 });
             }
             SideModal?.current.close();
@@ -204,6 +212,11 @@ const Assets = () => {
                     brand_id: data.brand_id || '',
                     user_id: data.user_id || '',
                 });
+                setSelectedCategory(
+                    data?.categories?.map((item) => {
+                        return item.id.toString();
+                    })
+                );
                 axios.get(`/components/assign/list?asset_id=${id}`).then(({ data }) => {
                     data?.map((d) => {
                         if (d?.asset_id !== null) {
@@ -287,6 +300,7 @@ const Assets = () => {
             setModels(data.models);
             setBrands(data.brands);
             setUsers(data.users);
+            setCategory(data.categories);
         });
     }, []);
 
@@ -700,7 +714,6 @@ const Assets = () => {
                                         </div>
                                         <div>
                                             <label className="form-label">Serial Number</label>
-
                                             <Field
                                                 name="serial_number"
                                                 type="text"
@@ -710,7 +723,6 @@ const Assets = () => {
                                         </div>
                                         <div>
                                             <label className="form-label">Description</label>
-
                                             <Field
                                                 as="textarea"
                                                 name="description"
@@ -749,7 +761,6 @@ const Assets = () => {
                                                 />
                                             )}
                                         </div>
-
                                         <div>
                                             <label className="form-label">
                                                 Purchase Cost <span className="text-black/30">( In rupee (₹) )</span>
@@ -990,6 +1001,28 @@ const Assets = () => {
                                                 </Dropdown>
                                             </div>
                                         </div>
+                                        <div>
+                                            <div className="flex items-center justify-between">
+                                                <label className="form-label">Categories</label>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => addCategoryModal.current.open()}
+                                                    className="btn mb-0 py-1 text-xs "
+                                                >
+                                                    Add Category
+                                                </button>
+                                            </div>
+
+                                            <div className="relative mt-[9px]">
+                                                <MultipleSelectWithSearch
+                                                    list={category}
+                                                    name="Category"
+                                                    keyName="name"
+                                                    selectedoptions={selectedCategory}
+                                                    setSelectedoptions={setSelectedCategory}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
                                         <ButtonField type="submit" loading={isSubmitting} className=" btn px-4">
@@ -1007,6 +1040,7 @@ const Assets = () => {
             <AddBrand ref={addBrandModal} refresh={getDependentInformation} />
             <AddUser ref={addUserModal} refresh={getDependentInformation} />
             <AddComponent ref={addComponentModal} refresh={getDependentComponent} />
+            <AddCategory ref={addCategoryModal} refresh={getDependentInformation} />
             <Import ref={importModal} refresh={refresh} type="assets" csvPath="/csv/Sample Assets.csv" />
         </div>
     );

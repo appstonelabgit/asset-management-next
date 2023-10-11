@@ -71,6 +71,7 @@ const Assets = () => {
     const [selectedModel, setSelectedModel] = useState([]);
     const [selectedSeller, setSelectedSeller] = useState([]);
     const [selectedComponent, setSelectedComponent] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
 
     const [category, setCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState([]);
@@ -93,6 +94,8 @@ const Assets = () => {
                         brand_id: selectedBrand.length === 0 ? '' : selectedBrand,
                         model_id: selectedModel.length === 0 ? '' : selectedModel,
                         seller_id: selectedSeller.length === 0 ? '' : selectedSeller,
+                        category_id: selectedSeller.length === 0 ? '' : selectedSeller,
+                        category_id: selectedCategories.length === 0 ? '' : selectedCategories,
                         is_free: isFree,
                     },
                 })
@@ -105,7 +108,17 @@ const Assets = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedSeller, order, expiryDate, user?.role, purchasedDate, isFree]
+        [
+            selectedBrand,
+            selectedModel,
+            selectedSeller,
+            selectedCategories,
+            order,
+            expiryDate,
+            user?.role,
+            purchasedDate,
+            isFree,
+        ]
     );
 
     const defaultParams = {
@@ -135,6 +148,7 @@ const Assets = () => {
         setSelectedBrand([]);
         setSelectedModel([]);
         setSelectedSeller([]);
+        setSelectedCategories([]);
         setIsFree(false);
     };
 
@@ -462,6 +476,15 @@ const Assets = () => {
                         keyName="name"
                         selectedoptions={selectedSeller}
                         setSelectedoptions={setSelectedSeller}
+                    />
+                </div>
+                <div>
+                    <MultipleSelect
+                        list={category}
+                        name="Category"
+                        keyName="name"
+                        selectedoptions={selectedCategories}
+                        setSelectedoptions={setSelectedCategories}
                     />
                 </div>
 

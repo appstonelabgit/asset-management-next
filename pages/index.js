@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from '@/libs/axios';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
@@ -13,12 +13,16 @@ import IconSeller from '@/components/Icon/IconSeller';
 import IconModel from '@/components/Icon/IconModel';
 import IconBrand from '@/components/Icon/IconBrand';
 import IconStatus from '@/components/Icon/IconStatus';
+import IconFillDown from '@/components/Icon/IconFillDown';
+import Modal from '@/components/Modal';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
 });
 
 const Home = () => {
     const { user } = useSelector((state) => state.auth);
+
+    const categoryModal = useRef();
 
     const [dashboard, setDashboard] = useState({});
     const [isLoading, setIsLoading] = useState(true);
@@ -185,8 +189,8 @@ const Home = () => {
             </div>
 
             {user?.role === 1 && (
-                <div className="mx-5 mb-5 flex flex-col lg:flex-row lg:space-x-5">
-                    <div className="mt-2 w-full lg:w-1/2">
+                <div className="mx-5 mb-5 grid lg:grid-cols-2 lg:space-x-5">
+                    <div className="mt-2">
                         <h3 className="my-5 font-bold text-darkprimary">Recent Purchases</h3>
                         <div className="main-table w-full overflow-x-auto">
                             <table className="w-full table-auto">
@@ -225,7 +229,7 @@ const Home = () => {
                             </table>
                         </div>
                     </div>
-                    <div className="mt-2 w-full lg:w-1/2">
+                    <div className="mt-2">
                         <h3 className="my-5 font-bold text-darkprimary">Recent Expiries</h3>
                         <div className="main-table w-full overflow-x-auto">
                             <table className="w-full table-auto">
@@ -264,8 +268,86 @@ const Home = () => {
                             </table>
                         </div>
                     </div>
+                    <div className="mt-2">
+                        <div className="my-5 flex items-center justify-between">
+                            <h3 className=" font-bold text-darkprimary">Categories</h3>
+                            <button
+                                type="button"
+                                className="flex items-center justify-between hover:text-darkprimary"
+                                onClick={() => categoryModal.current?.open()}
+                            >
+                                View All <IconFillDown className="-rotate-90" />
+                            </button>
+                        </div>
+                        <div className="main-table w-full overflow-x-auto">
+                            <table className="w-full table-auto">
+                                <thead className="bg-lightblue1">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Used</th>
+                                        <th>Free</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {isLoading ? (
+                                        <TableLoadnig totalTr={3} totalTd={3} tdWidth={60} />
+                                    ) : dashboard?.categories?.length !== 0 ? (
+                                        dashboard?.categories?.slice(0, 10)?.map((item, i) => {
+                                            return (
+                                                <tr key={i} className="bg-white">
+                                                    <td className="capitalize">{helper.isEmpty(item?.name)}</td>
+                                                    <td>{helper.isEmpty(item?.used)}</td>
+                                                    <td>{helper.isEmpty(item?.free)}</td>
+                                                </tr>
+                                            );
+                                        })
+                                    ) : (
+                                        <tr className="text-center">
+                                            <td colSpan={3}>No data is available.</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             )}
+
+            <Modal ref={categoryModal} width={'800px'}>
+                <div className="mx-5">
+                    <h3 className="mb-5 text-xl font-bold capitalize text-darkprimary">Categories</h3>
+                    <div className="main-table max-h-[500px] w-full overflow-auto">
+                        <table className="w-full table-auto">
+                            <thead className="bg-lightblue1">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Used</th>
+                                    <th>Free</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {isLoading ? (
+                                    <TableLoadnig totalTr={3} totalTd={3} tdWidth={60} />
+                                ) : dashboard?.categories?.length !== 0 ? (
+                                    dashboard?.categories?.map((item, i) => {
+                                        return (
+                                            <tr key={i} className="bg-white">
+                                                <td className="capitalize">{helper.isEmpty(item?.name)}</td>
+                                                <td>{helper.isEmpty(item?.used)}</td>
+                                                <td>{helper.isEmpty(item?.free)}</td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
+                                    <tr className="text-center">
+                                        <td colSpan={3}>No data is available.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };

@@ -62,6 +62,8 @@ const Components = () => {
     const [selectedBrand, setSelectedBrand] = useState([]);
     const [selectedModel, setSelectedModel] = useState([]);
     const [selectedAsset, setSelectedAsset] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
     const [users, setUsers] = useState([]);
 
     const [category, setCategory] = useState([]);
@@ -86,6 +88,7 @@ const Components = () => {
                         brand_id: selectedBrand.length === 0 ? '' : selectedBrand,
                         model_id: selectedModel.length === 0 ? '' : selectedModel,
                         asset_id: selectedAsset.length === 0 ? '' : selectedAsset,
+                        category_id: selectedCategories.length === 0 ? '' : selectedCategories,
                         is_free: isFree,
                     },
                 })
@@ -98,7 +101,7 @@ const Components = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedAsset, order, expiryDate, purchasedDate, isFree]
+        [selectedBrand, selectedModel, selectedAsset, selectedCategories, order, expiryDate, purchasedDate, isFree]
     );
 
     const defaultParams = {
@@ -127,6 +130,7 @@ const Components = () => {
         setSelectedBrand([]);
         setSelectedModel([]);
         setSelectedAsset([]);
+        setSelectedCategories([]);
         setIsFree(false);
     };
 
@@ -338,6 +342,15 @@ const Components = () => {
                         keyName="name"
                         selectedoptions={selectedAsset}
                         setSelectedoptions={setSelectedAsset}
+                    />
+                </div>
+                <div>
+                    <MultipleSelect
+                        list={category}
+                        name="Category"
+                        keyName="name"
+                        selectedoptions={selectedCategories}
+                        setSelectedoptions={setSelectedCategories}
                     />
                 </div>
 

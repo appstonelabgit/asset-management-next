@@ -65,6 +65,7 @@ export const useAuth = () => {
         try {
             await axios.get(router.query.token);
             await fetchUser();
+
         } catch {}
     };
 

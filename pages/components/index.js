@@ -243,20 +243,22 @@ const Components = () => {
         <div className="p-5">
             <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-xl font-bold text-darkprimary">Components</h2>
-                <div className="flex space-x-2">
-                    <button
-                        type="button"
-                        className="btn-secondary"
-                        onClick={() => {
-                            importModal?.current?.open();
-                        }}
-                    >
-                        Import
-                    </button>
-                    <button type="button" onClick={exportdata} className="btn-secondary">
-                        Export
-                    </button>
-                </div>
+                {user?.role === 1 && (
+                    <div className="flex space-x-2">
+                        <button
+                            type="button"
+                            className="btn-secondary"
+                            onClick={() => {
+                                importModal?.current?.open();
+                            }}
+                        >
+                            Import
+                        </button>
+                        <button type="button" onClick={exportdata} className="btn-secondary">
+                            Export
+                        </button>
+                    </div>
+                )}
             </div>
             <div className="mb-5 flex flex-wrap justify-end gap-2">
                 {user?.role === 1 && (

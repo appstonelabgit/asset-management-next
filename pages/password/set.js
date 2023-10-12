@@ -75,7 +75,7 @@ const Set = () => {
 export default Set;
 
 Set.middleware = {
-    auth: true,
+    auth: false,
 };
 
 Set.layout = 'nosidebar';

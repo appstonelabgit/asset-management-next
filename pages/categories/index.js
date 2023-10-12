@@ -13,9 +13,11 @@ import helper from '@/libs/helper';
 import Tippy from '@tippyjs/react';
 import IconView from '@/components/Icon/IconView';
 import Modal from '@/components/Modal';
+import { useSelector } from 'react-redux';
 
 const Categories = () => {
     const SideModal = useRef();
+    const { user } = useSelector((state) => state.auth);
 
     const relationalDataModal = useRef();
 
@@ -146,6 +148,7 @@ const Categories = () => {
                                     type="text"
                                     className="form-input pr-10"
                                     placeholder="Search..."
+                                    value={searchWord}
                                     onChange={(event) => setSearchWord(event.target.value)}
                                     onKeyUp={(e) => {
                                         if (e.key === 'Enter') {
@@ -174,15 +177,17 @@ const Categories = () => {
                         >
                             Reset Filter
                         </button>
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setParams(defaultParams), SideModal?.current?.open();
-                            }}
-                            className="btn mb-0 mt-2"
-                        >
-                            Add Category
-                        </button>
+                        {user?.role === 1 && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setParams(defaultParams), SideModal?.current?.open();
+                                }}
+                                className="btn mb-0 mt-2"
+                            >
+                                Add Category
+                            </button>
+                        )}
                     </div>
                 </div>
                 <div className="main-table w-full overflow-x-auto">
@@ -261,12 +266,16 @@ const Categories = () => {
                                     </div>
                                 </th>
 
-                                <th>Action</th>
+                                {user?.role === 1 && <th>Action</th>}
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={5} totalTd={5} tdWidth={60} />
+                                <TableLoadnig
+                                    totalTr={user?.role === 1 ? 7 : 6}
+                                    totalTd={user?.role === 1 ? 7 : 6}
+                                    tdWidth={60}
+                                />
                             ) : categories?.length !== 0 ? (
                                 categories?.map((category) => {
                                     return (
@@ -334,26 +343,28 @@ const Categories = () => {
                                                 </td>
                                             )}
 
-                                            <td>
-                                                <div className="flex">
-                                                    <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
-                                                        onClick={() => {
-                                                            handleEdit(category?.id);
-                                                        }}
-                                                    >
-                                                        <IconEdit />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
-                                                        onClick={() => handleDelete(category?.id)}
-                                                    >
-                                                        <IconDelete />
-                                                    </button>
-                                                </div>
-                                            </td>
+                                            {user?.role === 1 && (
+                                                <td>
+                                                    <div className="flex">
+                                                        <button
+                                                            type="button"
+                                                            className="mx-0.5 rounded-md border border-[#0ea5e9] bg-[#0ea5e9] p-2 hover:bg-transparent"
+                                                            onClick={() => {
+                                                                handleEdit(category?.id);
+                                                            }}
+                                                        >
+                                                            <IconEdit />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="mx-0.5 rounded-md border border-[#ef4444] bg-[#ef4444] p-2 hover:bg-transparent"
+                                                            onClick={() => handleDelete(category?.id)}
+                                                        >
+                                                            <IconDelete />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            )}
                                         </tr>
                                     );
                                 })

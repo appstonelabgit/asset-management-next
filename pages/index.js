@@ -189,7 +189,7 @@ const Home = () => {
             </div>
 
             {user?.role === 1 && (
-                <div className="mx-5 mb-5 grid lg:grid-cols-2 lg:space-x-5">
+                <div className="mx-5 mb-5 grid lg:grid-cols-2 lg:gap-x-5">
                     <div className="mt-2">
                         <h3 className="my-5 font-bold text-darkprimary">Recent Purchases</h3>
                         <div className="main-table w-full overflow-x-auto">

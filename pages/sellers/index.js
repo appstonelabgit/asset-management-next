@@ -150,6 +150,7 @@ const Sellers = () => {
                                     type="text"
                                     className="form-input pr-10"
                                     placeholder="Search..."
+                                    value={searchWord}
                                     onChange={(event) => setSearchWord(event.target.value)}
                                     onKeyUp={(e) => {
                                         if (e.key === 'Enter') {

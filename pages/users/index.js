@@ -290,7 +290,7 @@ const Users = () => {
                                 users?.map((user) => {
                                     return (
                                         <tr key={user.id} className="bg-white">
-                                            <td>{user?.employee_id}</td>
+                                            <td>{helper.isEmpty(user?.employee_id)}</td>
                                             <td
                                                 className="max-w-[160px] cursor-pointer truncate capitalize hover:text-[#1A68D4]"
                                                 onClick={() => {
@@ -303,7 +303,7 @@ const Users = () => {
                                             </td>
                                             <td>{user?.email}</td>
                                             <td className="max-w-[160px] truncate capitalize">
-                                                <Tippy content={user?.name}>
+                                                <Tippy content={user?.designation}>
                                                     <span>{user?.designation}</span>
                                                 </Tippy>
                                             </td>

@@ -27,6 +27,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import MultipleSelectWithSearch from '@/components/MultiSelectWithSearch';
 import AddCategory from '@/components/AddCategory';
+import SelectBox from '@/components/SelectBox';
 
 const Components = () => {
     const { user } = useSelector((state) => state.auth);
@@ -319,8 +320,8 @@ const Components = () => {
                         }}
                     />
                 </div>
-                <div>
-                    <MultipleSelect
+                <div className="relative w-[200px] md:w-56">
+                    <MultipleSelectWithSearch
                         list={brands}
                         name="Brand"
                         keyName="name"
@@ -328,8 +329,8 @@ const Components = () => {
                         setSelectedoptions={setSelectedBrand}
                     />
                 </div>
-                <div>
-                    <MultipleSelect
+                <div className="relative w-[200px] md:w-56">
+                    <MultipleSelectWithSearch
                         list={models}
                         name="Model"
                         keyName="name"
@@ -337,8 +338,8 @@ const Components = () => {
                         setSelectedoptions={setSelectedModel}
                     />
                 </div>
-                <div>
-                    <MultipleSelect
+                <div className="relative w-[200px] md:w-56">
+                    <MultipleSelectWithSearch
                         list={assets}
                         name="Asset"
                         keyName="name"
@@ -346,8 +347,8 @@ const Components = () => {
                         setSelectedoptions={setSelectedAsset}
                     />
                 </div>
-                <div>
-                    <MultipleSelect
+                <div className="relative w-[200px] md:w-56">
+                    <MultipleSelectWithSearch
                         list={category}
                         name="Category"
                         keyName="name"
@@ -745,21 +746,23 @@ const Components = () => {
                                                 </button>
                                             </div>
 
-                                            <Field
-                                                as="select"
-                                                name="asset_id"
-                                                className="form-select rounded-l-none"
-                                                placeholder=""
-                                            >
-                                                <option value="">Select Asset name</option>
-                                                {assets?.map((asset) => {
-                                                    return (
-                                                        <option key={asset.id} value={asset.id}>
-                                                            {helper.trancateString(asset.name)}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </Field>
+                                            <div className="relative mt-[9px]">
+                                                <Field name="asset_id">
+                                                    {({ field, form }) => {
+                                                        return (
+                                                            <SelectBox
+                                                                list={assets}
+                                                                name="Select Asset name"
+                                                                keyName="name"
+                                                                defaultValue={field?.value}
+                                                                onChange={(value) =>
+                                                                    form.setFieldValue(field.name, value)
+                                                                }
+                                                            />
+                                                        );
+                                                    }}
+                                                </Field>
+                                            </div>
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
@@ -772,22 +775,23 @@ const Components = () => {
                                                     Add Model
                                                 </button>
                                             </div>
-
-                                            <Field
-                                                as="select"
-                                                name="model_id"
-                                                className="form-select rounded-l-none"
-                                                placeholder=""
-                                            >
-                                                <option value="">Select Model Name</option>
-                                                {models?.map((model) => {
-                                                    return (
-                                                        <option key={model.id} value={model.id}>
-                                                            {helper.trancateString(model.name)}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </Field>
+                                            <div className="relative mt-[9px]">
+                                                <Field name="model_id">
+                                                    {({ field, form }) => {
+                                                        return (
+                                                            <SelectBox
+                                                                list={models}
+                                                                name="Select Model Name"
+                                                                keyName="name"
+                                                                defaultValue={field?.value}
+                                                                onChange={(value) =>
+                                                                    form.setFieldValue(field.name, value)
+                                                                }
+                                                            />
+                                                        );
+                                                    }}
+                                                </Field>
+                                            </div>
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
@@ -800,22 +804,23 @@ const Components = () => {
                                                     Add Brand
                                                 </button>
                                             </div>
-
-                                            <Field
-                                                as="select"
-                                                name="brand_id"
-                                                className="form-select rounded-l-none"
-                                                placeholder=""
-                                            >
-                                                <option value="">Select Brand Name</option>
-                                                {brands?.map((brand) => {
-                                                    return (
-                                                        <option key={brand.id} value={brand.id}>
-                                                            {helper.trancateString(brand.name)}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </Field>
+                                            <div className="relative mt-[9px]">
+                                                <Field name="brand_id">
+                                                    {({ field, form }) => {
+                                                        return (
+                                                            <SelectBox
+                                                                list={brands}
+                                                                name="Select Brand Name"
+                                                                keyName="name"
+                                                                defaultValue={field?.value}
+                                                                onChange={(value) =>
+                                                                    form.setFieldValue(field.name, value)
+                                                                }
+                                                            />
+                                                        );
+                                                    }}
+                                                </Field>
+                                            </div>
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
@@ -839,22 +844,23 @@ const Components = () => {
                                                     </button>
                                                 </div>
                                             </div>
-
-                                            <Field
-                                                as="select"
-                                                name="user_id"
-                                                className="form-select rounded-l-none"
-                                                placeholder=""
-                                            >
-                                                <option value="">Select User</option>
-                                                {users?.map((user) => {
-                                                    return (
-                                                        <option key={user.id} value={user.id}>
-                                                            {helper.trancateString(user.name)}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </Field>
+                                            <div className="relative mt-[9px]">
+                                                <Field name="user_id">
+                                                    {({ field, form }) => {
+                                                        return (
+                                                            <SelectBox
+                                                                list={users}
+                                                                name="Select User"
+                                                                keyName="name"
+                                                                defaultValue={field?.value}
+                                                                onChange={(value) =>
+                                                                    form.setFieldValue(field.name, value)
+                                                                }
+                                                            />
+                                                        );
+                                                    }}
+                                                </Field>
+                                            </div>
                                         </div>
                                         <div>
                                             <div className="flex items-center justify-between">

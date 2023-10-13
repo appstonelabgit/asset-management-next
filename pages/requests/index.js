@@ -19,6 +19,7 @@ import MultipleSelect from '@/components/MultipleSelect';
 import { useSelector } from 'react-redux';
 import CommonSideModal from '@/components/CommonSideModal';
 import IconStatus from '@/components/Icon/IconStatus';
+import SelectBox from '@/components/SelectBox';
 
 const Request = () => {
     const { user } = useSelector((state) => state.auth);
@@ -728,21 +729,30 @@ const Request = () => {
                                                         <>
                                                             <div>
                                                                 <label className="form-label">Old {Type?.name}</label>
-                                                                <Field
-                                                                    as="select"
-                                                                    name="old_id"
-                                                                    className="form-select rounded-l-none"
-                                                                >
-                                                                    <option value="">Select {Type?.name} name</option>
-
-                                                                    {userData[Type?.name.toLowerCase()]?.map((data) => {
-                                                                        return (
-                                                                            <option key={data.id} value={data.id}>
-                                                                                {data.name}
-                                                                            </option>
-                                                                        );
-                                                                    })}
-                                                                </Field>
+                                                                <div className="relative mt-[9px]">
+                                                                    <Field name="old_id">
+                                                                        {({ field, form }) => {
+                                                                            return (
+                                                                                <SelectBox
+                                                                                    list={
+                                                                                        userData[
+                                                                                            Type?.name.toLowerCase()
+                                                                                        ]
+                                                                                    }
+                                                                                    name={`Select ${Type?.name} name`}
+                                                                                    keyName="name"
+                                                                                    defaultValue={field?.value}
+                                                                                    onChange={(value) =>
+                                                                                        form.setFieldValue(
+                                                                                            field.name,
+                                                                                            value
+                                                                                        )
+                                                                                    }
+                                                                                />
+                                                                            );
+                                                                        }}
+                                                                    </Field>
+                                                                </div>
                                                             </div>
 
                                                             <div>
@@ -750,20 +760,26 @@ const Request = () => {
                                                                     New&nbsp;{Type?.name}
                                                                 </label>
 
-                                                                <Field
-                                                                    as="select"
-                                                                    name="new_id"
-                                                                    className="form-select rounded-l-none"
-                                                                >
-                                                                    <option value="">Select {Type?.name} name</option>
-                                                                    {Type?.data[Type?.name]?.map((data) => {
-                                                                        return (
-                                                                            <option key={data.id} value={data.id}>
-                                                                                {data.name}
-                                                                            </option>
-                                                                        );
-                                                                    })}
-                                                                </Field>
+                                                                <div className="relative mt-[9px]">
+                                                                    <Field name="new_id">
+                                                                        {({ field, form }) => {
+                                                                            return (
+                                                                                <SelectBox
+                                                                                    list={Type?.data[Type?.name]}
+                                                                                    name={`Select ${Type?.name} name`}
+                                                                                    keyName="name"
+                                                                                    defaultValue={field?.value}
+                                                                                    onChange={(value) =>
+                                                                                        form.setFieldValue(
+                                                                                            field.name,
+                                                                                            value
+                                                                                        )
+                                                                                    }
+                                                                                />
+                                                                            );
+                                                                        }}
+                                                                    </Field>
+                                                                </div>
                                                             </div>
                                                         </>
                                                     )}

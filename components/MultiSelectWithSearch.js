@@ -74,7 +74,7 @@ const MultipleSelectWithSearch = ({ list, name, keyName, selectedoptions, setSel
             <div className=" h-full max-h-[150px] overflow-y-auto text-sm">
                 {filterData.map((option) => {
                     return (
-                        <label key={option.id} className="my-3 flex items-center px-5 capitalize">
+                        <label key={option.id} className="flex items-center py-2 px-5 capitalize hover:bg-primary">
                             <input
                                 type="checkbox"
                                 className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"

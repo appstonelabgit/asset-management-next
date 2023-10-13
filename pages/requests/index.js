@@ -76,6 +76,7 @@ const Request = () => {
 
     const defaultStatusParams = { id: '', status: '', reject_reason: '' };
     const [statusParams, setStatusParams] = useState(defaultStatusParams);
+    const [approveStatusLoading, setApproveStatusLoading] = useState(false);
 
     const refresh = () => {
         getRequests(1, pageLimit, searchWord);
@@ -101,11 +102,13 @@ const Request = () => {
             if (statusParams?.status === 'Rejected' || statusParams?.status === 'Onhold') {
                 await axios.post(`/requests/response/${statusParams?.id}`, values);
             } else {
+                setApproveStatusLoading(true);
                 await axios.post(`/requests/response/${id}`, { status: values });
             }
-            popup?.current.close();
-            refresh();
         } catch {}
+        setApproveStatusLoading(false);
+        popup?.current.close();
+        refresh();
     };
 
     const handleStatusEdit = (id) => {
@@ -562,15 +565,16 @@ const Request = () => {
                                 {({ isSubmitting, setFieldValue }) => (
                                     <Form className="w-full space-y-5  bg-white py-[25px]">
                                         <div className="flex justify-center space-x-2">
-                                            <button
+                                            <ButtonField
                                                 type="button"
+                                                loading={approveStatusLoading}
                                                 className="btn my-0 bg-[#c9f5cd] py-1"
                                                 onClick={() => {
                                                     updateStatus('Approved', statusParams?.id);
                                                 }}
                                             >
                                                 Approve
-                                            </button>
+                                            </ButtonField>
                                             <button
                                                 type="button"
                                                 className="btn my-0 bg-[#fef08a] py-1"

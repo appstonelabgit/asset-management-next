@@ -501,9 +501,13 @@ const Components = () => {
                                             )}
                                         </td>
                                         <td
-                                            className="max-w-[160px] cursor-pointer truncate hover:text-[#1A68D4]"
+                                            className={`max-w-[160px] truncate ${
+                                                user?.role === 1 && 'cursor-pointer hover:text-[#1A68D4]'
+                                            }`}
                                             onClick={() => {
-                                                handleEdit(component?.id);
+                                                if (user?.role === 1) {
+                                                    handleEdit(component?.id);
+                                                }
                                             }}
                                         >
                                             <Tippy content={component?.serial_number}>

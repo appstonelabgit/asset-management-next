@@ -104,11 +104,15 @@ const Request = () => {
             } else {
                 setApproveStatusLoading(true);
                 await axios.post(`/requests/response/${id}`, { status: values });
+                setApproveStatusLoading(false);
+                popup?.current.close();
+                refresh();
             }
-        } catch {}
-        setApproveStatusLoading(false);
-        popup?.current.close();
-        refresh();
+        } catch {
+            setApproveStatusLoading(false);
+            popup?.current.close();
+            refresh();
+        }
     };
 
     const handleStatusEdit = (id) => {
@@ -475,9 +479,13 @@ const Request = () => {
                                                 )}
                                             </td>
                                             <td className="max-w-[160px] truncate">
-                                                <Tippy content={request?.description}>
-                                                    <span>{request?.description}</span>
-                                                </Tippy>
+                                                {request?.description ? (
+                                                    <Tippy content={request?.description}>
+                                                        <span>{request?.description}</span>
+                                                    </Tippy>
+                                                ) : (
+                                                    '-'
+                                                )}
                                             </td>
                                             <td className="flex cursor-pointer items-center space-x-2 capitalize">
                                                 <span className={`status status-${request?.status}`}>

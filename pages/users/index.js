@@ -285,7 +285,7 @@ const Users = () => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={6} totalTd={6} tdWidth={60} />
+                                <TableLoadnig totalTr={6} totalTd={7} tdWidth={60} />
                             ) : users?.length !== 0 ? (
                                 users?.map((user) => {
                                     return (
@@ -302,9 +302,11 @@ const Users = () => {
                                                 </Tippy>
                                             </td>
                                             <td>{user?.email}</td>
-                                            <td className="max-w-[160px] truncate capitalize">
+                                            <td>
                                                 <Tippy content={user?.designation}>
-                                                    <span>{user?.designation}</span>
+                                                    <div className="max-w-[160px] truncate capitalize">
+                                                        <span>{user?.designation}</span>
+                                                    </div>
                                                 </Tippy>
                                             </td>
                                             {user?.components?.length === 0 ? (

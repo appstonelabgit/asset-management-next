@@ -452,7 +452,7 @@ const Request = () => {
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={9} totalTd={9} tdWidth={60} />
+                                <TableLoadnig totalTr={9} totalTd={10} tdWidth={60} />
                             ) : requests?.length !== 0 ? (
                                 requests?.map((request) => {
                                     return (

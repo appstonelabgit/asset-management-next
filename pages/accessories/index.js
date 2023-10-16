@@ -473,13 +473,14 @@ const Accessories = () => {
                                         />
                                     </div>
                                 </th>
+                                <th className="w-1">Categories</th>
 
                                 {user?.role === 1 && <th className="w-1">Action</th>}
                             </tr>
                         </thead>
                         <tbody>
                             {isLoading ? (
-                                <TableLoadnig totalTr={10} totalTd={10} tdWidth={60} />
+                                <TableLoadnig totalTr={10} totalTd={6} tdWidth={60} />
                             ) : accessorys?.length !== 0 ? (
                                 accessorys?.map((accessory) => {
                                     return (
@@ -516,6 +517,26 @@ const Accessories = () => {
                                                 {accessory?.brand_name ? (
                                                     <Tippy content={accessory?.brand_name}>
                                                         <span>{helper.trancateSmallString(accessory?.brand_name)}</span>
+                                                    </Tippy>
+                                                ) : (
+                                                    '-'
+                                                )}
+                                            </td>
+
+                                            <td>
+                                                {!!accessory?.categories?.length ? (
+                                                    <Tippy
+                                                        content={accessory?.categories
+                                                            ?.map((item) => item?.name)
+                                                            .join(', ')}
+                                                    >
+                                                        <div className="max-w-[160px] truncate capitalize">
+                                                            <span>
+                                                                {accessory?.categories
+                                                                    ?.map((item) => item?.name)
+                                                                    .join(', ')}
+                                                            </span>
+                                                        </div>
                                                     </Tippy>
                                                 ) : (
                                                     '-'

@@ -467,12 +467,13 @@ const Components = () => {
                                     />
                                 </div>
                             </th>
+                            <th className="w-1">Categories</th>
                             {user?.role === 1 && <th className="w-1">Action</th>}
                         </tr>
                     </thead>
                     <tbody>
                         {isLoading ? (
-                            <TableLoadnig totalTr={9} totalTd={9} tdWidth={60} />
+                            <TableLoadnig totalTr={9} totalTd={7} tdWidth={60} />
                         ) : Components?.length !== 0 ? (
                             Components?.map((component) => {
                                 return (
@@ -518,6 +519,26 @@ const Components = () => {
                                             {component?.brand_name ? (
                                                 <Tippy content={component?.brand_name}>
                                                     <span>{helper.trancateSmallString(component?.brand_name)}</span>
+                                                </Tippy>
+                                            ) : (
+                                                '-'
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            {!!component?.categories?.length ? (
+                                                <Tippy
+                                                    content={component?.categories
+                                                        ?.map((item) => item?.name)
+                                                        .join(', ')}
+                                                >
+                                                    <div className="max-w-[160px] truncate capitalize">
+                                                        <span>
+                                                            {component?.categories
+                                                                ?.map((item) => item?.name)
+                                                                .join(', ')}
+                                                        </span>
+                                                    </div>
                                                 </Tippy>
                                             ) : (
                                                 '-'

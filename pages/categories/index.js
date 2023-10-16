@@ -272,8 +272,8 @@ const Categories = () => {
                         <tbody>
                             {isLoading ? (
                                 <TableLoadnig
-                                    totalTr={user?.role === 1 ? 7 : 6}
-                                    totalTd={user?.role === 1 ? 7 : 6}
+                                    totalTr={user?.role === 1 ? 5 : 4}
+                                    totalTd={user?.role === 1 ? 5 : 4}
                                     tdWidth={60}
                                 />
                             ) : categories?.length !== 0 ? (

@@ -584,12 +584,14 @@ const Assets = () => {
                                 </div>
                             </th>
 
+                            <th className="w-1">Categories</th>
+
                             {user?.role === 1 && <th className="w-1">Action</th>}
                         </tr>
                     </thead>
                     <tbody>
                         {isLoading ? (
-                            <TableLoadnig totalTr={10} totalTd={10} tdWidth={60} />
+                            <TableLoadnig totalTr={10} totalTd={6} tdWidth={60} />
                         ) : assets?.length !== 0 ? (
                             assets?.map((asset) => {
                                 return (
@@ -627,6 +629,21 @@ const Assets = () => {
                                             {asset?.brand_name ? (
                                                 <Tippy content={asset?.brand_name}>
                                                     <span>{asset?.brand_name}</span>
+                                                </Tippy>
+                                            ) : (
+                                                '-'
+                                            )}
+                                        </td>
+                                        <td>
+                                            {!!asset?.categories?.length ? (
+                                                <Tippy
+                                                    content={asset?.categories?.map((item) => item?.name).join(', ')}
+                                                >
+                                                    <div className="max-w-[160px] truncate capitalize">
+                                                        <span>
+                                                            {asset?.categories?.map((item) => item?.name).join(', ')}
+                                                        </span>
+                                                    </div>
                                                 </Tippy>
                                             ) : (
                                                 '-'

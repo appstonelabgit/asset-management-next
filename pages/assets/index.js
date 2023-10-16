@@ -83,7 +83,7 @@ const Assets = () => {
         (page = 1, limit = pageLimit, search = searchWord) => {
             setIsLoading(true);
             axios
-                .get(`/${user?.role === 1 ? 'assets' : 'employees/assets'}`, {
+                .get(`/assets`, {
                     params: {
                         filter: search,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',

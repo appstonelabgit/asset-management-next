@@ -77,7 +77,7 @@ const Components = () => {
             setIsLoading(true);
 
             axios
-                .get(`/${user?.role === 1 ? 'components' : 'employees/components'}`, {
+                .get(`/components`, {
                     params: {
                         filter: search,
                         warranty_expired_at: expiryDate !== 'NaN-NaN-NaN' ? expiryDate : '',

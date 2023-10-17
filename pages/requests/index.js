@@ -478,10 +478,12 @@ const Request = () => {
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="max-w-[160px] truncate">
+                                            <td>
                                                 {request?.description ? (
                                                     <Tippy content={request?.description}>
-                                                        <span>{request?.description}</span>
+                                                        <div className="max-w-[160px] truncate">
+                                                            <span>{request?.description}</span>
+                                                        </div>
                                                     </Tippy>
                                                 ) : (
                                                     '-'

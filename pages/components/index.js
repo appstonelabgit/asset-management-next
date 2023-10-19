@@ -770,7 +770,7 @@ const Components = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
-                                                <label className="form-label">Asset name</label>
+                                                <label className="form-label">Asset Name</label>
                                                 <div>
                                                     {params?.id && params?.asset_id ? (
                                                         <button

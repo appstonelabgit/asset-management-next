@@ -229,6 +229,15 @@ const Components = () => {
         try {
             await axios.post(`/components/${id}`, { ...params, user_id: null });
             SideModal?.current.close();
+            refresh();
+        } catch {}
+    };
+
+    const unAssignAssetNdUser = async (id) => {
+        try {
+            await axios.post(`/components/${id}`, { ...params, asset_id: null, user_id: null });
+            SideModal?.current.close();
+            refresh();
         } catch {}
     };
 
@@ -762,13 +771,24 @@ const Components = () => {
                                         <div>
                                             <div className="flex items-end justify-between">
                                                 <label className="form-label">Asset name</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addAssetModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs"
-                                                >
-                                                    Add Asset
-                                                </button>
+                                                <div>
+                                                    {params?.id && params?.asset_id ? (
+                                                        <button
+                                                            type="button"
+                                                            className="btn-secondary mb-0 mr-2 py-1 text-xs"
+                                                            onClick={() => unAssignAssetNdUser(params?.id)}
+                                                        >
+                                                            Unassign
+                                                        </button>
+                                                    ) : null}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addAssetModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs"
+                                                    >
+                                                        Add Asset
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <div className="relative mt-[9px]">

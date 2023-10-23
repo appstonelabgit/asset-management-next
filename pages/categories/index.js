@@ -14,6 +14,7 @@ import Tippy from '@tippyjs/react';
 import IconView from '@/components/Icon/IconView';
 import Modal from '@/components/Modal';
 import { useSelector } from 'react-redux';
+import IconLoaderDots from '@/components/Icon/IconLoaderDots';
 
 const Categories = () => {
     const SideModal = useRef();
@@ -23,6 +24,7 @@ const Categories = () => {
 
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(50);
     const [totalRecords, setTotalRecords] = useState(50);
@@ -125,10 +127,12 @@ const Categories = () => {
     //     } catch {}
     // };
 
-    const handleModalData = (id, name) => {
-        axios.get(`/categories/relational-data`, { params: { type: name, category_id: id } }).then(({ data }) => {
+    const handleModalData = async (id, name) => {
+        setIsLoadingHistory(true);
+        await axios.get(`/categories/relational-data`, { params: { type: name, category_id: id } }).then(({ data }) => {
             setSelectedModelData({ name: name, data: data?.data });
         });
+        setIsLoadingHistory(false);
         relationalDataModal?.current?.open();
     };
 
@@ -391,57 +395,65 @@ const Categories = () => {
                     </div>
                 )}
 
-                <Modal ref={relationalDataModal} width={1200}>
-                    <div className="mx-5">
-                        <h3 className="mb-5 text-xl font-bold capitalize text-darkprimary">
-                            {selectedModelData?.name.toLowerCase() === 'asset' && 'Assets'}
-                            {selectedModelData?.name.toLowerCase() === 'accessory' && 'Accessories'}
-                            {selectedModelData?.name.toLowerCase() === 'component' && 'Components'}
-                        </h3>
-                        {selectedModelData?.name && selectedModelData?.data?.length !== 0 ? (
-                            <div className="main-table w-full overflow-x-auto">
-                                <table className="w-full table-auto">
-                                    <thead className="bg-lightblue1">
-                                        <tr>
-                                            <th>Serial Number</th>
-                                            <th className="capitalize">
-                                                {selectedModelData?.name.toLowerCase() === 'asset' && 'Asset'}
-                                                {selectedModelData?.name.toLowerCase() === 'accessory' && 'Accessory'}
-                                                {selectedModelData?.name.toLowerCase() === 'component' && 'Component'}
-                                                {` `}Name
-                                            </th>
-                                            <th>Purchase Cost</th>
-                                            <th>Model</th>
-                                            <th>Brand</th>
-                                            <th>Purchase Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {selectedModelData?.data?.map((modeldata) => {
-                                            return (
-                                                <tr key={modeldata.id} className="bg-white">
-                                                    <td>{modeldata?.serial_number}</td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateString(modeldata?.name)}
-                                                    </td>
-                                                    <td>{helper.formatIndianCurrency(modeldata?.purchased_cost)}</td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.model?.name) || '-'}
-                                                    </td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.brand?.name) || '-'}
-                                                    </td>
-                                                    <td>{helper?.getFormattedDate(modeldata?.purchased_at)}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <div className="text-center">Data not available.</div>
-                        )}
-                    </div>
+                <Modal ref={relationalDataModal}>
+                    {isLoadingHistory ? (
+                        <IconLoaderDots className="mx-auto w-16 text-black" />
+                    ) : (
+                        <div className="mx-5">
+                            <h3 className="mb-5 text-xl font-bold capitalize text-darkprimary">
+                                {selectedModelData?.name.toLowerCase() === 'asset' && 'Assets'}
+                                {selectedModelData?.name.toLowerCase() === 'accessory' && 'Accessories'}
+                                {selectedModelData?.name.toLowerCase() === 'component' && 'Components'}
+                            </h3>
+                            {selectedModelData?.name && selectedModelData?.data?.length !== 0 ? (
+                                <div className="main-table w-full overflow-x-auto">
+                                    <table className="w-full table-auto">
+                                        <thead className="bg-lightblue1">
+                                            <tr>
+                                                <th>Serial Number</th>
+                                                <th className="capitalize">
+                                                    {selectedModelData?.name.toLowerCase() === 'asset' && 'Asset'}
+                                                    {selectedModelData?.name.toLowerCase() === 'accessory' &&
+                                                        'Accessory'}
+                                                    {selectedModelData?.name.toLowerCase() === 'component' &&
+                                                        'Component'}
+                                                    {` `}Name
+                                                </th>
+                                                <th>Purchase Cost</th>
+                                                <th>Model</th>
+                                                <th>Brand</th>
+                                                <th>Purchase Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {selectedModelData?.data?.map((modeldata) => {
+                                                return (
+                                                    <tr key={modeldata.id} className="bg-white">
+                                                        <td>{modeldata?.serial_number}</td>
+                                                        <td className="capitalize">
+                                                            {helper.trancateString(modeldata?.name)}
+                                                        </td>
+                                                        <td>
+                                                            {helper.formatIndianCurrency(modeldata?.purchased_cost)}
+                                                        </td>
+                                                        <td className="capitalize">
+                                                            {helper.trancateSmallString(modeldata?.model?.name) || '-'}
+                                                        </td>
+                                                        <td className="capitalize">
+                                                            {helper.trancateSmallString(modeldata?.brand?.name) || '-'}
+                                                        </td>
+                                                        <td>{helper?.getFormattedDate(modeldata?.purchased_at)}</td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div className="text-center">Data not available.</div>
+                            )}
+                        </div>
+                    )}
                 </Modal>
 
                 <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Category' : 'Add Category'} width="400px">
@@ -462,12 +474,8 @@ const Categories = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
-                                            <ButtonField
-                                                type="submit"
-                                                loading={isSubmitting}
-                                                className="btn block w-full"
-                                            >
+                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
+                                            <ButtonField type="submit" loading={isSubmitting} className="btn px-4">
                                                 {params?.id ? 'Edit' : 'Add'}
                                             </ButtonField>
                                         </div>

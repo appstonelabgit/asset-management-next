@@ -57,7 +57,7 @@ const CommonSideModal = (
                                 >
                                     <div
                                         ref={modalPanelRef}
-                                        className="relative min-h-[500px] w-full min-w-full rounded-md bg-white px-5 pt-7 text-left align-middle shadow-xl transition-all sm:min-w-[400px]"
+                                        className="relative w-full min-w-full !max-w-[800px] rounded-md bg-white px-5 pt-7 text-left align-middle shadow-xl transition-all sm:min-w-[400px]"
                                         style={{ maxWidth: width || '1024px' }}
                                         onClick={(event) => event.stopPropagation()}
                                     >

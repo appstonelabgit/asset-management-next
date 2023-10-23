@@ -15,6 +15,7 @@ import helper from '@/libs/helper';
 import { useSelector } from 'react-redux';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import IconLoaderDots from '@/components/Icon/IconLoaderDots';
 
 const Users = () => {
     const { user } = useSelector((state) => state.auth);
@@ -24,6 +25,7 @@ const Users = () => {
 
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(50);
     const [totalRecords, setTotalRecords] = useState(50);
@@ -123,10 +125,12 @@ const Users = () => {
 
     const [selectedModelData, setSelectedModelData] = useState({ name: '', data: [] });
 
-    const handleModalData = (id, name) => {
-        axios.get(`/${name}/${id}/for-user`).then(({ data }) => {
+    const handleModalData = async (id, name) => {
+        setIsLoadingHistory(true);
+        await axios.get(`/${name}/${id}/for-user`).then(({ data }) => {
             setSelectedModelData({ name: name, data: data });
         });
+        setIsLoadingHistory(false);
         Popup?.current?.open();
     };
 
@@ -388,26 +392,72 @@ const Users = () => {
                     />
                 </div>
 
-                <Modal ref={Popup} width={1200}>
-                    <div className="mx-5">
-                        <h3 className="mb-5 text-xl font-bold capitalize text-darkprimary">
-                            {selectedModelData?.name.toLowerCase() === 'assets'
-                                ? 'components'
-                                : selectedModelData?.name}
-                        </h3>
-                        {selectedModelData?.name.toLowerCase() === 'assets' ? (
-                            selectedModelData?.data?.components?.length !== 0 ? (
+                <Modal ref={Popup}>
+                    {isLoadingHistory ? (
+                        <IconLoaderDots className="mx-auto w-16 text-black" />
+                    ) : (
+                        <div className="mx-5">
+                            <h3 className="mb-5 text-xl font-bold capitalize text-darkprimary">
+                                {selectedModelData?.name.toLowerCase() === 'assets'
+                                    ? 'components'
+                                    : selectedModelData?.name}
+                            </h3>
+                            {selectedModelData?.name.toLowerCase() === 'assets' ? (
+                                selectedModelData?.data?.components?.length !== 0 ? (
+                                    <div className="main-table w-full overflow-x-auto">
+                                        <table className="w-full table-auto">
+                                            <thead className="bg-lightblue1">
+                                                <tr>
+                                                    <th>Serial Number</th>
+                                                    <th className="capitalize">
+                                                        {selectedModelData?.name.toLowerCase() === 'assets'
+                                                            ? 'components'
+                                                            : selectedModelData?.name}{' '}
+                                                        Name
+                                                    </th>
+                                                    <th>Purchase Cost</th>
+                                                    <th>Model</th>
+                                                    <th>Brand</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {selectedModelData?.data?.components?.map((modeldata) => {
+                                                    return (
+                                                        <tr key={modeldata.id} className="bg-white">
+                                                            <td>{modeldata?.serial_number}</td>
+                                                            <td className="capitalize">
+                                                                {helper.trancateString(modeldata?.name)}
+                                                            </td>
+                                                            <td>
+                                                                {helper.formatIndianCurrency(modeldata?.purchased_cost)}
+                                                            </td>
+                                                            <td className="capitalize">
+                                                                {helper.trancateSmallString(modeldata?.model?.name) ||
+                                                                    '-'}
+                                                            </td>
+                                                            <td className="capitalize">
+                                                                {helper.trancateSmallString(modeldata?.brand?.name) ||
+                                                                    '-'}
+                                                            </td>
+                                                            <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <div className="text-center">Data not available.</div>
+                                )
+                            ) : selectedModelData?.data?.length !== 0 ? (
                                 <div className="main-table w-full overflow-x-auto">
                                     <table className="w-full table-auto">
                                         <thead className="bg-lightblue1">
                                             <tr>
                                                 <th>Serial Number</th>
-                                                <th className="capitalize">
-                                                    {selectedModelData?.name.toLowerCase() === 'assets'
-                                                        ? 'components'
-                                                        : selectedModelData?.name}{' '}
-                                                    Name
-                                                </th>
+                                                <th className="capitalize">{selectedModelData?.name} Name</th>
+                                                <th>Seller</th>
                                                 <th>Purchase Cost</th>
                                                 <th>Model</th>
                                                 <th>Brand</th>
@@ -415,21 +465,24 @@ const Users = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {selectedModelData?.data?.components?.map((modeldata) => {
+                                            {selectedModelData?.data?.map((modeldata) => {
                                                 return (
                                                     <tr key={modeldata.id} className="bg-white">
                                                         <td>{modeldata?.serial_number}</td>
                                                         <td className="capitalize">
                                                             {helper.trancateString(modeldata?.name)}
                                                         </td>
+                                                        <td className="capitalize">
+                                                            {helper.trancateSmallString(modeldata?.seller_name) || '-'}
+                                                        </td>
                                                         <td>
                                                             {helper.formatIndianCurrency(modeldata?.purchased_cost)}
                                                         </td>
                                                         <td className="capitalize">
-                                                            {helper.trancateSmallString(modeldata?.model?.name) || '-'}
+                                                            {helper.trancateSmallString(modeldata?.model_name) || '-'}
                                                         </td>
                                                         <td className="capitalize">
-                                                            {helper.trancateSmallString(modeldata?.brand?.name) || '-'}
+                                                            {helper.trancateSmallString(modeldata?.brand_name) || '-'}
                                                         </td>
                                                         <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
                                                     </tr>
@@ -440,50 +493,9 @@ const Users = () => {
                                 </div>
                             ) : (
                                 <div className="text-center">Data not available.</div>
-                            )
-                        ) : selectedModelData?.data?.length !== 0 ? (
-                            <div className="main-table w-full overflow-x-auto">
-                                <table className="w-full table-auto">
-                                    <thead className="bg-lightblue1">
-                                        <tr>
-                                            <th>Serial Number</th>
-                                            <th className="capitalize">{selectedModelData?.name} Name</th>
-                                            <th>Seller</th>
-                                            <th>Purchase Cost</th>
-                                            <th>Model</th>
-                                            <th>Brand</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {selectedModelData?.data?.map((modeldata) => {
-                                            return (
-                                                <tr key={modeldata.id} className="bg-white">
-                                                    <td>{modeldata?.serial_number}</td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateString(modeldata?.name)}
-                                                    </td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.seller_name) || '-'}
-                                                    </td>
-                                                    <td>{helper.formatIndianCurrency(modeldata?.purchased_cost)}</td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.model_name) || '-'}
-                                                    </td>
-                                                    <td className="capitalize">
-                                                        {helper.trancateSmallString(modeldata?.brand_name) || '-'}
-                                                    </td>
-                                                    <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <div className="text-center">Data not available.</div>
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    )}
                 </Modal>
 
                 <CommonSideModal ref={SideModal} title={params?.id ? 'Edit User' : 'Add User'} width="400px">
@@ -491,8 +503,8 @@ const Users = () => {
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting }) => (
-                                    <Form className="w-full space-y-5 bg-white pt-[25px] pb-[88px]">
-                                        <div className="space-y-5">
+                                    <Form className="w-full bg-white pt-[25px] pb-[88px]">
+                                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                                             <div>
                                                 <label className="form-label">Name</label>
 
@@ -559,12 +571,8 @@ const Users = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
-                                            <ButtonField
-                                                type="submit"
-                                                loading={isSubmitting}
-                                                className="btn block w-full"
-                                            >
+                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]  text-right">
+                                            <ButtonField type="submit" loading={isSubmitting} className="btn px-4">
                                                 {params?.id ? 'Edit' : 'Add'}
                                             </ButtonField>
                                         </div>

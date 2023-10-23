@@ -31,6 +31,7 @@ import 'tippy.js/dist/tippy.css';
 import MultipleSelectWithSearch from '@/components/MultiSelectWithSearch';
 import AddCategory from '@/components/AddCategory';
 import SelectBox from '@/components/SelectBox';
+import IconLoaderDots from '@/components/Icon/IconLoaderDots';
 
 const Assets = () => {
     const { user } = useSelector((state) => state.auth);
@@ -58,6 +59,7 @@ const Assets = () => {
     const [isFree, setIsFree] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(50);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -254,10 +256,12 @@ const Assets = () => {
             refresh();
         }
     };
-    const handleModalData = (id, user_id) => {
-        axios.get(`/assets/${id}/assign-history`).then(({ data }) => {
+    const handleModalData = async (id, user_id) => {
+        setIsLoadingHistory(true);
+        await axios.get(`/assets/${id}/assign-history`).then(({ data }) => {
             setSelectedModelData({ ...selectedModelData, user_id: user_id, data: data });
         });
+        setIsLoadingHistory(false);
         Popup?.current?.open();
     };
 
@@ -738,36 +742,40 @@ const Assets = () => {
                     setCurrentPage={(i) => getAssets(i, pageLimit)}
                 />
             </div>
-            <Modal ref={Popup} width={500}>
-                <div className="mx-5">
-                    <h3 className="mb-5 text-lg font-bold text-darkprimary">History</h3>
-                    {selectedModelData?.data?.length !== 0 && (
-                        <div className="main-table w-full overflow-x-auto">
-                            <table className="w-full table-auto">
-                                <thead className="bg-lightblue1">
-                                    <tr>
-                                        <th>User Name</th>
-                                        <th colSpan={2}>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedModelData?.data?.map((modeldata, i) => {
-                                        return (
-                                            <tr key={modeldata?.id} className="bg-white">
-                                                <td className="capitalize">{modeldata?.users?.name}</td>
-                                                <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
-                                                <td>{selectedModelData?.user_id && i === 0 ? 'Current' : null}</td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                    {selectedModelData?.data?.length === 0 && (
-                        <div className="mb-5 text-center">Data not available.</div>
-                    )}
-                </div>
+            <Modal ref={Popup}>
+                {isLoadingHistory ? (
+                    <IconLoaderDots className="mx-auto w-16 text-black" />
+                ) : (
+                    <div className="mx-5">
+                        <h3 className="mb-5 text-lg font-bold text-darkprimary">History</h3>
+                        {selectedModelData?.data?.length !== 0 && (
+                            <div className="main-table w-full overflow-x-auto">
+                                <table className="w-full table-auto">
+                                    <thead className="bg-lightblue1">
+                                        <tr>
+                                            <th>User Name</th>
+                                            <th colSpan={2}>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {selectedModelData?.data?.map((modeldata, i) => {
+                                            return (
+                                                <tr key={modeldata?.id} className="bg-white">
+                                                    <td className="capitalize">{modeldata?.users?.name}</td>
+                                                    <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
+                                                    <td>{selectedModelData?.user_id && i === 0 ? 'Current' : null}</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                        {selectedModelData?.data?.length === 0 && (
+                            <div className="mb-5 text-center">Data not available.</div>
+                        )}
+                    </div>
+                )}
             </Modal>
 
             <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Asset' : 'Add Asset'}>

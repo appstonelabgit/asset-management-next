@@ -746,7 +746,7 @@ const Assets = () => {
                             <table className="w-full table-auto">
                                 <thead className="bg-lightblue1">
                                     <tr>
-                                        <th>Asset Name</th>
+                                        <th>User Name</th>
                                         <th colSpan={2}>Date</th>
                                     </tr>
                                 </thead>

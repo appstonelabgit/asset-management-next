@@ -71,7 +71,7 @@ const Request = () => {
                     setIsLoading(false);
                 });
         },
-        [order, typeSelected, request_type, status]
+        [order, typeSelected, request_type, status, pageLimit, searchWord]
     );
 
     const defaultStatusParams = { id: '', status: '', reject_reason: '' };
@@ -207,7 +207,7 @@ const Request = () => {
                 });
             }
         } catch (error) {}
-    }, []);
+    }, [user?.role]);
     useEffect(() => {
         getRequests();
     }, [getRequests]);

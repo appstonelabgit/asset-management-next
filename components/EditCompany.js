@@ -6,6 +6,7 @@ import ButtonField from './Field/ButtonField';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWorkspace } from '@/hooks/useWorkspace';
 import { fetchUser } from '@/store/authSlice';
+import Image from 'next/image';
 
 const EditCompany = (props, forwardedRef) => {
     const SideModal = useRef();
@@ -65,7 +66,11 @@ const EditCompany = (props, forwardedRef) => {
                                         <div>
                                             <label className="form-label">Company Logo</label>
                                             {params?.image_url && (
-                                                <img src={params?.image_url} className="my-2 w-40 rounded-xl" alt="" />
+                                                <Image
+                                                    src={params?.image_url}
+                                                    className="my-2 w-40 rounded-xl"
+                                                    alt=""
+                                                />
                                             )}
                                             <input
                                                 name="logo_url"

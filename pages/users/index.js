@@ -54,7 +54,7 @@ const Users = () => {
                     setIsLoading(false);
                 });
         },
-        [order]
+        [order, pageLimit, searchWord]
     );
 
     const defaultParams = {

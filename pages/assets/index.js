@@ -116,9 +116,10 @@ const Assets = () => {
             selectedCategories,
             order,
             expiryDate,
-            user?.role,
             purchasedDate,
             isFree,
+            pageLimit,
+            searchWord,
         ]
     );
 
@@ -309,17 +310,40 @@ const Assets = () => {
         return result;
     };
 
-    const getDependentInformation = useCallback(() => {
-        axios.get(`/assets/dependent/information`).then(({ data }) => {
-            setSellers(data.sellers);
-            setModels(data.models);
-            setBrands(data.brands);
-            setUsers(data.users);
-            setCategory(data.categories);
-        });
-    }, []);
+    const getDependentInformation = useCallback(
+        (type, value) => {
+            axios.get(`/assets/dependent/information`).then(({ data }) => {
+                if (!!value) {
+                    let newAdded;
+                    if (type === 'seller_id') {
+                        newAdded = data.sellers.find((data) => data.email === value.email);
+                    } else if (type === 'model_id') {
+                        newAdded = data.models.find((data) => data.name === value.name);
+                    } else if (type === 'brand_id') {
+                        newAdded = data.brands.find((data) => data.name === value.name);
+                    } else if (type === 'user_id') {
+                        newAdded = data.users.find((data) => data.email === value.email);
+                    } else if (type === 'category') {
+                        const newAddedCat = data.categories.find((data) => data.name === value.name);
+                        setSelectedCategory([newAddedCat.id]);
+                    }
+                    if (!!newAdded) {
+                        params[type] = newAdded.id;
+                        setParams(params);
+                    }
+                }
 
-    const getDependentComponent = () => {
+                setSellers(data.sellers);
+                setModels(data.models);
+                setBrands(data.brands);
+                setUsers(data.users);
+                setCategory(data.categories);
+            });
+        },
+        [params]
+    );
+
+    const getDependentComponent = (value) => {
         let newSelectedComponent = [];
         try {
             if (params?.id) {
@@ -330,11 +354,21 @@ const Assets = () => {
                         }
                     });
                     setSelectedComponent(newSelectedComponent);
+                    const newAdded = data.find((data) => data.serial_number === value.serial_number);
+                    if (!!newAdded) {
+                        newSelectedComponent.push(newAdded.id.toString());
+                        setSelectedComponent();
+                    }
                     setComponents(data);
                     SideModal?.current?.open();
                 });
             } else {
                 axios.get(`/components/assign/list`).then(({ data }) => {
+                    const newAdded = data.find((data) => data.serial_number === value.serial_number);
+                    if (!!newAdded) {
+                        newSelectedComponent.push(newAdded.id.toString());
+                        setSelectedComponent(newSelectedComponent);
+                    }
                     setComponents(data);
                 });
             }
@@ -370,7 +404,7 @@ const Assets = () => {
             }
         });
         setFilteredComponents(list);
-    }, [components, searchAssetCopmonent]);
+    }, [components, searchAssetCopmonent, selectedComponent]);
 
     return (
         <div className="p-5">
@@ -739,347 +773,373 @@ const Assets = () => {
             <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Asset' : 'Add Asset'}>
                 <div className="space-y-12">
                     <div className="border-gray-900/10">
-                        <Formik innerRef={formRef} initialValues={params} onSubmit={formHandler}>
-                            {({ isSubmitting, setFieldValue }) => (
-                                <Form className="w-full bg-white pt-[25px] pb-[88px]">
-                                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                                        <div>
-                                            <label className="form-label">Asset Name</label>
+                        <Formik
+                            innerRef={formRef}
+                            initialValues={params}
+                            enableReinitialize={true}
+                            onSubmit={formHandler}
+                        >
+                            {({ isSubmitting, setFieldValue }) => {
+                                return (
+                                    <Form className="w-full bg-white pt-[25px] pb-[88px]">
+                                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                                            <div>
+                                                <label className="form-label">Asset Name</label>
 
-                                            <Field
-                                                name="name"
-                                                type="text"
-                                                className="form-input rounded-l-none"
-                                                placeholder="Name"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="form-label">Serial Number</label>
-                                            <Field
-                                                name="serial_number"
-                                                type="text"
-                                                className="form-input rounded-l-none"
-                                                placeholder="Serial Number"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="form-label">Description</label>
-                                            <Field
-                                                as="textarea"
-                                                name="description"
-                                                type="text"
-                                                className="form-input rounded-l-none"
-                                                placeholder="Description"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="form-label">Purchase Date</label>
-
-                                            {params?.id ? (
-                                                <Flatpickr
-                                                    name="purchased_at"
+                                                <Field
+                                                    name="name"
+                                                    type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="YYYY-MM-DD"
-                                                    options={{
-                                                        defaultDate: [helper.getFormattedDate2(params.purchased_at)],
-                                                        disableMobile: 'true',
-                                                    }}
-                                                    onChange={(date) =>
-                                                        setFieldValue('purchased_at', helper.getFormattedDate2(date[0]))
-                                                    }
+                                                    placeholder="Name"
                                                 />
-                                            ) : (
-                                                <Flatpickr
-                                                    name="purchased_at"
+                                            </div>
+                                            <div>
+                                                <label className="form-label">Serial Number</label>
+                                                <Field
+                                                    name="serial_number"
+                                                    type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="YYYY-MM-DD"
-                                                    options={{
-                                                        disableMobile: 'true',
-                                                    }}
-                                                    onChange={(date) =>
-                                                        setFieldValue('purchased_at', helper.getFormattedDate2(date[0]))
-                                                    }
+                                                    placeholder="Serial Number"
                                                 />
-                                            )}
-                                        </div>
-                                        <div>
-                                            <label className="form-label">
-                                                Purchase Cost <span className="text-black/30">( In rupee (₹) )</span>
-                                            </label>
-
-                                            <Field
-                                                name="purchased_cost"
-                                                type="text"
-                                                className="form-input rounded-l-none"
-                                                placeholder="Cost"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="form-label">Warranty Expiry Date</label>
-
-                                            {params?.id ? (
-                                                <Flatpickr
-                                                    name="warranty_expired_at"
+                                            </div>
+                                            <div>
+                                                <label className="form-label">Description</label>
+                                                <Field
+                                                    as="textarea"
+                                                    name="description"
+                                                    type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="YYYY-MM-DD"
-                                                    options={{
-                                                        defaultDate: [
-                                                            helper.getFormattedDate2(params.warranty_expired_at),
-                                                        ],
-                                                        disableMobile: 'true',
-                                                    }}
-                                                    onChange={(date) => {
-                                                        setFieldValue(
-                                                            'warranty_expired_at',
-                                                            helper.getFormattedDate2(date[0])
-                                                        );
-                                                    }}
+                                                    placeholder="Description"
                                                 />
-                                            ) : (
-                                                <Flatpickr
-                                                    name="warranty_expired_at"
+                                            </div>
+                                            <div>
+                                                <label className="form-label">Purchase Date</label>
+
+                                                {params?.id ? (
+                                                    <Flatpickr
+                                                        name="purchased_at"
+                                                        className="form-input rounded-l-none"
+                                                        placeholder="YYYY-MM-DD"
+                                                        options={{
+                                                            defaultDate: [
+                                                                helper.getFormattedDate2(params.purchased_at),
+                                                            ],
+                                                            disableMobile: 'true',
+                                                        }}
+                                                        onChange={(date) =>
+                                                            setFieldValue(
+                                                                'purchased_at',
+                                                                helper.getFormattedDate2(date[0])
+                                                            )
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <Flatpickr
+                                                        name="purchased_at"
+                                                        className="form-input rounded-l-none"
+                                                        placeholder="YYYY-MM-DD"
+                                                        options={{
+                                                            disableMobile: 'true',
+                                                        }}
+                                                        onChange={(date) =>
+                                                            setFieldValue(
+                                                                'purchased_at',
+                                                                helper.getFormattedDate2(date[0])
+                                                            )
+                                                        }
+                                                    />
+                                                )}
+                                            </div>
+                                            <div>
+                                                <label className="form-label">
+                                                    Purchase Cost{' '}
+                                                    <span className="text-black/30">( In rupee (₹) )</span>
+                                                </label>
+
+                                                <Field
+                                                    name="purchased_cost"
+                                                    type="text"
                                                     className="form-input rounded-l-none"
-                                                    placeholder="YYYY-MM-DD"
-                                                    options={{
-                                                        disableMobile: 'true',
-                                                    }}
-                                                    onChange={(date) => {
-                                                        setFieldValue(
-                                                            'warranty_expired_at',
-                                                            helper.getFormattedDate2(date[0])
-                                                        );
-                                                    }}
+                                                    placeholder="Cost"
                                                 />
-                                            )}
-                                        </div>
-                                        <div>
-                                            <div className="flex items-end justify-between">
-                                                <label className="form-label">Seller Name</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addSellerModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs"
-                                                >
-                                                    Add Seller
-                                                </button>
                                             </div>
+                                            <div>
+                                                <label className="form-label">Warranty Expiry Date</label>
 
-                                            <div className="relative mt-[9px]">
-                                                <Field name="seller_id">
-                                                    {({ field, form }) => {
-                                                        return (
-                                                            <SelectBox
-                                                                list={sellers}
-                                                                name="Select Seller Name"
-                                                                keyName="name"
-                                                                defaultValue={field?.value}
-                                                                onChange={(value) =>
-                                                                    form.setFieldValue(field.name, value)
-                                                                }
-                                                            />
-                                                        );
-                                                    }}
-                                                </Field>
+                                                {params?.id ? (
+                                                    <Flatpickr
+                                                        name="warranty_expired_at"
+                                                        className="form-input rounded-l-none"
+                                                        placeholder="YYYY-MM-DD"
+                                                        options={{
+                                                            defaultDate: [
+                                                                helper.getFormattedDate2(params.warranty_expired_at),
+                                                            ],
+                                                            disableMobile: 'true',
+                                                        }}
+                                                        onChange={(date) => {
+                                                            setFieldValue(
+                                                                'warranty_expired_at',
+                                                                helper.getFormattedDate2(date[0])
+                                                            );
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <Flatpickr
+                                                        name="warranty_expired_at"
+                                                        className="form-input rounded-l-none"
+                                                        placeholder="YYYY-MM-DD"
+                                                        options={{
+                                                            disableMobile: 'true',
+                                                        }}
+                                                        onChange={(date) => {
+                                                            setFieldValue(
+                                                                'warranty_expired_at',
+                                                                helper.getFormattedDate2(date[0])
+                                                            );
+                                                        }}
+                                                    />
+                                                )}
                                             </div>
-                                        </div>
-                                        <div>
-                                            <div className="flex items-end justify-between">
-                                                <label className="form-label">Model Name</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addModelModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs"
-                                                >
-                                                    Add Model
-                                                </button>
-                                            </div>
-
-                                            <div className="relative mt-[9px]">
-                                                <Field name="model_id">
-                                                    {({ field, form }) => {
-                                                        return (
-                                                            <SelectBox
-                                                                list={models}
-                                                                name="Select Model Name"
-                                                                keyName="name"
-                                                                defaultValue={field?.value}
-                                                                onChange={(value) =>
-                                                                    form.setFieldValue(field.name, value)
-                                                                }
-                                                            />
-                                                        );
-                                                    }}
-                                                </Field>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="flex items-end justify-between">
-                                                <label className="form-label">Brand Name</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addBrandModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs"
-                                                >
-                                                    Add Brand
-                                                </button>
-                                            </div>
-
-                                            <div className="relative mt-[9px]">
-                                                <Field name="brand_id">
-                                                    {({ field, form }) => {
-                                                        return (
-                                                            <SelectBox
-                                                                list={brands}
-                                                                name="Select Brand Name"
-                                                                keyName="name"
-                                                                defaultValue={field?.value}
-                                                                onChange={(value) =>
-                                                                    form.setFieldValue(field.name, value)
-                                                                }
-                                                            />
-                                                        );
-                                                    }}
-                                                </Field>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="flex items-end justify-between">
-                                                <label className="form-label">User Name</label>
-                                                <div>
-                                                    {params?.id && params?.user_id ? (
-                                                        <button
-                                                            type="button"
-                                                            className="btn-secondary mb-0 mr-2 py-1 text-xs"
-                                                            onClick={() => unAssignUser(params?.id)}
-                                                        >
-                                                            Unassign
-                                                        </button>
-                                                    ) : null}
+                                            <div>
+                                                <div className="flex items-end justify-between">
+                                                    <label className="form-label">Seller Name</label>
                                                     <button
                                                         type="button"
-                                                        onClick={() => addUserModal.current.open()}
+                                                        onClick={() => addSellerModal.current.open()}
                                                         className="btn mb-0 py-1 text-xs"
                                                     >
-                                                        Add User
+                                                        Add Seller
                                                     </button>
                                                 </div>
-                                            </div>
 
-                                            <div className="relative mt-[9px]">
-                                                <Field name="user_id">
-                                                    {({ field, form }) => {
-                                                        return (
-                                                            <SelectBox
-                                                                list={users}
-                                                                name="Select User"
-                                                                keyName="name"
-                                                                defaultValue={field?.value}
-                                                                onChange={(value) =>
-                                                                    form.setFieldValue(field.name, value)
+                                                <div className="relative mt-[9px]">
+                                                    <Field name="seller_id">
+                                                        {({ field, form }) => {
+                                                            return (
+                                                                <SelectBox
+                                                                    key={`seller_${field?.value}`}
+                                                                    list={sellers}
+                                                                    name="Select Seller Name"
+                                                                    keyName="name"
+                                                                    defaultValue={field?.value}
+                                                                    onChange={(value) =>
+                                                                        form.setFieldValue(field.name, value)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }}
+                                                    </Field>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="flex items-end justify-between">
+                                                    <label className="form-label">Model Name</label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addModelModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs"
+                                                    >
+                                                        Add Model
+                                                    </button>
+                                                </div>
+
+                                                <div className="relative mt-[9px]">
+                                                    <Field name="model_id">
+                                                        {({ field, form }) => {
+                                                            return (
+                                                                <SelectBox
+                                                                    key={`model_${field?.value}`}
+                                                                    list={models}
+                                                                    name="Select Model Name"
+                                                                    keyName="name"
+                                                                    defaultValue={field?.value}
+                                                                    onChange={(value) =>
+                                                                        form.setFieldValue(field.name, value)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }}
+                                                    </Field>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="flex items-end justify-between">
+                                                    <label className="form-label">Brand Name</label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addBrandModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs"
+                                                    >
+                                                        Add Brand
+                                                    </button>
+                                                </div>
+
+                                                <div className="relative mt-[9px]">
+                                                    <Field name="brand_id">
+                                                        {({ field, form }) => {
+                                                            return (
+                                                                <SelectBox
+                                                                    key={`brand_${field?.value}`}
+                                                                    list={brands}
+                                                                    name="Select Brand Name"
+                                                                    keyName="name"
+                                                                    defaultValue={field?.value}
+                                                                    onChange={(value) =>
+                                                                        form.setFieldValue(field.name, value)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }}
+                                                    </Field>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="flex items-end justify-between">
+                                                    <label className="form-label">User Name</label>
+                                                    <div>
+                                                        {params?.id && params?.user_id ? (
+                                                            <button
+                                                                type="button"
+                                                                className="btn-secondary mb-0 mr-2 py-1 text-xs"
+                                                                onClick={() => unAssignUser(params?.id)}
+                                                            >
+                                                                Unassign
+                                                            </button>
+                                                        ) : null}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => addUserModal.current.open()}
+                                                            className="btn mb-0 py-1 text-xs"
+                                                        >
+                                                            Add User
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div className="relative mt-[9px]">
+                                                    <Field name="user_id">
+                                                        {({ field, form }) => {
+                                                            return (
+                                                                <SelectBox
+                                                                    key={`user_${field?.value}`}
+                                                                    list={users}
+                                                                    name="Select User"
+                                                                    keyName="name"
+                                                                    defaultValue={field?.value}
+                                                                    onChange={(value) =>
+                                                                        form.setFieldValue(field.name, value)
+                                                                    }
+                                                                />
+                                                            );
+                                                        }}
+                                                    </Field>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center justify-between">
+                                                    <label className="form-label">Components</label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addComponentModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs "
+                                                    >
+                                                        Add Componemts
+                                                    </button>
+                                                </div>
+
+                                                <div className="relative mt-[9px]">
+                                                    <Dropdown
+                                                        usePortal={false}
+                                                        strategy="absolute"
+                                                        zindex="z-[60]"
+                                                        ref={box}
+                                                        showBorder={true}
+                                                        btnClassName={`btn-secondary inline-flex items-center gap-[9px] w-full justify-between font-normal`}
+                                                        button={
+                                                            <>
+                                                                {selectedComponent.length === 0
+                                                                    ? 'Components'
+                                                                    : helper.trancateString(
+                                                                          getNamesByIds(selectedComponent).join(',')
+                                                                      )}
+                                                                <IconDownArrow />
+                                                            </>
+                                                        }
+                                                    >
+                                                        <div className="sticky top-0 bg-white px-5 py-3 shadow-md">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Search component..."
+                                                                className="form-input mt-0"
+                                                                value={searchAssetCopmonent}
+                                                                onChange={(e) =>
+                                                                    setSearchAssetCopmonent(e.target.value)
                                                                 }
                                                             />
-                                                        );
-                                                    }}
-                                                </Field>
+                                                        </div>
+                                                        <div className="h-full max-h-[150px] overflow-y-auto text-sm">
+                                                            {filteredComponents?.length !== 0 ? (
+                                                                filteredComponents.map((option) => {
+                                                                    return (
+                                                                        <label
+                                                                            key={option.id}
+                                                                            className="my-3 flex px-5"
+                                                                        >
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
+                                                                                value={option.id}
+                                                                                checked={selectedComponent.includes(
+                                                                                    option.id.toString()
+                                                                                )}
+                                                                                onChange={handleChange}
+                                                                            />
+                                                                            {option['name']}
+                                                                        </label>
+                                                                    );
+                                                                })
+                                                            ) : (
+                                                                <p className="mr-2  cursor-pointer py-2.5 px-5 text-left">
+                                                                    No data is available.
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                    </Dropdown>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <div className="flex items-center justify-between">
-                                                <label className="form-label">Components</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addComponentModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs "
-                                                >
-                                                    Add Componemts
-                                                </button>
-                                            </div>
+                                            <div>
+                                                <div className="flex items-center justify-between">
+                                                    <label className="form-label">Categories</label>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addCategoryModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs "
+                                                    >
+                                                        Add Category
+                                                    </button>
+                                                </div>
 
-                                            <div className="relative mt-[9px]">
-                                                <Dropdown
-                                                    usePortal={false}
-                                                    strategy="absolute"
-                                                    zindex="z-[60]"
-                                                    ref={box}
-                                                    showBorder={true}
-                                                    btnClassName={`btn-secondary inline-flex items-center gap-[9px] w-full justify-between font-normal`}
-                                                    button={
-                                                        <>
-                                                            {selectedComponent.length === 0
-                                                                ? 'Components'
-                                                                : helper.trancateString(
-                                                                      getNamesByIds(selectedComponent).join(',')
-                                                                  )}
-                                                            <IconDownArrow />
-                                                        </>
-                                                    }
-                                                >
-                                                    <div className="sticky top-0 bg-white px-5 py-3 shadow-md">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Search component..."
-                                                            className="form-input mt-0"
-                                                            value={searchAssetCopmonent}
-                                                            onChange={(e) => setSearchAssetCopmonent(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="h-full max-h-[150px] overflow-y-auto text-sm">
-                                                        {filteredComponents?.length !== 0 ? (
-                                                            filteredComponents.map((option) => {
-                                                                return (
-                                                                    <label key={option.id} className="my-3 flex px-5">
-                                                                        <input
-                                                                            type="checkbox"
-                                                                            className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
-                                                                            value={option.id}
-                                                                            checked={selectedComponent.includes(
-                                                                                option.id.toString()
-                                                                            )}
-                                                                            onChange={handleChange}
-                                                                        />
-                                                                        {option['name']}
-                                                                    </label>
-                                                                );
-                                                            })
-                                                        ) : (
-                                                            <p className="mr-2  cursor-pointer py-2.5 px-5 text-left">
-                                                                No data is available.
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                </Dropdown>
+                                                <div className="relative mt-[9px]">
+                                                    <MultipleSelectWithSearch
+                                                        key={category.length}
+                                                        list={category}
+                                                        name="Category"
+                                                        keyName="name"
+                                                        selectedoptions={selectedCategory}
+                                                        setSelectedoptions={setSelectedCategory}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div className="flex items-center justify-between">
-                                                <label className="form-label">Categories</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addCategoryModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs "
-                                                >
-                                                    Add Category
-                                                </button>
-                                            </div>
-
-                                            <div className="relative mt-[9px]">
-                                                <MultipleSelectWithSearch
-                                                    list={category}
-                                                    name="Category"
-                                                    keyName="name"
-                                                    selectedoptions={selectedCategory}
-                                                    setSelectedoptions={setSelectedCategory}
-                                                />
-                                            </div>
+                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
+                                            <ButtonField type="submit" loading={isSubmitting} className=" btn px-4">
+                                                {params?.id ? 'Edit' : 'Add'}
+                                            </ButtonField>
                                         </div>
-                                    </div>
-                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
-                                        <ButtonField type="submit" loading={isSubmitting} className=" btn px-4">
-                                            {params?.id ? 'Edit' : 'Add'}
-                                        </ButtonField>
-                                    </div>
-                                </Form>
-                            )}
+                                    </Form>
+                                );
+                            }}
                         </Formik>
                     </div>
                 </div>

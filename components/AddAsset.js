@@ -31,7 +31,7 @@ const AddSeller = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/assets', values);
-            props.refresh();
+            props.refresh('asset_id', values);
             SideModal?.current.close();
         } catch {}
     };

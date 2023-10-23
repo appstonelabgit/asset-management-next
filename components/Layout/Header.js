@@ -1,4 +1,5 @@
 import { useWorkspace } from '@/hooks/useWorkspace';
+import Image from 'next/image';
 import React from 'react';
 
 const Header = () => {
@@ -10,7 +11,7 @@ const Header = () => {
                 <h2 className="text-md font-bold text-black">Assets Management</h2>
 
                 <div className="h-10 ">
-                    <img
+                    <Image
                         src={`${workspace?.image_url || '/'}`}
                         className="h-full w-full object-cover object-center"
                         width={100}

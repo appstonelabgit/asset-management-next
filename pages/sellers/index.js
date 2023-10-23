@@ -50,7 +50,7 @@ const Sellers = () => {
                     setIsLoading(false);
                 });
         },
-        [order]
+        [order, pageLimit, searchWord]
     );
 
     const defaultParams = { id: '', name: '', email: '', phone_number: '', address: '' };

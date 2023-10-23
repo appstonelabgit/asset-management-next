@@ -31,7 +31,7 @@ const AddComponent = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/components', values);
-            props.refresh();
+            props.refresh(values);
             SideModal?.current.close();
         } catch {}
     };

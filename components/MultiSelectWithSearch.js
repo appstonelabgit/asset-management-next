@@ -20,13 +20,14 @@ const MultipleSelectWithSearch = ({ list, name, keyName, selectedoptions, setSel
 
     const getNamesByIds = (ids) => {
         const result = [];
-
-        for (const id of ids) {
-            const item = list.find((objItem) => objItem.id == id);
-            if (item) {
-                result.push(item[keyName]);
-            } else {
-                result.push(id);
+        if (!!ids) {
+            for (const id of ids) {
+                const item = list.find((objItem) => objItem.id == id);
+                if (item) {
+                    result.push(item[keyName]);
+                } else {
+                    result.push(id);
+                }
             }
         }
 
@@ -41,7 +42,7 @@ const MultipleSelectWithSearch = ({ list, name, keyName, selectedoptions, setSel
             }
         });
         setfilterData(data);
-    }, [search, list]);
+    }, [search, list, keyName, selectedoptions]);
 
     return (
         <Dropdown
@@ -54,7 +55,7 @@ const MultipleSelectWithSearch = ({ list, name, keyName, selectedoptions, setSel
             button={
                 <>
                     <div className="truncate">
-                        {selectedoptions.length === 0
+                        {selectedoptions && selectedoptions.length === 0
                             ? name
                             : helper.trancateString(getNamesByIds(selectedoptions).join(','))}
                     </div>
@@ -79,7 +80,7 @@ const MultipleSelectWithSearch = ({ list, name, keyName, selectedoptions, setSel
                                 type="checkbox"
                                 className="mr-2 block w-full cursor-pointer py-2.5 px-5 text-left hover:bg-lightblue1"
                                 value={option.id}
-                                checked={selectedoptions.includes(option.id.toString())}
+                                checked={selectedoptions && selectedoptions.includes(option.id.toString())}
                                 onChange={handleChange}
                             />
                             {helper.trancateString(option[keyName])}

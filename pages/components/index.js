@@ -102,7 +102,18 @@ const Components = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedAsset, selectedCategories, order, expiryDate, purchasedDate, isFree]
+        [
+            selectedBrand,
+            selectedModel,
+            selectedAsset,
+            selectedCategories,
+            order,
+            expiryDate,
+            purchasedDate,
+            isFree,
+            pageLimit,
+            searchWord,
+        ]
     );
 
     const defaultParams = {
@@ -202,15 +213,38 @@ const Components = () => {
         Popup?.current?.open();
     };
 
-    const getDependentInformation = useCallback(() => {
-        axios.get(`/components/dependent/information`).then(({ data }) => {
-            setAssets(data.assets);
-            setModels(data.models);
-            setBrands(data.brands);
-            setUsers(data.users);
-            setCategory(data.categories);
-        });
-    }, []);
+    const getDependentInformation = useCallback(
+        (type, value) => {
+            axios.get(`/components/dependent/information`).then(({ data }) => {
+                if (!!value) {
+                    let newAdded;
+                    if (type === 'asset_id') {
+                        newAdded = data.assets.find((data) => data.serial_number === value.serial_number);
+                    } else if (type === 'model_id') {
+                        newAdded = data.models.find((data) => data.name === value.name);
+                    } else if (type === 'brand_id') {
+                        newAdded = data.brands.find((data) => data.name === value.name);
+                    } else if (type === 'user_id') {
+                        newAdded = data.users.find((data) => data.email === value.email);
+                    } else if (type === 'category') {
+                        const newAddedCat = data.categories.find((data) => data.name === value.name);
+                        setSelectedCategory([newAddedCat.id]);
+                    }
+                    if (!!newAdded) {
+                        params[type] = newAdded.id;
+                        setParams(params);
+                    }
+                }
+
+                setAssets(data.assets);
+                setModels(data.models);
+                setBrands(data.brands);
+                setUsers(data.users);
+                setCategory(data.categories);
+            });
+        },
+        [params]
+    );
 
     const exportdata = async () => {
         try {
@@ -616,7 +650,7 @@ const Components = () => {
                             <table className="w-full table-auto">
                                 <thead className="bg-lightblue1">
                                     <tr>
-                                        <th>Component Name</th>
+                                        <th>User Name</th>
                                         <th colSpan={2}>Date</th>
                                     </tr>
                                 </thead>
@@ -796,6 +830,7 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`asset_${field?.value}`}
                                                                 list={assets}
                                                                 name="Select Asset name"
                                                                 keyName="name"
@@ -825,6 +860,7 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`model_${field?.value}`}
                                                                 list={models}
                                                                 name="Select Model Name"
                                                                 keyName="name"
@@ -854,6 +890,7 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`brand_${field?.value}`}
                                                                 list={brands}
                                                                 name="Select Brand Name"
                                                                 keyName="name"
@@ -894,6 +931,7 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`user_${field?.value}`}
                                                                 list={users}
                                                                 name="Select User"
                                                                 keyName="name"

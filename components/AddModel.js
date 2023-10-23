@@ -21,7 +21,7 @@ const AddModel = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/models', values);
-            props.refresh();
+            props.refresh('model_id', values);
             SideModal?.current.close();
         } catch {}
     };

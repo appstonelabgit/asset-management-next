@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import CommonSideModal from '@/components/CommonSideModal';
 import axios from '@/libs/axios';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import ButtonField from './Field/ButtonField';
 
 const AddSeller = (props, forwardedRef) => {
@@ -21,7 +21,7 @@ const AddSeller = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/sellers', values);
-            props.refresh();
+            props.refresh('seller_id', values);
             SideModal?.current.close();
         } catch {}
     };

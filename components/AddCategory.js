@@ -21,7 +21,7 @@ const AddCategory = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/categories', values);
-            props.refresh();
+            props.refresh('category', values);
             SideModal?.current.close();
         } catch {}
     };

@@ -55,7 +55,7 @@ const Categories = () => {
                     setIsLoading(false);
                 });
         },
-        [order]
+        [order, pageLimit, searchWord]
     );
 
     const defaultParams = { id: '', name: '' };

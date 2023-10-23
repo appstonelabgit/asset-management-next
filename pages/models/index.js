@@ -51,7 +51,7 @@ const Models = () => {
                     setIsLoading(false);
                 });
         },
-        [order]
+        [order, pageLimit, searchWord]
     );
 
     const defaultParams = { id: '', name: '', serial_number: '', description: '' };

@@ -12,6 +12,7 @@ import ButtonField from '@/components/Field/ButtonField';
 import helper from '@/libs/helper';
 import Import from '@/components/Import';
 import Modal from '@/components/Modal';
+import Image from 'next/image';
 
 const Brands = () => {
     const SideModal = useRef();
@@ -49,7 +50,7 @@ const Brands = () => {
                     setIsLoading(false);
                 });
         },
-        [order]
+        [order, pageLimit, searchWord]
     );
 
     const defaultParams = { id: '', name: '' };
@@ -223,7 +224,7 @@ const Brands = () => {
                                     return (
                                         <tr key={brand.id} className="bg-white">
                                             <td>
-                                                <img
+                                                <Image
                                                     src={brand?.image_url}
                                                     alt="image"
                                                     className="h-10 w-16 cursor-pointer"
@@ -306,7 +307,7 @@ const Brands = () => {
                                                 <label className="form-label">Brand Logo</label>
 
                                                 {params?.image_url && (
-                                                    <img
+                                                    <Image
                                                         src={params?.image_url}
                                                         className="my-2 w-40 rounded-xl"
                                                         alt=""
@@ -346,7 +347,7 @@ const Brands = () => {
 
                 <Modal ref={ImageModal} width={'800px'}>
                     <div className="flex items-center justify-center">
-                        <img
+                        <Image
                             src={selectedImageUrl}
                             alt="image"
                             className="w-full cursor-pointer"

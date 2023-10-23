@@ -3,6 +3,7 @@ import CommonSideModal from '@/components/CommonSideModal';
 import axios from '@/libs/axios';
 import { Field, Form, Formik } from 'formik';
 import ButtonField from './Field/ButtonField';
+import Image from 'next/image';
 
 const AddBrand = (props, forwardedRef) => {
     const SideModal = useRef();
@@ -25,7 +26,7 @@ const AddBrand = (props, forwardedRef) => {
             formData.append('name', values.name);
             formData.append('logo_url', values.logo_url);
             await axios.post('/brands', formData);
-            props.refresh();
+            props.refresh('brand_id', values);
             SideModal?.current.close();
         } catch {}
     };
@@ -53,7 +54,11 @@ const AddBrand = (props, forwardedRef) => {
                                             <label className="form-label">Brand Logo</label>
 
                                             {params?.image_url && (
-                                                <img src={params?.image_url} className="my-2 w-40 rounded-xl" alt="" />
+                                                <Image
+                                                    src={params?.image_url}
+                                                    className="my-2 w-40 rounded-xl"
+                                                    alt=""
+                                                />
                                             )}
 
                                             <input

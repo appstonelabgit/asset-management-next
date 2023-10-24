@@ -141,7 +141,7 @@ const Users = () => {
     return (
         <div>
             <div className="mx-5">
-                <h1 className="mt-5 text-xl font-bold text-darkprimary">Users</h1>
+                <h1 className="mt-5 text-xl font-bold text-darkprimary">Employees</h1>
                 <div className="mb-5 text-right">
                     <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
                         <div className="w-full flex-none md:max-w-[240px]">
@@ -186,7 +186,7 @@ const Users = () => {
                             }}
                             className="btn mb-0 mt-2"
                         >
-                            Add Users
+                            Add Employee
                         </button>
                     </div>
                 </div>
@@ -218,7 +218,7 @@ const Users = () => {
                                         }`}
                                         onClick={() => sortByField('name')}
                                     >
-                                        <span>User Name</span>
+                                        <span>Employee Name</span>
                                         <IconUpDownArrow
                                             className={`${
                                                 order.order_field === 'name' && order.sort_order === 'desc'
@@ -498,7 +498,7 @@ const Users = () => {
                     )}
                 </Modal>
 
-                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit User' : 'Add User'} width="400px">
+                <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Employee' : 'Add Employee'} width="400px">
                     <div className="space-y-12">
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>

@@ -29,7 +29,7 @@ const AddUser = (props, forwardedRef) => {
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title="Add User" width="400px">
+            <CommonSideModal ref={SideModal} title="Add Employee" width="400px">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
@@ -37,7 +37,7 @@ const AddUser = (props, forwardedRef) => {
                                 <Form className="w-full bg-white pt-[25px] pb-[88px]">
                                     <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                                         <div>
-                                            <label className="form-label">User Name</label>
+                                            <label className="form-label">Employee Name</label>
 
                                             <Field
                                                 name="name"

@@ -319,7 +319,7 @@ const Request = () => {
                                             }`}
                                             onClick={() => sortByField('user_name')}
                                         >
-                                            <span>User Name</span>
+                                            <span>Employee Name</span>
                                             <IconUpDownArrow
                                                 className={`${
                                                     order.order_field === 'user_name' && order.sort_order === 'desc'

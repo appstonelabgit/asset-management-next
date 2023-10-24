@@ -453,7 +453,7 @@ const Components = () => {
                                     }`}
                                     onClick={() => sortByField('user_name')}
                                 >
-                                    <span>User</span>
+                                    <span>Employee</span>
                                     <IconUpDownArrow
                                         className={`${
                                             order.order_field === 'user_name' && order.sort_order === 'desc'
@@ -657,7 +657,7 @@ const Components = () => {
                                 <table className="w-full table-auto">
                                     <thead className="bg-lightblue1">
                                         <tr>
-                                            <th>User Name</th>
+                                            <th>Employee Name</th>
                                             <th colSpan={2}>Date</th>
                                         </tr>
                                     </thead>
@@ -914,7 +914,7 @@ const Components = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
-                                                <label className="form-label">User Name</label>
+                                                <label className="form-label">Employee Name</label>
                                                 <div>
                                                     {params?.id && params?.user_id ? (
                                                         <button
@@ -930,7 +930,7 @@ const Components = () => {
                                                         onClick={() => addUserModal.current.open()}
                                                         className="btn mb-0 py-1 text-xs"
                                                     >
-                                                        Add User
+                                                        Add Employee
                                                     </button>
                                                 </div>
                                             </div>
@@ -941,7 +941,7 @@ const Components = () => {
                                                             <SelectBox
                                                                 key={`user_${field?.value}`}
                                                                 list={users}
-                                                                name="Select User"
+                                                                name="Select Employee"
                                                                 keyName="name"
                                                                 defaultValue={field?.value}
                                                                 onChange={(value) =>

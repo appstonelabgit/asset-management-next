@@ -11,7 +11,7 @@ const Set = () => {
 
     useEffect(() => {
         if (router.isReady && !router.query.token) {
-            router.push('/users');
+            router.push('/employees');
         }
     }, [router]);
 

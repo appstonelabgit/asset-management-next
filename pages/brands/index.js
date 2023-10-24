@@ -228,8 +228,8 @@ const Brands = () => {
                                                     src={brand?.image_url}
                                                     alt="image"
                                                     className="h-10 w-16 cursor-pointer"
-                                                    width={50}
                                                     height={50}
+                                                    width={50}
                                                     onClick={() => openImageModal(brand?.image_url)}
                                                     onError={(e) => (e.target.src = '/img/alt-image.png')}
                                                 />

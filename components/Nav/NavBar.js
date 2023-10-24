@@ -35,7 +35,7 @@ const NavBar = () => {
             </li>
             {user?.role === 1 && (
                 <li>
-                    <NavLink href="/users" icon={<IconUser />} label="Users" />
+                    <NavLink href="/employees" icon={<IconUser />} label="Employees" />
                 </li>
             )}
             {user?.role === 1 && (

@@ -32,14 +32,16 @@ const Import = (props, forwardedRef) => {
 
     return (
         <div>
-            <Modal ref={modal} title="Add User">
+            <Modal ref={modal} title="Add Employee">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting, setFieldValue }) => (
                                 <Form>
                                     <div>
-                                        <label className="form-label font-bold text-darkprimary text-lg">Import CSV File</label>
+                                        <label className="form-label text-lg font-bold text-darkprimary">
+                                            Import CSV File
+                                        </label>
 
                                         <input
                                             name="data"
@@ -49,7 +51,7 @@ const Import = (props, forwardedRef) => {
                                                 setFieldValue('data', e.target.files[0]);
                                             }}
                                         />
-                                        <Link href={props.csvPath} className="btn-secondary text-sm block mt-2">
+                                        <Link href={props.csvPath} className="btn-secondary mt-2 block text-sm">
                                             Download Sample csv
                                         </Link>
                                     </div>

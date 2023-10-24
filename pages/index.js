@@ -98,7 +98,7 @@ const Home = () => {
                 )}
                 {user?.role === 1 && (
                     <div className="">
-                        <Link href={'/users'} className={`block rounded border bg-[#f87171] p-5 text-white shadow`}>
+                        <Link href={'/employees'} className={`block rounded border bg-[#f87171] p-5 text-white shadow`}>
                             <div className="flex flex-row items-center justify-between">
                                 <IconUser className="h-16 w-16" />
                                 <div className="text-right">
@@ -108,7 +108,7 @@ const Home = () => {
                                             <i className="fas fa-caret-up"></i>
                                         </span>
                                     </h3>
-                                    <h5 className="whitespace-nowrap">Total Users</h5>
+                                    <h5 className="whitespace-nowrap">Total Employees</h5>
                                 </div>
                             </div>
                         </Link>

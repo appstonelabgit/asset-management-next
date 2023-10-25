@@ -16,11 +16,13 @@ import { useSelector } from 'react-redux';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import IconLoaderDots from '@/components/Icon/IconLoaderDots';
+import Import from '@/components/Import';
 
 const Users = () => {
     const { user } = useSelector((state) => state.auth);
 
     const SideModal = useRef();
+    const importModal = useRef();
     const Popup = useRef();
 
     const [users, setUsers] = useState([]);
@@ -134,6 +136,19 @@ const Users = () => {
         Popup?.current?.open();
     };
 
+    const exportData = async () => {
+        try {
+            const response = await axios.get(`/users/file/export`);
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', `employees.csv`);
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            return true;
+        } catch {}
+    };
+
     useEffect(() => {
         getUsers();
     }, [getUsers]);
@@ -142,8 +157,22 @@ const Users = () => {
         <div>
             <div className="mx-5">
                 <h1 className="mt-5 text-xl font-bold text-darkprimary">Employees</h1>
-                <div className="mb-5 text-right">
+                <div className="mb-5 flex flex-col items-baseline justify-between md:flex-row md:flex-wrap">
                     <div className="flex flex-1 flex-col justify-end md:flex-row md:flex-wrap md:space-x-2">
+                        <div className="flex space-x-2">
+                            <button
+                                type="button"
+                                className="btn-secondary mb-0 mt-2"
+                                onClick={() => {
+                                    importModal?.current?.open();
+                                }}
+                            >
+                                Import
+                            </button>
+                            <button type="button" onClick={exportData} className="btn-secondary mb-0 mt-2">
+                                Export
+                            </button>
+                        </div>
                         <div className="w-full flex-none md:max-w-[240px]">
                             <div className="relative">
                                 <input
@@ -582,6 +611,7 @@ const Users = () => {
                         </div>
                     </div>
                 </CommonSideModal>
+                <Import ref={importModal} refresh={refresh} type="users" csvPath="/csv/Sample employees.csv" />
             </div>
         </div>
     );

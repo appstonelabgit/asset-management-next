@@ -22,22 +22,22 @@ const AddUser = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/users', values);
-            props.refresh();
+            props.refresh('user_id', values);
             SideModal?.current.close();
         } catch {}
     };
 
     return (
         <div>
-            <CommonSideModal ref={SideModal} title="Add User" width="400px">
+            <CommonSideModal ref={SideModal} title="Add Employee" width="400px">
                 <div className="space-y-12">
                     <div className="border-gray-900/10 ">
                         <Formik initialValues={params} onSubmit={formHandler}>
                             {({ isSubmitting }) => (
-                                <Form className="w-full space-y-5  bg-white pt-[25px] pb-[88px]">
-                                    <div className="space-y-5">
+                                <Form className="w-full bg-white pt-[25px] pb-[88px]">
+                                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                                         <div>
-                                            <label className="form-label">User Name</label>
+                                            <label className="form-label">Employee Name</label>
 
                                             <Field
                                                 name="name"
@@ -69,8 +69,8 @@ const AddUser = (props, forwardedRef) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
-                                        <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
+                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
+                                        <ButtonField type="submit" loading={isSubmitting} className="btn px-4">
                                             Add
                                         </ButtonField>
                                     </div>

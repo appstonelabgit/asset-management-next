@@ -21,7 +21,7 @@ const AddCategory = (props, forwardedRef) => {
     const formHandler = async (values) => {
         try {
             await axios.post('/categories', values);
-            props.refresh();
+            props.refresh('category', values);
             SideModal?.current.close();
         } catch {}
     };
@@ -46,8 +46,8 @@ const AddCategory = (props, forwardedRef) => {
                                             />
                                         </div>
                                     </div>
-                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
-                                        <ButtonField type="submit" loading={isSubmitting} className="btn block w-full">
+                                    <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
+                                        <ButtonField type="submit" loading={isSubmitting} className="btn px-4">
                                             {params?.id ? 'Edit' : 'Add'}
                                         </ButtonField>
                                     </div>

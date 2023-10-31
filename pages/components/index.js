@@ -28,6 +28,7 @@ import 'tippy.js/dist/tippy.css';
 import MultipleSelectWithSearch from '@/components/MultiSelectWithSearch';
 import AddCategory from '@/components/AddCategory';
 import SelectBox from '@/components/SelectBox';
+import IconLoaderDots from '@/components/Icon/IconLoaderDots';
 
 const Components = () => {
     const { user } = useSelector((state) => state.auth);
@@ -49,6 +50,7 @@ const Components = () => {
     const [isFree, setIsFree] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageLimit, setPageLimit] = useState(50);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -102,7 +104,18 @@ const Components = () => {
                     setIsLoading(false);
                 });
         },
-        [selectedBrand, selectedModel, selectedAsset, selectedCategories, order, expiryDate, purchasedDate, isFree]
+        [
+            selectedBrand,
+            selectedModel,
+            selectedAsset,
+            selectedCategories,
+            order,
+            expiryDate,
+            purchasedDate,
+            isFree,
+            pageLimit,
+            searchWord,
+        ]
     );
 
     const defaultParams = {
@@ -195,22 +208,47 @@ const Components = () => {
         }
     };
 
-    const handleModalData = (id, user_id) => {
-        axios.get(`/components/${id}/assign-history`).then(({ data }) => {
+    const handleModalData = async (id, user_id) => {
+        setIsLoadingHistory(true);
+        await axios.get(`/components/${id}/assign-history`).then(({ data }) => {
             setSelectedModelData({ ...selectedModelData, user_id: user_id, data: data });
         });
+        setIsLoadingHistory(false);
         Popup?.current?.open();
     };
 
-    const getDependentInformation = useCallback(() => {
-        axios.get(`/components/dependent/information`).then(({ data }) => {
-            setAssets(data.assets);
-            setModels(data.models);
-            setBrands(data.brands);
-            setUsers(data.users);
-            setCategory(data.categories);
-        });
-    }, []);
+    const getDependentInformation = useCallback(
+        (type, value) => {
+            axios.get(`/components/dependent/information`).then(({ data }) => {
+                if (!!value) {
+                    let newAdded;
+                    if (type === 'asset_id') {
+                        newAdded = data.assets.find((data) => data.serial_number === value.serial_number);
+                    } else if (type === 'model_id') {
+                        newAdded = data.models.find((data) => data.name === value.name);
+                    } else if (type === 'brand_id') {
+                        newAdded = data.brands.find((data) => data.name === value.name);
+                    } else if (type === 'user_id') {
+                        newAdded = data.users.find((data) => data.email === value.email);
+                    } else if (type === 'category') {
+                        const newAddedCat = data.categories.find((data) => data.name === value.name);
+                        setSelectedCategory([newAddedCat.id]);
+                    }
+                    if (!!newAdded) {
+                        params[type] = newAdded.id;
+                        setParams(params);
+                    }
+                }
+
+                setAssets(data.assets);
+                setModels(data.models);
+                setBrands(data.brands);
+                setUsers(data.users);
+                setCategory(data.categories);
+            });
+        },
+        [params]
+    );
 
     const exportdata = async () => {
         try {
@@ -229,6 +267,15 @@ const Components = () => {
         try {
             await axios.post(`/components/${id}`, { ...params, user_id: null });
             SideModal?.current.close();
+            refresh();
+        } catch {}
+    };
+
+    const unAssignAssetNdUser = async (id) => {
+        try {
+            await axios.post(`/components/${id}`, { ...params, asset_id: null, user_id: null });
+            SideModal?.current.close();
+            refresh();
         } catch {}
     };
 
@@ -406,7 +453,7 @@ const Components = () => {
                                     }`}
                                     onClick={() => sortByField('user_name')}
                                 >
-                                    <span>User</span>
+                                    <span>Employee</span>
                                     <IconUpDownArrow
                                         className={`${
                                             order.order_field === 'user_name' && order.sort_order === 'desc'
@@ -599,36 +646,40 @@ const Components = () => {
                     setCurrentPage={(i) => getComponents(i, pageLimit)}
                 />
             </div>
-            <Modal ref={Popup} width={500}>
-                <div className="mx-5">
-                    <h3 className="mb-5 text-lg font-bold text-darkprimary">History</h3>
-                    {selectedModelData?.data?.length !== 0 && (
-                        <div className="main-table w-full overflow-x-auto">
-                            <table className="w-full table-auto">
-                                <thead className="bg-lightblue1">
-                                    <tr>
-                                        <th>Component Name</th>
-                                        <th colSpan={2}>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedModelData?.data?.map((modeldata, i) => {
-                                        return (
-                                            <tr key={modeldata?.id} className="bg-white">
-                                                <td className="capitalize">{modeldata?.users?.name}</td>
-                                                <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
-                                                <td>{selectedModelData?.user_id && i === 0 ? 'Current' : null}</td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                    {selectedModelData?.data?.length === 0 && (
-                        <div className="mb-5 text-center">Data not available.</div>
-                    )}
-                </div>
+            <Modal ref={Popup}>
+                {isLoadingHistory ? (
+                    <IconLoaderDots className="mx-auto w-16 text-black" />
+                ) : (
+                    <div className="mx-5">
+                        <h3 className="mb-5 text-lg font-bold text-darkprimary">History</h3>
+                        {selectedModelData?.data?.length !== 0 && (
+                            <div className="main-table w-full overflow-x-auto">
+                                <table className="w-full table-auto">
+                                    <thead className="bg-lightblue1">
+                                        <tr>
+                                            <th>Employee Name</th>
+                                            <th colSpan={2}>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {selectedModelData?.data?.map((modeldata, i) => {
+                                            return (
+                                                <tr key={modeldata?.id} className="bg-white">
+                                                    <td className="capitalize">{modeldata?.users?.name}</td>
+                                                    <td>{helper?.getFormattedDate(modeldata?.created_at)}</td>
+                                                    <td>{selectedModelData?.user_id && i === 0 ? 'Current' : null}</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                        {selectedModelData?.data?.length === 0 && (
+                            <div className="mb-5 text-center">Data not available.</div>
+                        )}
+                    </div>
+                )}
             </Modal>
             <CommonSideModal ref={SideModal} title={params?.id ? 'Edit Component' : 'Add Component'}>
                 <div className="space-y-12">
@@ -761,14 +812,25 @@ const Components = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
-                                                <label className="form-label">Asset name</label>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addAssetModal.current.open()}
-                                                    className="btn mb-0 py-1 text-xs"
-                                                >
-                                                    Add Asset
-                                                </button>
+                                                <label className="form-label">Asset Name</label>
+                                                <div>
+                                                    {params?.id && params?.asset_id ? (
+                                                        <button
+                                                            type="button"
+                                                            className="btn-secondary mb-0 mr-2 py-1 text-xs"
+                                                            onClick={() => unAssignAssetNdUser(params?.id)}
+                                                        >
+                                                            Unassign
+                                                        </button>
+                                                    ) : null}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => addAssetModal.current.open()}
+                                                        className="btn mb-0 py-1 text-xs"
+                                                    >
+                                                        Add Asset
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <div className="relative mt-[9px]">
@@ -776,6 +838,7 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`asset_${field?.value}`}
                                                                 list={assets}
                                                                 name="Select Asset name"
                                                                 keyName="name"
@@ -805,6 +868,7 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`model_${field?.value}`}
                                                                 list={models}
                                                                 name="Select Model Name"
                                                                 keyName="name"
@@ -834,6 +898,7 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`brand_${field?.value}`}
                                                                 list={brands}
                                                                 name="Select Brand Name"
                                                                 keyName="name"
@@ -849,7 +914,7 @@ const Components = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-end justify-between">
-                                                <label className="form-label">User Name</label>
+                                                <label className="form-label">Employee Name</label>
                                                 <div>
                                                     {params?.id && params?.user_id ? (
                                                         <button
@@ -865,7 +930,7 @@ const Components = () => {
                                                         onClick={() => addUserModal.current.open()}
                                                         className="btn mb-0 py-1 text-xs"
                                                     >
-                                                        Add User
+                                                        Add Employee
                                                     </button>
                                                 </div>
                                             </div>
@@ -874,8 +939,9 @@ const Components = () => {
                                                     {({ field, form }) => {
                                                         return (
                                                             <SelectBox
+                                                                key={`user_${field?.value}`}
                                                                 list={users}
-                                                                name="Select User"
+                                                                name="Select Employee"
                                                                 keyName="name"
                                                                 defaultValue={field?.value}
                                                                 onChange={(value) =>

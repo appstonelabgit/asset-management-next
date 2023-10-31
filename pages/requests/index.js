@@ -2,9 +2,7 @@ import IconDelete from '@/components/Icon/IconDelete';
 import IconEdit from '@/components/Icon/IconEdit';
 import IconSearch from '@/components/Icon/IconSearch';
 import IconUpDownArrow from '@/components/Icon/IconUpDownArrow';
-import IconView from '@/components/Icon/IconView';
 import Pagination from '@/components/Pagination';
-import Link from 'next/link';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from '@/libs/axios';
 import TableLoadnig from '@/components/TableLoadnig';
@@ -71,7 +69,7 @@ const Request = () => {
                     setIsLoading(false);
                 });
         },
-        [order, typeSelected, request_type, status]
+        [order, typeSelected, request_type, status, pageLimit, searchWord]
     );
 
     const defaultStatusParams = { id: '', status: '', reject_reason: '' };
@@ -207,7 +205,7 @@ const Request = () => {
                 });
             }
         } catch (error) {}
-    }, []);
+    }, [user?.role]);
     useEffect(() => {
         getRequests();
     }, [getRequests]);
@@ -321,7 +319,7 @@ const Request = () => {
                                             }`}
                                             onClick={() => sortByField('user_name')}
                                         >
-                                            <span>User Name</span>
+                                            <span>Employee Name</span>
                                             <IconUpDownArrow
                                                 className={`${
                                                     order.order_field === 'user_name' && order.sort_order === 'desc'
@@ -478,10 +476,12 @@ const Request = () => {
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="max-w-[160px] truncate">
+                                            <td>
                                                 {request?.description ? (
                                                     <Tippy content={request?.description}>
-                                                        <span>{request?.description}</span>
+                                                        <div className="max-w-[160px] truncate">
+                                                            <span>{request?.description}</span>
+                                                        </div>
                                                     </Tippy>
                                                 ) : (
                                                     '-'

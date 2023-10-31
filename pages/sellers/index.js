@@ -2,9 +2,7 @@ import IconDelete from '@/components/Icon/IconDelete';
 import IconEdit from '@/components/Icon/IconEdit';
 import IconSearch from '@/components/Icon/IconSearch';
 import IconUpDownArrow from '@/components/Icon/IconUpDownArrow';
-import IconView from '@/components/Icon/IconView';
 import Pagination from '@/components/Pagination';
-import Link from 'next/link';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from '@/libs/axios';
 import TableLoadnig from '@/components/TableLoadnig';
@@ -50,7 +48,7 @@ const Sellers = () => {
                     setIsLoading(false);
                 });
         },
-        [order]
+        [order, pageLimit, searchWord]
     );
 
     const defaultParams = { id: '', name: '', email: '', phone_number: '', address: '' };
@@ -321,8 +319,8 @@ const Sellers = () => {
                         <div className="border-gray-900/10 ">
                             <Formik initialValues={params} onSubmit={formHandler}>
                                 {({ isSubmitting }) => (
-                                    <Form className="w-full space-y-5  bg-white pt-[25px] pb-[88px]">
-                                        <div className="space-y-5">
+                                    <Form className="w-full bg-white pt-[25px] pb-[88px]">
+                                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                                             <div>
                                                 <label className="form-label">Seller Name</label>
 
@@ -365,12 +363,8 @@ const Sellers = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px]">
-                                            <ButtonField
-                                                type="submit"
-                                                loading={isSubmitting}
-                                                className="btn block w-full"
-                                            >
+                                        <div className="absolute inset-x-5 bottom-0 !mt-0 bg-white py-[25px] text-right">
+                                            <ButtonField type="submit" loading={isSubmitting} className="btn px-4">
                                                 {params?.id ? 'Edit' : 'Add'}
                                             </ButtonField>
                                         </div>

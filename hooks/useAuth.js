@@ -51,7 +51,7 @@ export const useAuth = () => {
     const setPassword = async (args) => {
         try {
             await axios.post(router.query.token, args);
-            router.push('/users');
+            router.push('/employees');
         } catch {}
     };
 
@@ -65,7 +65,6 @@ export const useAuth = () => {
         try {
             await axios.get(router.query.token);
             await fetchUser();
-
         } catch {}
     };
 
